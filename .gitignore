@@ -1,1 +1,5 @@
-*.bin *.o *.elf .vscode/ os-tutorial-master/
+*.bin
+*.o
+*.elf
+.vscode/
+os-tutorial-master/
