@@ -21,32 +21,28 @@ void *memset(void *ptr, int x, size_t n){
 	}
 }
 
-	char *itoa(int val, int base, char *buf){
+char *itoa(int val, int base, char *buf){
 	char *rc;
 	char *ptr;
 	char *low;
-	if ( base < 2 || base > 36 )
-	{
+	if ( base < 2 || base > 36 ){
 		*buf = '\0';
 		return buf;
 	}
 	rc = ptr = buf;
-	if (val < 0 && base == 10 )
-	{
+	if (val < 0 && base == 10 ){
 		*ptr++ = '-';
 	}
 	low = ptr;
-	do
-	{
+	do{
 		*ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"[35 + val % base];
 		val /= base;
-	} while (val);
+	}while (val);
 	*ptr-- = '\0';
-	while ( low < ptr )
-	{
+	while ( low < ptr ){
 		char tmp = *low;
 		*low++ = *ptr;
 		*ptr-- = tmp;
 	}
 	return rc;
-	}
+}
