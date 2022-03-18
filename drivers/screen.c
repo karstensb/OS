@@ -5,16 +5,15 @@
 static size_t cursor_offset;
 static uint8_t terminal_color = VGA_COLOR_WHITE | VGA_COLOR_BLACK << 4;
 
-static inline size_t get_offset(size_t col, size_t row) {return 2 * (row * VGA_WIDTH + col);}
-static inline size_t get_offset_row(size_t offset){return offset / (2 * VGA_WIDTH);}
-static inline size_t get_offset_col(size_t offset){return (offset - (get_offset_row(offset)*2*VGA_WIDTH))/2;}
+static inline size_t get_offset(size_t col, size_t row) {return row * VGA_WIDTH + col;}
+static inline size_t get_offset_row(size_t offset){return offset / VGA_WIDTH;}
+static inline size_t get_offset_col(size_t offset){return offset - (get_offset_row(offset) * VGA_WIDTH);}
 
 static void update_cursor(){
-	uint16_t offset = cursor_offset / 2;
 	outb(REG_SCREEN_CTRL, 0x0F);
-	outb(REG_SCREEN_DATA, (uint8_t) (offset & 0xFF));
+	outb(REG_SCREEN_DATA, (uint8_t) (cursor_offset & 0xFF));
 	outb(REG_SCREEN_CTRL, 0x0E);
-	outb(REG_SCREEN_DATA, (uint8_t) ((offset >> 8) & 0xFF));
+	outb(REG_SCREEN_DATA, (uint8_t) ((cursor_offset >> 8) & 0xFF));
 }
 
 void kprint(const char *msg){
@@ -36,25 +35,21 @@ void kprint_c(const char c){
 void kprint_c_at(const char c, size_t row, size_t col){
 	if (row > VGA_HEIGHT || col > VGA_WIDTH)
 		return;
-	size_t offset = get_offset(col, row);
-	cursor_offset = offset;
-	uint8_t *vidmem = (uint8_t *) VGA_MEM;
-	if (cursor_offset >= 2 * VGA_HEIGHT * VGA_WIDTH){
+	cursor_offset = get_offset(col, row);
+	uint16_t *vidmem = (uint16_t *) VGA_MEM;
+	if (cursor_offset >= VGA_HEIGHT * VGA_WIDTH){
 		scroll_screen(1);
-		cursor_offset -= VGA_WIDTH * 2;
+		cursor_offset -= VGA_WIDTH;
 	}
 	if (c == '\n'){
-		cursor_offset += (VGA_WIDTH*2) - get_offset_col(cursor_offset) -1;
+		cursor_offset += VGA_WIDTH - get_offset_col(cursor_offset);
 	}else if (c == '\b'){
-		vidmem[cursor_offset] = ' ';
-		vidmem[cursor_offset+1] = terminal_color;
-		cursor_offset -= 2;
-		vidmem[cursor_offset] = '\b';
-		vidmem[cursor_offset - 1] = terminal_color;
+		vidmem[cursor_offset] = (terminal_color << 8) | 0;
+		--cursor_offset;
+		vidmem[cursor_offset] = (terminal_color << 8) | '\b';
 	}else{
-		vidmem[cursor_offset] = c;
-		vidmem[cursor_offset+1] = terminal_color;
-		cursor_offset += 2;
+		vidmem[cursor_offset] = (terminal_color << 8) | c;
+		++cursor_offset;
 	}
 
 }
@@ -64,10 +59,9 @@ void clear_screen(){
 	outb(REG_GRAPH_DATA, MEM_RANGE_B8000);
 	for (int i = 0; i <= VGA_HEIGHT; ++i){
 		for (int j = 0; j<= VGA_WIDTH; ++j){
-			uint8_t *vid_mem = (uint8_t *) VGA_MEM;
+			uint16_t *vid_mem = (uint16_t *) VGA_MEM;
 			size_t offset = get_offset(j, i);
-			vid_mem[offset] = 0;
-			vid_mem[offset+1] = terminal_color;
+			vid_mem[offset] = (terminal_color << 8) | 0;
 		}
 	}
 	cursor_offset = 0;
@@ -91,10 +85,9 @@ void disable_cursor(){
 }
 
 void scroll_screen(size_t rows){
-	memcpy((void *) (rows*VGA_WIDTH*2 + VGA_MEM), (void *) VGA_MEM, (VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH)*2);
-	uint8_t *ptr = (uint8_t *) VGA_MEM + (VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH) * 2;
-	for (int i = 0; i < rows * VGA_WIDTH * 2; ++i){
-		ptr[i] = ' ';
-		ptr[++i] = terminal_color;
+	memmove((void *) VGA_MEM, (void *) (rows*VGA_WIDTH*2 + VGA_MEM), (VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH)*2);
+	uint16_t *ptr = (uint16_t *) VGA_MEM + (VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH);
+	for (int i = 0; i < rows * VGA_WIDTH; ++i){
+		ptr[i] = (terminal_color << 8) | 0;
 	}
 }

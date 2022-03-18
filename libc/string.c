@@ -7,12 +7,29 @@ const size_t strlen(const char *str){
 	return len;
 }
 
-void memcpy(void *source, void *dest, const size_t size){
+void *memcpy(void *dest, const void * src, size_t n){
 	char *d = dest;
-	char *s = source;
-	for (int i = 0; i <= size; ++i){
+	const char *s = src;
+	for (int i = 0; i <= n; ++i){
 		d[i] = s[i];
 	}
+	return dest;
+}
+
+void *memmove(void *dest, const void *src, size_t n){
+	char *d = dest;
+	const char *s = src;
+	if (src < dest){
+		for (int i = n; i >= 0; --i){
+			d[i] = s[i];
+		}
+	}
+	else{
+		for (int i = 0; i < n; ++i){
+			d[i] = s[i];
+		}
+	}
+	return dest;
 }
 
 void *memset(void *ptr, int x, size_t n){
