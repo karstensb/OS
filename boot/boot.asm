@@ -22,8 +22,8 @@ GLOBAL _start
 _start:
 	mov esp, stack_top
 	lgdt [gdt_descriptor]
-	;jmp CODE_SEG:load_segs
-;load_segs:
+	jmp CODE_SEG:load_segs
+load_segs:
 	mov ax, DATA_SEG
     mov ds, ax
     mov ss, ax
@@ -33,7 +33,7 @@ _start:
 	call kernel_main
 
 	cli
-ht:	hlt
-	jmp ht
+	hlt
+	jmp $-1
 	
 %include "boot/gdt.asm"
