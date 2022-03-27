@@ -34,7 +34,7 @@ typedef enum vga_color{
 	VGA_COLOR_LIGHT_MAGENTA = 13,
 	VGA_COLOR_LIGHT_BROWN = 14,
 	VGA_COLOR_WHITE = 15,
-}vga_color;
+}vga_color_t;
 
 void kprint(const char *msg);
 void kprint_c(const char c);
