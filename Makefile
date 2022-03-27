@@ -1,7 +1,8 @@
-C_SOURCES = ${wildcard kernel/*.c drivers/*.c cpu/*.c libc/*.c}
-HEADERS = ${wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h}
+SOURCES = ${wildcard *.c *.s kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*.s libc/*.c libc/*.s}
 
-OBJ = ${C_SOURCES:.c=.o}
+_OBJ = ${SOURCES:.c=.o}
+OBJ = ${_OBJ:.s=.o}
+
 
 CC = i686-elf-gcc
 
@@ -14,19 +15,18 @@ debug: kernel.elf
 	qemu-system-i386 -s -S -kernel kernel.elf \
 	& gdb.exe  -symbols=kernel.elf -ex "target remote localhost:1234" 
 
-kernel.elf: boot/boot.o ${OBJ}
+kernel.elf: ${OBJ}
 	i686-elf-ld -o $@ $^ --script linker.ld
 
-kernel.bin: boot/boot.o ${OBJ}
+kernel.bin: ${OBJ}
 	i686-elf-ld -o $@ $^ --script linker.ld  --oformat binary
 
 %.o: %.c
 	${CC} ${C_FLAGS} -c $< -o $@
 
-%.o: %.asm
+%.o: %.s
 	nasm $< -f elf -o $@
 
 clean:
 	rm -rf *.bin *.o *.elf
 	rm -rf ${OBJ}
-	rm -rf boot/boot.o
