@@ -1,5 +1,8 @@
+#include <stdnoreturn.h>
 #include "isr.h"
 #include "idt.h"
+#include "../drivers/screen.h"
+#include "../libc/string.h"
 
 extern void isr0();
 extern void isr1();
@@ -68,8 +71,54 @@ void isr_install(){
 	set_idt_trap(29, (uint32_t) isr29);
 	set_idt_trap(30, (uint32_t) isr30);
 	set_idt_trap(31, (uint32_t) isr31);
+	load_idt();
 }
 
-void isr_handler(registers_t regs){
+const char *err_msg[] ={
+	"Divide-by-Zero-Error",
+	"Debug",
+	"Non-Maskable-Interrupt",
+	"Breakpoint",
+	"Overflow",
+	"Bound-Range",
+	"Invalid-Opcode",
+	"Device-Not-Available",
+	"Double-Fault",
+	"Coprocessor-Segment-Overrun",
+	"Invalid-TSS",
+	"Segment-Not-Present",
+	"Stack",
+	"General-Protection",
+	"Page-Fault",
+	"Reserved",
+	"87 Floating-Point Exception-Pending",
+	"Alignment-Check",
+	"Machine-Check",
+	"SIMD Floating-Point",
+	"Reserved",
+	"Control-Protection Exception",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Hypervisor Injection Exception",
+	"VMM Communication Exception",
+	"Security Exception",
+	"Reserved"
+};
+
+noreturn void isr_handler(registers_t regs){
+	clear_screen();
+	kprint("An Error occured!\nError: ");
+	kprint(err_msg[regs.err_code]);
+	kprint("\nCode: 0x");
+	char err_code[5];
+	kprint(itoa(regs.err_code, 16, err_code));
+halt:	
+	asm volatile("cli");
 	asm volatile("hlt");
+	asm volatile("jmp $-1");
+	goto halt;
 }
