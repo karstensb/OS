@@ -31,8 +31,23 @@ load_segs:
     mov es, ax
     mov fs, ax
     mov gs, ax
-	;mov ax, GDT_TSS
-	;ltr ax
+fill_gdt_tss:
+	mov eax, tss_start
+	and eax, 0xFF
+	or [gdt_tss + 2], eax
+	mov eax, tss_start
+	shr eax, 8
+	and eax, 0xFF
+	or [gdt_tss + 3], eax
+	mov eax, tss_start
+	shr eax, 16
+	and eax, 0xFF
+	or [gdt_tss + 4], eax
+	mov eax, tss_start
+	shr eax, 24
+	and eax, 0xFF
+	or [gdt_tss + 7], eax
+
 	call kernel_main
 
 	cli
