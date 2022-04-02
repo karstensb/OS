@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 
+#include "gdt.h"
+
 #define IDT_ENTRIES (256)
-#define KERNEL_CS ((uint16_t) 0x8)
 
 typedef enum idt_gate_type{
 	TASK_GATE = 0b0101,
