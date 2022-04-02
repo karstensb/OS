@@ -63,4 +63,4 @@ init_tss:
 	hlt
 	jmp $-1
 
-%include "cpu/gdt.s"
+%include "gdt.s"

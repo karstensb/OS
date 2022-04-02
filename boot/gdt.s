@@ -7,6 +7,14 @@ USER_DS equ gdt_user_ds - gdt_start
 GDT_TSS equ gdt_tss - gdt_start
 TSS_SIZE equ tss_end - tss_start
 
+GLOBAL gdt_start
+GLOBAL gdt_kernel_cs
+GLOBAL gdt_kernel_ds
+GLOBAL gdt_user_cs
+GLOBAL gdt_user_ds
+GLOBAL gdt_tss
+GLOBAL gdt_end
+
 gdt_start:
 	dd 0x0
 	dd 0x0
