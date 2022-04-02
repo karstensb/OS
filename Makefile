@@ -2,6 +2,7 @@ SOURCES = ${wildcard boot/boot.s kernel/*.c kernel/*.s drivers/*.c drivers/*.s c
 
 _OBJ = ${SOURCES:.c=.o}
 OBJ = ${_OBJ:.s=.o}
+BUILD = ${OBJ:%=build/%}
 
 
 CC = i686-elf-gcc
@@ -18,17 +19,17 @@ debug: kernel.elf
 	& gdb  -symbols=kernel.elf -ex "target remote localhost:1234" 
 
 kernel.elf: ${OBJ}
-	${LD} -o $@ $^ --script linker.ld
+	${LD} -o $@ ${BUILD} --script linker.ld
 
 kernel.bin: ${OBJ}
-	${LD} -o $@ $^ --script linker.ld  --oformat binary
+	${LD} -o $@ ${BUILD} --script linker.ld  --oformat binary
 
 %.o: %.c
-	${CC} ${C_FLAGS} -c $< -o $@
+	${CC} ${C_FLAGS} -c $< -o build/$@
 
 %.o: %.s
-	${AS} $< -f elf -g -o $@
+	${AS} $< -f elf -g -o build/$@
 
 clean:
 	rm -rf *.bin *.o *.elf
-	rm -rf ${OBJ}
+	rm -rf ${BUILD}
