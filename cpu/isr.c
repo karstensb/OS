@@ -115,7 +115,7 @@ noreturn void isr_handler(registers_t regs){
 	kprint(err_msg[regs.err_code]);
 	kprint("\nCode: 0x");
 	char err_code[5];
-	kprint(itoa(regs.err_code, 16, err_code));
+	kprint(itoa(regs.err_code, err_code, 16));
 halt:	
 	asm volatile("cli");
 	asm volatile("hlt");

@@ -38,7 +38,7 @@ void *memset(void *ptr, int x, size_t n){
 	}
 }
 
-char *itoa(int val, int base, char *buf){
+char *itoa(int val, char *buf, int base){
 	char *rc;
 	char *ptr;
 	char *low;
