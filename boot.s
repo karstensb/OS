@@ -13,15 +13,20 @@ dd CHECKSUM
 SECTION .bss
 ALIGN 16
 stack_bottom:
-resb 16384
+	resb 16384
 stack_top:
+
+isr_stack_bottom:
+	resb 16384
+isr_stack_top:
 
 EXTERN kernel_main
 SECTION .text
 GLOBAL _start
 _start:
 	cli
-	mov esp, stack_top
+	mov ebp, stack_top
+	mov esp, ebp
 	lgdt [gdt_descriptor]
 	jmp KERNEL_CS:load_segs
 load_segs:
@@ -47,6 +52,10 @@ fill_gdt_tss:
 	shr eax, 24
 	and eax, 0xFF
 	or [gdt_tss + 7], eax
+init_tss:
+	mov DWORD [tss_start + 4], isr_stack_top
+	mov ax, GDT_TSS
+	ltr ax
 
 	call kernel_main
 

@@ -45,11 +45,11 @@ gdt_user_ds:
 
 gdt_tss:
 	dw TSS_SIZE & 0xFF
-	dw (tss_start - $$) & 0xFF
-	db ((tss_start - $$) >> 16) & 0xF
+	dw 0
+	db 0
 	db 0b10001001
 	db 0b01000000 | ((TSS_SIZE >> 16) & 0x0F)
-	db ((tss_start - $$) >> 24) & 0xF
+	db 0
 
 gdt_end:
 
@@ -57,6 +57,13 @@ gdt_descriptor:
 	dw gdt_end - gdt_start - 1
 	dd gdt_start
 
+GLOBAL tss_start
+
 tss_start:
-	resb 128
+	dd 0
+	dd 0
+	dd KERNEL_DS
+	times 11 dq 0
+	dd TSS_SIZE
+	dd 0
 tss_end:
