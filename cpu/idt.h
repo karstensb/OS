@@ -31,6 +31,6 @@ typedef struct idt_register{
 
 void set_idt_gate(int n, uint32_t handler);
 void set_idt_trap(int n, uint32_t handler);
-void load_idt();
+void load_idt(void);
 
 #endif /* IDT_H */

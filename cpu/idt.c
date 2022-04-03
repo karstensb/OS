@@ -19,7 +19,7 @@ void set_idt_trap(int n, uint32_t handler){
 	idt[n].offset_high = high_16(handler);
 }
 
-void load_idt(){
+void load_idt(void){
 	idt_register_t idt_descriptor;
 	idt_descriptor.size = IDT_ENTRIES * sizeof(idt_gate_t) - 1;
 	idt_descriptor.offset = (uint32_t) idt;
