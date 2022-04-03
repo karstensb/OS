@@ -63,4 +63,4 @@ init_tss:
 	hlt
 	jmp $-1
 
-%include "gdt.s"
+%include "boot/gdt.s"
