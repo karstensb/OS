@@ -1,8 +1,6 @@
 #include <stdnoreturn.h>
-#include <stdbool.h>
 #include "isr.h"
 #include "idt.h"
-#include "pic.h"
 #include "../drivers/screen.h"
 #include "../libc/string.h"
 
@@ -39,22 +37,6 @@ extern void isr29(void);
 extern void isr30(void);
 extern void isr31(void);
 
-extern void irq0(void);
-extern void irq1(void);
-extern void irq2(void);
-extern void irq3(void);
-extern void irq4(void);
-extern void irq5(void);
-extern void irq6(void);
-extern void irq7(void);
-extern void irq8(void);
-extern void irq9(void);
-extern void irq10(void);
-extern void irq11(void);
-extern void irq12(void);
-extern void irq13(void);
-extern void irq14(void);
-extern void irq15(void);
 
 void isr_install(){
 	asm volatile("cli");
@@ -90,24 +72,6 @@ void isr_install(){
 	set_idt_trap(29, (uint32_t) isr29);
 	set_idt_trap(30, (uint32_t) isr30);
 	set_idt_trap(31, (uint32_t) isr31);
-
-	set_idt_gate(32, (uint32_t) irq0);
-	set_idt_gate(33, (uint32_t) irq1);
-	set_idt_gate(34, (uint32_t) irq2);
-	set_idt_gate(35, (uint32_t) irq3);
-	set_idt_gate(36, (uint32_t) irq4);
-	set_idt_gate(37, (uint32_t) irq5);
-	set_idt_gate(38, (uint32_t) irq6);
-	set_idt_gate(39, (uint32_t) irq7);
-	set_idt_gate(40, (uint32_t) irq8);
-	set_idt_gate(41, (uint32_t) irq9);
-	set_idt_gate(42, (uint32_t) irq10);
-	set_idt_gate(43, (uint32_t) irq11);
-	set_idt_gate(44, (uint32_t) irq12);
-	set_idt_gate(45, (uint32_t) irq13);
-	set_idt_gate(46, (uint32_t) irq14);
-	set_idt_gate(47, (uint32_t) irq15);
-
 	load_idt();
 }
 
@@ -149,7 +113,7 @@ const char *err_msg[] ={
 noreturn void isr_handler(registers_t regs){
 	clear_screen();
 	kprint("An Error occured!\nError: ");
-	kprint(err_msg[regs.int_no]);
+	kprint(err_msg[regs.err_code]);
 	kprint("\nCode: 0x");
 	char err_code[5];
 	kprint(itoa(regs.err_code, err_code, 16));
@@ -158,20 +122,4 @@ halt:
 	asm volatile("hlt");
 	asm volatile("jmp $-1");
 	goto halt;
-}
-
-void irq_handler(registers_t regs){
-	if (regs.err_code == 7){
-		if (~(pic_get_isr() & (1 << 7)))
-			return;
-	}else if (regs.err_code == 15){
-		if (~(pic_get_isr() & (1 << 15))){
-			pic_eoi(2);
-			return;
-		}
-	}
-	char err_code[5];
-	kprint("Received IRQ ");
-	kprint(itoa(regs.err_code, err_code, 10));
-	pic_eoi(regs.err_code);
 }

@@ -21,7 +21,7 @@ void set_idt_trap(int n, uint32_t handler){
 
 void load_idt(void){
 	idt_register_t idt_descriptor;
-	idt_descriptor.size = sizeof(idt) * sizeof(idt_gate_t) - 1;
+	idt_descriptor.size = IDT_ENTRIES * sizeof(idt_gate_t) - 1;
 	idt_descriptor.offset = (uint32_t) idt;
 	asm volatile("lidt %0"::"g" (idt_descriptor));
 	asm volatile("sti");
