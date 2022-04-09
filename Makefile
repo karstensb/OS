@@ -9,7 +9,8 @@ CC = i686-elf-gcc
 LD = i686-elf-ld
 AS = nasm
 
-C_FLAGS = -gdwarf-4 -masm=intel -ffreestanding
+C_FLAGS = -gdwarf-4 -masm=intel -ffreestanding -c
+NASM_FLAGS = -f elf -g -O0
 
 run: kernel.elf
 	qemu-system-i386 -kernel kernel.elf
@@ -25,10 +26,10 @@ kernel.bin: ${OBJ}
 	${LD} -o $@ ${BUILD} --script linker.ld  --oformat binary
 
 %.o: %.c
-	${CC} ${C_FLAGS} -c $< -o build/$@
+	${CC} ${C_FLAGS} $< -o build/$@
 
 %.o: %.s
-	${AS} $< -f elf -g -o build/$@
+	${AS} ${NASM_FLAGS} $< -o build/$@
 
 clean:
 	rm -rf *.bin *.o *.elf
