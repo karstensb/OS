@@ -67,182 +67,182 @@ GLOBAL isr31
 
 isr0:
 	cli
-	push 0
-	push 0
+	push DWORD 0
+	push DWORD 0
 	jmp isr_common
 
 isr1:
 	cli
-	push 0
-	push 1
+	push DWORD 0
+	push DWORD 1
 	jmp isr_common
 
 isr2:
 	cli
-	push 0
-	push 2
+	push DWORD 0
+	push DWORD 2
 	jmp isr_common
 
 isr3:
 	cli
-	push 0
-	push 3
+	push DWORD 0
+	push DWORD 3
 	jmp isr_common
 
 isr4:
 	cli
-	push 0
-	push 4
+	push DWORD 0
+	push DWORD 4
 	jmp isr_common
 
 isr5:
 	cli
-	push 0
-	push 5
+	push DWORD 0
+	push DWORD 5
 	jmp isr_common
 
 isr6:
 	cli
-	push 0
-	push 6
+	push DWORD 0
+	push DWORD 6
 	jmp isr_common
 
 isr7:
 	cli
-	push 0
-	push 7
+	push DWORD 0
+	push DWORD 7
 	jmp isr_common
 
 isr8:
 	cli
-	push 8
+	push DWORD 8
 	jmp isr_common
 
 isr9:
 	cli
-	push 0
-	push 9
+	push DWORD 0
+	push DWORD 9
 	jmp isr_common
 
 isr10:
 	cli
-	push 10
+	push DWORD 10
 	jmp isr_common
 
 isr11:
 	cli
-	push 11
+	push DWORD 11
 	jmp isr_common
 
 isr12:
 	cli
-	push 12
+	push DWORD 12
 	jmp isr_common
 
 isr13:
 	cli
-	push 13
+	push DWORD 13
 	jmp isr_common
 
 isr14:
 	cli
-	push 14
+	push DWORD 14
 	jmp isr_common
 
 isr15:
 	cli
-	push 0
-	push 15
+	push DWORD 0
+	push DWORD 15
 	jmp isr_common
 
 isr16:
 	cli
-	push 0
-	push 16
+	push DWORD 0
+	push DWORD 16
 	jmp isr_common
 
 isr17:
 	cli
-	push 17
+	push DWORD 17
 	jmp isr_common
 
 isr18:
 	cli
-	push 0
-	push 18
+	push DWORD 0
+	push DWORD 18
 	jmp isr_common
 
 isr19:
 	cli
-	push 0
-	push 19
+	push DWORD 0
+	push DWORD 19
 	jmp isr_common
 
 isr20:
 	cli
-	push 0
-	push 20
+	push DWORD 0
+	push DWORD 20
 	jmp isr_common
 
 isr21:
 	cli
-	push 21
+	push DWORD 21
 	jmp isr_common
 
 isr22:
 	cli
-	push 0
-	push 22
+	push DWORD 0
+	push DWORD 22
 	jmp isr_common
 
 isr23:
 	cli
-	push 0
-	push 23
+	push DWORD 0
+	push DWORD 23
 	jmp isr_common
 
 isr24:
 	cli
-	push 0
-	push 24
+	push DWORD 0
+	push DWORD 24
 	jmp isr_common
 
 isr25:
 	cli
-	push 0
-	push 25
+	push DWORD 0
+	push DWORD 25
 	jmp isr_common
 
 isr26:
 	cli
-	push 0
-	push 26
+	push DWORD 0
+	push DWORD 26
 	jmp isr_common
 
 isr27:
 	cli
-	push 0
-	push 27
+	push DWORD 0
+	push DWORD 27
 	jmp isr_common
 
 isr28:
 	cli
-	push 0
-	push 28
+	push DWORD 0
+	push DWORD 28
 	jmp isr_common
 
 isr29:
 	cli
-	push 29
+	push DWORD 29
 	jmp isr_common
 
 isr30:
 	cli
-	push 30
+	push DWORD 30
 	jmp isr_common
 
 isr31:
 	cli
-	push 0
-	push 31
+	push DWORD 0
+	push DWORD 31
 	jmp isr_common
