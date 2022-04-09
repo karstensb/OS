@@ -1,9 +1,9 @@
 SOURCES = ${wildcard boot/boot.s kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*.s libc/*.c libc/*.s}
 
-_OBJ = ${SOURCES:.c=.o}
-OBJ = ${_OBJ:.s=.o}
-BUILD = ${OBJ:%=build/%}
+__OBJ = ${SOURCES:.c=.o}
+_OBJ = ${__OBJ:.s=.o}
 
+OBJ = ${_OBJ:%=build/%}
 
 CC = i686-elf-gcc
 LD = i686-elf-ld
@@ -17,20 +17,20 @@ run: kernel.elf
 
 debug: kernel.elf
 	qemu-system-i386 -s -S -kernel kernel.elf \
-	& gdb  -symbols=kernel.elf -ex "target remote localhost:1234" 
+	& gdb -q -symbols=kernel.elf -ex "target remote localhost:1234" 
 
 kernel.elf: ${OBJ}
-	${LD} -o $@ ${BUILD} --script linker.ld
+	${LD} -o $@ ${OBJ} --script linker.ld
 
 kernel.bin: ${OBJ}
-	${LD} -o $@ ${BUILD} --script linker.ld  --oformat binary
+	${LD} -o $@ ${OBJ} --script linker.ld  --oformat binary
 
-%.o: %.c
-	${CC} ${C_FLAGS} $< -o build/$@
+build/%.o: %.c
+	${CC} ${C_FLAGS} $< -o $@
 
-%.o: %.s
-	${AS} ${NASM_FLAGS} $< -o build/$@
+build/%.o: %.s
+	${AS} ${NASM_FLAGS} $< -o $@
 
 clean:
 	rm -rf *.bin *.o *.elf
-	rm -rf ${BUILD}
+	rm -rf ${OBJ}
