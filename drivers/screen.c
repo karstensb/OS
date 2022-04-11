@@ -1,5 +1,5 @@
 #include "screen.h"
-#include "../cpu/port.h"
+#include "../cpu/util.h"
 #include "../libc/string.h"
 
 static size_t cursor_offset;
@@ -74,9 +74,9 @@ void set_terminal_color(const enum vga_color foreground, const enum vga_color ba
 
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end){
 	outb(REG_SCREEN_CTRL, CURSOR_START);
-	outb(REG_SCREEN_DATA, /* (inb(REG_SCREEN_CTRL) & 0xC0) |  */cursor_start);
+	outb(REG_SCREEN_DATA, cursor_start);
 	outb(REG_SCREEN_CTRL, CURSOR_END);
-	outb(REG_SCREEN_DATA, /* (inb(REG_SCREEN_CTRL) & 0xE0) |  */cursor_end); 
+	outb(REG_SCREEN_DATA, cursor_end); 
 }
 
 void disable_cursor(){

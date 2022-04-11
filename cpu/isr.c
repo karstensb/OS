@@ -3,6 +3,7 @@
 #include "isr.h"
 #include "idt.h"
 #include "pic.h"
+#include "util.h"
 #include "../drivers/screen.h"
 #include "../libc/string.h"
 
@@ -57,7 +58,7 @@ extern void irq14(void);
 extern void irq15(void);
 
 void isr_install(){
-	asm volatile("cli");
+	cli();
 	set_idt_trap(0, (uint32_t) isr0);
 	set_idt_trap(1, (uint32_t) isr1);
 	set_idt_trap(2, (uint32_t) isr2);
@@ -153,10 +154,10 @@ noreturn void isr_handler(registers_t regs){
 	kprint("\nCode: 0x");
 	char err_code[5];
 	kprint(itoa(regs.err_code, err_code, 16));
+
+	cli();
 halt:	
-	asm volatile("cli");
-	asm volatile("hlt");
-	asm volatile("jmp $-1");
+	hlt();
 	goto halt;
 }
 
