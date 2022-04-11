@@ -10,17 +10,7 @@ isr_common:
 	mov fs, ax
 	mov gs, ax
 
-	mov eax, [tss_start + 4]
-	add eax, 2048
-	mov [tss_start + 4], eax
-	sti
-
 	call isr_handler
-
-	cli
-	mov eax, [tss_start + 4]
-	sub eax, 2048
-	mov [tss_start + 4], eax
 
 	pop eax 
 	mov ds, ax
@@ -30,6 +20,23 @@ isr_common:
 	popad
 	add esp, 8
 	sti
+	iret
+
+	call isr_handler
+
+	cli
+	mov eax, [tss_start + 4]
+	sub eax, 2048
+	mov [tss_start + 4], eax
+
+	
+	pop eax 
+	mov ds, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+	popad
+	add esp, 8
 	iret
 
 GLOBAL isr0
