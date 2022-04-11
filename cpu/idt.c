@@ -1,7 +1,9 @@
 #include "idt.h"
 #include "util.h"
 
-idt_gate_t idt[IDT_ENTRIES];
+#define IDT_ENTRIES (256)
+
+static idt_gate_t idt[IDT_ENTRIES];
 
 void set_idt_gate(int n, uint32_t handler){
 	idt[n].offset_low = (uint16_t) handler & 0xFFFF;

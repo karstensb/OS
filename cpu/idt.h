@@ -5,8 +5,6 @@
 
 #include "gdt.h"
 
-#define IDT_ENTRIES (256)
-
 typedef enum idt_gate_type{
 	TASK_GATE = 0b0101,
 	INTERRUPT_16 = 0b0110,

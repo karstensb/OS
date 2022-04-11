@@ -4,18 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define VGA_WIDTH (80)
-#define VGA_HEIGHT (25)
-#define VGA_MEM (0xB8000)
-#define REG_GRAPH_CTRL (0x03CE)
-#define REG_GRAPH_DATA (0x03CF)
-#define MISC_GRAPH_REG (0x06)
-#define MEM_RANGE_B8000 (0x0C)
-#define REG_SCREEN_CTRL (0x3D4)
-#define REG_SCREEN_DATA (0x3D5)
-#define CURSOR_START (0x0A)
-#define CURSOR_END (0x0B)
-#define CURSOR_DISABLE (0x20)
+#define CURSOR_MIN (0)
+#define CURSOR_MAX (15)
 
 typedef enum vga_color{
 	VGA_COLOR_BLACK = 0,

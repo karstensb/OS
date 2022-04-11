@@ -5,7 +5,7 @@
 
 void kernel_main(void){
 	isr_install();
-	enable_cursor(0, 15);
+	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen();
 	init_pic();
 }
