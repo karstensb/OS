@@ -4,7 +4,8 @@ EXTERN tss_start
 isr_common:
 	pushad
 	mov ax, ds
-	push eax
+	push WORD 0
+	push ax
 	mov ax, 0x10
 	mov ds, ax
 	mov es, ax
