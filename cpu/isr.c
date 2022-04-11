@@ -161,18 +161,29 @@ halt:
 	goto halt;
 }
 
+static void (*irq_handlers[16]) (registers_t regs);
+
+void register_irq(int irq, void (*handler)(registers_t regs)){
+	irq_handlers[irq] = handler;
+}
+
 void irq_handler(registers_t regs){
-	if (regs.err_code == 7){
+	int irq = regs.err_code;
+	if (irq == 7){
 		if (~(pic_get_isr() & (1 << 7)))
 			return;
-	}else if (regs.err_code == 15){
+	}else if (irq == 15){
 		if (~(pic_get_isr() & (1 << 15))){
 			pic_eoi(2);
 			return;
 		}
 	}
-	char err_code[5];
-	kprint("Received IRQ ");
-	kprint(itoa(regs.err_code, err_code, 10));
-	pic_eoi(regs.err_code);
+	if (!irq_handlers[irq]){
+		char err_code[5];
+		kprint("Received IRQ ");
+		kprint(itoa(irq, err_code, 10));
+		pic_eoi(irq);
+		return;
+	}
+	(irq_handlers[irq])(regs);
 }
