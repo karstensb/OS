@@ -42,13 +42,13 @@ const char *err_msg[] ={
 	"Reserved"
 };
 
-noreturn void isr_handler(registers_t regs){
+noreturn void isr_handler(registers_t *regs){
 	clear_screen();
 	kprint("An Error occured!\nError: ");
-	kprint(err_msg[regs.int_no]);
+	kprint(err_msg[regs->int_no]);
 	kprint("\nCode: 0x");
 	char err_code[5];
-	kprint(itoa(regs.err_code, err_code, 16));
+	kprint(itoa(regs->err_code, err_code, 16));
 
 	cli();
 halt:	
@@ -56,14 +56,14 @@ halt:
 	goto halt;
 }
 
-static void (*irq_handlers[16]) (registers_t regs);
+static void (*irq_handlers[16]) (registers_t *regs);
 
-void register_irq(int irq, void (*handler)(registers_t regs)){
+void register_irq(int irq, void (*handler)(registers_t *regs)){
 	irq_handlers[irq] = handler;
 }
 
-void irq_handler(registers_t regs){
-	int irq = regs.err_code;
+void irq_handler(registers_t *regs){
+	int irq = regs->err_code;
 	if (irq == 7){
 		if (~(pic_get_isr() & (1 << 7)))
 			return;
@@ -81,4 +81,5 @@ void irq_handler(registers_t regs){
 		return;
 	}
 	(irq_handlers[irq])(regs);
+	pic_eoi(irq);
 }
