@@ -12,7 +12,9 @@ isr_common:
 	mov fs, ax
 	mov gs, ax
 
+	push esp
 	call isr_handler
+	add esp, 4
 
 	pop eax 
 	mov ds, ax
@@ -34,8 +36,10 @@ irq_common:
 	mov fs, ax
 	mov gs, ax
 
+	push esp
 	call irq_handler
-	
+	add esp, 4
+
 	pop eax 
 	mov ds, ax
 	mov es, ax
