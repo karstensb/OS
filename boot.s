@@ -10,6 +10,7 @@ dd MAGIC
 dd FLAGS
 dd CHECKSUM
 
+GLOBAL isr_stack_top
 SECTION .bss
 ALIGN 16
 stack_bottom:
@@ -20,7 +21,11 @@ isr_stack_bottom:
 	resb 16384
 isr_stack_top:
 
+KERNEL_CS equ 0x8
+KERNEL_DS equ 0x10
+
 EXTERN kernel_main
+EXTERN gdt_descriptor
 SECTION .text
 GLOBAL _start
 _start:
@@ -36,31 +41,9 @@ load_segs:
     mov es, ax
     mov fs, ax
     mov gs, ax
-fill_gdt_tss:
-	mov eax, tss_start
-	and eax, 0xFF
-	or [gdt_tss + 2], eax
-	mov eax, tss_start
-	shr eax, 8
-	and eax, 0xFF
-	or [gdt_tss + 3], eax
-	mov eax, tss_start
-	shr eax, 16
-	and eax, 0xFF
-	or [gdt_tss + 4], eax
-	mov eax, tss_start
-	shr eax, 24
-	and eax, 0xFF
-	or [gdt_tss + 7], eax
-init_tss:
-	mov DWORD [tss_start + 4], isr_stack_top
-	mov ax, GDT_TSS
-	ltr ax
 
 	call kernel_main
 
 	cli
 	hlt
 	jmp $-1
-
-%include "boot/gdt.s"
