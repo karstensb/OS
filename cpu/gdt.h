@@ -3,18 +3,26 @@
 
 #include <stdint.h>
 
-extern uint8_t gdt_start;
-extern uint8_t gdt_kernel_cs;
-extern uint8_t gdt_kernel_ds;
-extern uint8_t gdt_user_cs;
-extern uint8_t gdt_user_ds;
-extern uint8_t gdt_tss;
-extern uint8_t gdt_end;
+#define KERNEL_CS (sizeof(gdt_entry_t) * 1)
+#define KERNEL_DS (sizeof(gdt_entry_t) * 2)
+#define USER_CS (sizeof(gdt_entry_t) * 3)
+#define USER_DS (sizeof(gdt_entry_t) * 4)
+#define GDT_TSS (sizeof(gdt_entry_t) * 5)
 
-#define KERNEL_CS (&gdt_kernel_cs - &gdt_start)
-#define KERNEL_DS (&gdt_kernel_ds - &gdt_start)
-#define USER_CS (&gdt_user_cs - &gdt_start)
-#define USER_DS (&gdt_user_ds - &gdt_start)
-#define GDT_TSS (&gdt_tss - &gdt_start)
+typedef struct gdt_entry{
+	uint16_t limit_low;
+	uint16_t base_low;
+	uint8_t base_middle;
+	uint8_t access;
+	uint8_t granularity;
+	uint8_t base_high;
+} __attribute__((packed)) gdt_entry_t;
+
+typedef struct gdt_descriptor{
+	uint16_t size;
+	uint32_t offset;
+} __attribute__((packed)) gdt_descriptor_t;
+
+extern gdt_entry_t gdt[6];
 
 #endif /* GDT_H */

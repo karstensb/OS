@@ -11,7 +11,7 @@ typedef struct registers{
 	/* pushed by hardware */
 	uint32_t err_code;
 	uint32_t eip;
-	uint32_t cs;
+	uint16_t cs;
 	uint16_t padding1;
 	uint32_t eflags;
 	/* only on cpl change*/
@@ -19,7 +19,5 @@ typedef struct registers{
 	uint16_t user_ss;
 	uint16_t padding2;
 }__attribute__((packed)) registers_t;
-
-void isr_install();
 
 #endif /* ISR_H */
