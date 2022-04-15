@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "tss.h"
 #include "gdt.h"
+#include "util.h"
 
 extern const uint32_t isr_stack_top;
 
@@ -40,4 +41,5 @@ void init_tss(void){
 	gdt_tss->base_low = ((uintptr_t) &tss) & 0xFF;
 	gdt_tss->base_middle = (((uintptr_t) &tss) >> 16) & 0xF;
 	gdt_tss->base_high = (((uintptr_t) &tss) >> 24) & 0xF;
+	ltr(GDT_TSS);
 }
