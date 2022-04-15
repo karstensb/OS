@@ -21,6 +21,7 @@
 #define PIC_RESERVED_4 (15)
 
 void init_pic(void);
+void pic_disable(void);
 void pic_eoi(uint8_t irq);
 uint16_t pic_get_isr(void);
 void irq_enable(uint8_t irq);

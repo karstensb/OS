@@ -79,3 +79,8 @@ uint16_t pic_get_isr(void){
 	outb(PIC2_CMD, PIC_READ_ISR);
 	return (inb(PIC2_CMD) << 8) | inb(PIC1_CMD);
 }
+
+void pic_disable(void){
+	outb(PIC1_DATA, 0xff);
+	outb(PIC2_DATA, 0xff);
+}
