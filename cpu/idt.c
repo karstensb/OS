@@ -209,5 +209,5 @@ void init_idt(void){
 	idt[47].offset_low = irq15 & 0xFF;
 	idt[47].offset_high = (irq15 >> 16) & 0xFF;
 
-	lidt(idt_descriptor.size, idt_descriptor.offset);
+	lidt(&idt_descriptor);
 }
