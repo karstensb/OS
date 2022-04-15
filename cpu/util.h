@@ -34,13 +34,19 @@ void outb(uint16_t port, uint8_t data){
 }
 
 static inline
-void lgdt(gdt_descriptor_t *gdt_descriptor){
-	asm("lgdt [%0]" : : "r" (gdt_descriptor));
+void lgdt(uint16_t size, uint32_t offset){
+	static gdt_descriptor_t gdt_descriptor;
+	gdt_descriptor.size = size;
+	gdt_descriptor.offset = offset;
+	asm("lgdt [%0]" : : "r" (&gdt_descriptor));
 }
 
 static inline
-void lidt(idt_descriptor_t *idt_descriptor){
-	asm("lidt [%0]" : : "r" (idt_descriptor));
+void lidt(uint16_t size, uint32_t offset){
+	static idt_descriptor_t idt_descriptor;
+	idt_descriptor.size = size;
+	idt_descriptor.offset = offset;
+	asm("lidt [%0]" : : "r" (&idt_descriptor));
 }
 
 static inline
