@@ -22,6 +22,12 @@ debug: kernel.elf
 	${QEMU} -s -S -kernel kernel.elf \
 	& ${GDB} -q -symbols=kernel.elf -ex "target remote localhost:1234" 
 
+boot: os.iso isodir
+	${QEMU} -boot d -cdrom os.iso
+
+os.iso: kernel.elf
+	cp kernel.elf isodir/boot
+	grub-mkrescue -o os.iso isodir
 
 kernel.elf: ${OBJ}
 	${LD} ${LDFLAGS} -o $@ ${OBJ}
@@ -33,5 +39,5 @@ build/%.o: %.s
 	${AS} ${NASM_FLAGS} $< -o $@
 
 clean:
-	rm -rf *.bin *.o *.elf
+	rm -rf *.bin *.o *.elf *.iso
 	rm -rf ${OBJ}
