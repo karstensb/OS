@@ -3,13 +3,8 @@
 
 #include <stdint.h>
 
-typedef enum idt_gate_type{
-	TASK_GATE = 0b0101,
-	INTERRUPT_16 = 0b0110,
-	TRAP_16 = 0b0111,
-	INTERRUPT_32 = 0b1110,
-	TRAP_32 = 0b1111
-}idt_gate_type_t;
+#define INTERRUPT_32 (0b1110)
+#define TRAP_32 (0b1111)
 
 typedef struct idt_entry{
 	uint16_t offset_low;

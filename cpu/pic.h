@@ -13,12 +13,8 @@
 #define PIC_LPT1 (7)
 #define PIC_RTC (8)
 #define PIC_CGA (9)
-#define PIC_RESERVED_1 (10)
-#define PIC_RESERVED_2 (11)
-#define PIC_RESERVED_3 (12)
 #define PIC_FPU (13)
 #define PIC_HDD (14)
-#define PIC_RESERVED_4 (15)
 
 void init_pic(void);
 void pic_disable(void);
