@@ -2,7 +2,6 @@ SOURCES = ${wildcard boot.s kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.
 
 __OBJ = ${SOURCES:.c=.o}
 _OBJ = ${__OBJ:.s=.o}
-
 OBJ = ${_OBJ:%=build/%}
 
 CC = i686-elf-gcc
@@ -15,21 +14,22 @@ CFLAGS = -g -masm=intel -ffreestanding -c
 NASM_FLAGS = -f elf -g -O0
 LDFLAGS = -T linker.ld -nostdlib -lgcc
 
-run: kernel.elf
-	${QEMU} -kernel kernel.elf
+KERNEL = isodir/kernel.elf
 
-debug: kernel.elf
-	${QEMU} -s -S -kernel kernel.elf \
-	& ${GDB} -q -symbols=kernel.elf -ex "target remote localhost:1234" 
+run: ${KERNEL}
+	${QEMU} -kernel ${KERNEL}
 
-boot: os.iso isodir
-	${QEMU} -boot d -cdrom os.iso
+debug: ${KERNEL}
+	${QEMU} -s -S -kernel ${KERNEL} \
+	& ${GDB} -q -symbols=${KERNEL} -ex "target remote localhost:1234" 
 
-os.iso: kernel.elf
-	cp kernel.elf isodir/boot
-	grub-mkrescue -o os.iso isodir
+boot: build/os.iso
+	${QEMU} -boot d -cdrom build/os.iso
 
-kernel.elf: ${OBJ}
+build/os.iso: isodir ${KERNEL}
+	grub-mkrescue -o $@ isodir
+
+isodir/kernel.elf: ${OBJ}
 	${LD} ${LDFLAGS} -o $@ ${OBJ}
 
 build/%.o: %.c
@@ -39,5 +39,6 @@ build/%.o: %.s
 	${AS} ${NASM_FLAGS} $< -o $@
 
 clean:
-	rm -rf *.bin *.o *.elf *.iso
+	rm -rf build/os.iso
+	rm -rf ${KERNEL}
 	rm -rf ${OBJ}
