@@ -31,8 +31,8 @@ void init_pic(void){
 	outb(PIC1_DATA, ICW4_8086);
 	outb(PIC2_DATA, ICW4_8086);
 
-	outb(PIC1_DATA, 0x0);
-	outb(PIC2_DATA, 0x0);
+	outb(PIC1_DATA, 0xFF);
+	outb(PIC2_DATA, 0xFF);
 }
 
 void pic_eoi(uint8_t irq){
@@ -46,7 +46,20 @@ void irq_enable(uint8_t irq){
 	uint8_t mask;
 	uint16_t port;
 
-	cli();
+	if (irq < 8)
+		port = PIC1_DATA;
+	else{
+		port = PIC2_DATA;
+		irq -= 8;
+	}
+	mask = inb(port);
+	outb(port, mask & ~(1 << irq));
+}
+
+void irq_disable(uint8_t irq){
+	uint8_t mask;
+	uint16_t port;
+
 	if (irq < 8)
 		port = PIC1_DATA;
 	else{
@@ -55,23 +68,6 @@ void irq_enable(uint8_t irq){
 	}
 	mask = inb(port);
 	outb(port, mask | (1 << irq));
-	sti();
-}
-
-void irq_disable(uint8_t irq){
-	uint8_t mask;
-	uint16_t port;
-
-	cli();
-	if (irq < 8)
-		port = PIC1_DATA;
-	else{
-		port = PIC2_DATA;
-		irq -= 8;
-	}
-	mask = inb(port);
-	outb(port, mask | ~(1 << irq));
-	sti();
 }
 
 uint16_t pic_get_isr(void){
@@ -81,6 +77,6 @@ uint16_t pic_get_isr(void){
 }
 
 void pic_disable(void){
-	outb(PIC1_DATA, 0xff);
-	outb(PIC2_DATA, 0xff);
+	outb(PIC1_DATA, 0xFF);
+	outb(PIC2_DATA, 0xFF);
 }
