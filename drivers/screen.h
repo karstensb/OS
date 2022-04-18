@@ -27,8 +27,8 @@ typedef enum vga_color{
 }vga_color_t;
 
 void kprint(const char *msg);
-void kprint_c(const char c);
-void kprint_c_at(const char c, size_t row, size_t col);
+void kprintc(const char c);
+void kprintc_at(const char c, size_t row, size_t col);
 void clear_screen();
 void set_terminal_color(const enum vga_color foreground, const enum vga_color background);
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end);

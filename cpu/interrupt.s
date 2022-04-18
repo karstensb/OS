@@ -11,7 +11,8 @@ isr_common:
 	mov fs, ax
 	mov gs, ax
 
-	push esp
+	push esp ; c handler takes a pointer to the interrupt frame as argument
+			 ; to be able to modify the registers directly
 	call isr_handler
 	add esp, 4
 
@@ -35,7 +36,7 @@ irq_common:
 	mov fs, ax
 	mov gs, ax
 
-	push esp
+	push esp ; same as above
 	call irq_handler
 	add esp, 4
 
@@ -97,6 +98,10 @@ GLOBAL irq12
 GLOBAL irq13
 GLOBAL irq14
 GLOBAL irq15
+
+; some interrupts automatically push an error code, some don't
+; those that don't, manually push a zero error code
+; after that the vector is pushed
 
 isr0:
 	cli
