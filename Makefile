@@ -14,7 +14,7 @@ CFLAGS = -g -masm=intel -ffreestanding -c
 NASM_FLAGS = -f elf -g -O0
 LDFLAGS = -T linker.ld -nostdlib -lgcc
 
-KERNEL = isodir/kernel.elf
+KERNEL = isodir/boot/kernel.elf
 
 run: ${KERNEL}
 	${QEMU} -kernel ${KERNEL}
@@ -26,10 +26,14 @@ debug: ${KERNEL}
 boot: build/os.iso
 	${QEMU} -boot d -cdrom build/os.iso
 
+boot-debug: build/os.iso
+	${QEMU} -s -S -boot d -cdrom build/os.iso \
+	& ${GDB} -q -symbols=${KERNEL} -ex "target remote localhost:1234"
+
 build/os.iso: isodir ${KERNEL}
 	grub-mkrescue -o $@ isodir
 
-isodir/kernel.elf: ${OBJ}
+isodir/boot/kernel.elf: ${OBJ}
 	${LD} ${LDFLAGS} -o $@ ${OBJ}
 
 build/%.o: %.c
