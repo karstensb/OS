@@ -77,4 +77,14 @@ void ltr(uint16_t selector){
 	asm("ltr %0" : : "r" (selector));
 }
 
+static inline
+void wrmsr(uint32_t msr, uint32_t low, uint32_t high){
+	asm("wrmsr" : : "c" (msr), "a" (low), "d" (high));
+}
+
+static inline
+void rdmsr(uint32_t msr, uint32_t low, uint32_t high){
+	asm("rdmsr" : "=a" (low), "=d" (high) : "c" (msr));
+}
+
 #endif /* UTIL_H */
