@@ -1,5 +1,5 @@
 #include "../drivers/screen.h"
-#include "../libc/string.h"
+#include "../util/string.h"
 #include "../cpu/idt.h"
 #include "../cpu/pic.h"
 #include "../cpu/tss.h"
@@ -12,4 +12,7 @@ void kernel_main(void){
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen();
+	while(1){
+		hlt();
+	}
 }

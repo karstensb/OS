@@ -5,7 +5,7 @@
 #include "pic.h"
 #include "util.h"
 #include "../drivers/screen.h"
-#include "../libc/string.h"
+#include "../util/string.h"
 
 const char *err_msg[] ={
 	"Divide-by-Zero-Error",
@@ -64,6 +64,7 @@ void register_irq(int irq, void (*handler)(registers_t *regs)){
 
 void irq_handler(registers_t *regs){
 	int irq = regs->err_code;
+	/* check for spurious interrupts */
 	if (irq == 7){
 		if (~(pic_get_isr() & (1 << 7)))
 			return;

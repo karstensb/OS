@@ -1,6 +1,6 @@
 #include "screen.h"
 #include "../cpu/util.h"
-#include "../libc/string.h"
+#include "../util/string.h"
 
 #define VGA_WIDTH (80)
 #define VGA_HEIGHT (25)

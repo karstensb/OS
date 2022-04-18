@@ -37,6 +37,7 @@ void *memset(void *ptr, int x, size_t n){
 	for (int i = 0; i < n; ++i){
 		*((uint8_t *) ptr + i) = x;
 	}
+	return ptr;
 }
 
 char *itoa(int val, char *buf, int base){
