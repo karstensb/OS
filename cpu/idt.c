@@ -106,7 +106,7 @@ idt_entry_t idt[48] = {
 };
 
 void init_idt(void){
-		idt[0].offset_low = ((uint32_t) &isr0) & 0xFFFF;
+	idt[0].offset_low = ((uint32_t) &isr0) & 0xFFFF;
 	idt[0].offset_high = (((uint32_t) &isr0) >> 16) & 0xFFFF;
 	idt[1].offset_low = ((uint32_t) &isr1) & 0xFFFF;
 	idt[1].offset_high = (((uint32_t) &isr1) >> 16) & 0xFFFF;
@@ -204,5 +204,5 @@ void init_idt(void){
 	idt[47].offset_low = ((uint32_t) &irq15) & 0xFFFF;
 	idt[47].offset_high = (((uint32_t) &irq15) >> 16) & 0xFFFF;
 
-	lidt(sizeof(idt) / sizeof(idt_entry_t) - 1, (uint32_t) &idt);
+	lidt(sizeof(idt) - 1, (uint32_t) &idt);
 }
