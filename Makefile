@@ -10,30 +10,25 @@ LD = i686-elf-gcc
 QEMU = qemu-system-i386
 GDB = gdb
 
-CFLAGS = -g -masm=intel -ffreestanding -c
+CFLAGS = -g -masm=intel -ffreestanding -c -Wall -Wextra -Werror
 NASM_FLAGS = -f elf -g -O0
 LDFLAGS = -T linker.ld -nostdlib -lgcc
 
 KERNEL = isodir/boot/kernel.elf
+ISO = os.iso
+ISODIR = ${shell find isodir}
 
-run: ${KERNEL}
-	${QEMU} -kernel ${KERNEL}
-
-debug: ${KERNEL}
-	${QEMU} -s -S -kernel ${KERNEL} \
-	& ${GDB} -q -symbols=${KERNEL} -ex "target remote localhost:1234" 
-
-boot: build/os.iso
-	${QEMU} -boot d -cdrom build/os.iso
-
-boot-debug: build/os.iso
-	${QEMU} -s -S -boot d -cdrom build/os.iso \
-	& ${GDB} -q -symbols=${KERNEL} -ex "target remote localhost:1234"
-
-build/os.iso: isodir ${KERNEL}
+${ISO}: ${ISODIR} ${KERNEL}
 	grub-mkrescue -o $@ isodir
 
-isodir/boot/kernel.elf: ${OBJ}
+run: ${ISO}
+	${QEMU} -boot d -cdrom ${ISO}
+
+debug: ${ISO}
+	${QEMU} -s -S -boot d -cdrom ${ISO} \
+	& ${GDB} -q -symbols=${KERNEL} -ex "target remote localhost:1234"
+
+${KERNEL}: ${OBJ}
 	${LD} ${LDFLAGS} -o $@ ${OBJ}
 
 build/%.o: %.c
