@@ -5,7 +5,7 @@
 #include "../cpu/tss.h"
 #include "../cpu/util.h"
 
-void kernel_main(/* void *multiboot_structure */){
+void kmain(/* void *multiboot_structure */){
 	init_tss();
 	init_idt();
 	init_pic();

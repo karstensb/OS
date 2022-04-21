@@ -91,7 +91,7 @@ SECTION .text
 KERNEL_CS equ 0x8
 KERNEL_DS equ 0x10
 
-EXTERN kernel_main
+EXTERN kmain
 EXTERN gdt_descriptor
 GLOBAL _start
 
@@ -110,7 +110,7 @@ load_segs:
     mov gs, ax
 
 	push ebx
-	call kernel_main
+	call kmain
 	pop ebx
 
 	cli
