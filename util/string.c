@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include "string.h"
 
-const size_t strlen(const char *str){
+size_t strlen(const char *str){
 	size_t len;
 	for (len = 0; str[len]; ++len);
 	return len;
@@ -11,7 +11,7 @@ const size_t strlen(const char *str){
 void *memcpy(void *dest, const void * src, size_t n){
 	char *d = dest;
 	const char *s = src;
-	for (int i = 0; i <= n; ++i){
+	for (int i = 0; i <= (int) n; ++i){
 		d[i] = s[i];
 	}
 	return dest;
@@ -26,7 +26,7 @@ void *memmove(void *dest, const void *src, size_t n){
 		}
 	}
 	else{
-		for (int i = 0; i < n; ++i){
+		for (int i = 0; i < (int) n; ++i){
 			d[i] = s[i];
 		}
 	}
@@ -34,7 +34,7 @@ void *memmove(void *dest, const void *src, size_t n){
 }
 
 void *memset(void *ptr, int x, size_t n){
-	for (int i = 0; i < n; ++i){
+	for (int i = 0; i < (int) n; ++i){
 		*((uint8_t *) ptr + i) = x;
 	}
 	return ptr;
