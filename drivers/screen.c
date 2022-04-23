@@ -29,6 +29,7 @@ static void update_cursor(){
 	outb(REG_SCREEN_DATA, (uint8_t) ((cursor_offset >> 8) & 0xFF));
 }
 
+
 void kprint(const char *msg){
 	for (int i = 0; msg[i]; ++i){
 		size_t row = get_offset_row(cursor_offset);
@@ -43,6 +44,11 @@ void kprintc(const char c){
 	size_t col = get_offset_col(cursor_offset);
 	kprintc_at(c, row, col);
 	update_cursor();
+}
+
+void kprinti(int32_t i, int base){
+	char buffer[32];
+	kprint(itoa(i, buffer, base));
 }
 
 void kprintc_at(const char c, size_t row, size_t col){

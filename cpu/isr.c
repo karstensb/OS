@@ -75,9 +75,8 @@ void irq_handler(registers_t *regs){
 		}
 	}
 	if (!irq_handlers[irq]){
-		char err_code[5];
 		kprint("Received IRQ ");
-		kprint(itoa(irq, err_code, 10));
+		kprinti(irq, 10);
 		pic_eoi(irq);
 		return;
 	}
