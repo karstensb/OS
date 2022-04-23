@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "tss.h"
 #include "gdt.h"
-#include "util.h"
+#include "x86.h"
 
 extern const uint32_t isr_stack_top;
 

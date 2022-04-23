@@ -3,6 +3,7 @@
 #include "isr.h"
 #include "idt.h"
 #include "pic.h"
+#include "x86.h"
 #include "drivers/screen.h"
 #include "util/string.h"
 

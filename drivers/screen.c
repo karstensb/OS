@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "cpu/x86.h"
 #include "util/string.h"
 
 #define VGA_WIDTH (80)

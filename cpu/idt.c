@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "idt.h"
 #include "gdt.h"
-#include "util.h"
+#include "x86.h"
 
 extern void isr0(void);
 extern void isr1(void);

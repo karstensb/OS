@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef X86_H
+#define X86_H
 
 #include <stdint.h>
 #include "gdt.h"
@@ -87,4 +87,4 @@ void rdmsr(uint32_t msr, uint32_t low, uint32_t high){
 	asm("rdmsr" : "=a" (low), "=d" (high) : "c" (msr));
 }
 
-#endif /* UTIL_H */
+#endif /* X86_H */
