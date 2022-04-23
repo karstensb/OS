@@ -47,8 +47,7 @@ noreturn void isr_handler(registers_t *regs){
 	kprint("An Error occured!\nError: ");
 	kprint(err_msg[regs->int_no]);
 	kprint("\nCode: 0x");
-	char err_code[5];
-	kprint(itoa(regs->err_code, err_code, 16));
+	kprinti(regs->int_no, 16);
 
 	cli();
 halt:	
@@ -58,7 +57,7 @@ halt:
 
 static void (*irq_handlers[16]) (registers_t *regs);
 
-void register_irq(int irq, void (*handler)(registers_t *regs)){
+void register_irq_handler(int irq, void (*handler)(registers_t *regs)){
 	irq_handlers[irq] = handler;
 }
 

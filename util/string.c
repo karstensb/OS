@@ -54,7 +54,7 @@ char *itoa(int val, char *buf, int base){
 	}
 	low = ptr;
 	do{
-		*ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"[35 + val % base];
+		*ptr++ = "ZYXWVUTSRQPONMLKJIHGFEDCBA9876543210123456789ABCDEFGHIJKLMNOPQRSTUVWXYZZ"[35 + val % base];
 		val /= base;
 	}while (val);
 	*ptr-- = '\0';

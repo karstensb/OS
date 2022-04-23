@@ -21,6 +21,6 @@ typedef struct registers{
 	uint16_t _padding2;
 }__attribute__((packed)) registers_t;
 
-void register_irq(int irq, void (*handler)(registers_t *regs));
+void register_irq_handler(int irq, void (*handler)(registers_t *regs));
 
 #endif /* ISR_H */
