@@ -1,9 +1,6 @@
-#include "../drivers/screen.h"
-#include "../util/string.h"
-#include "../cpu/idt.h"
-#include "../cpu/pic.h"
-#include "../cpu/tss.h"
-#include "../cpu/util.h"
+#include "drivers/screen.h"
+#include "drivers/keyboard.h"
+#include "util/string.h"
 
 void kmain(/* void *multiboot_structure */){
 	init_tss();

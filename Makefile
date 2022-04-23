@@ -10,7 +10,7 @@ LD = i686-elf-gcc
 QEMU = qemu-system-i386
 GDB = gdb
 
-CFLAGS = -g -masm=intel -ffreestanding -c -Wall -Wextra -Werror
+CFLAGS = -g -masm=intel -ffreestanding -c -I/mnt/c/Users/benka/Documents/CodeProjects/OS/ -Wall -Wextra -Werror
 NASM_FLAGS = -f elf -g -O0
 LDFLAGS = -T linker.ld -nostdlib -lgcc
 

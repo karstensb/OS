@@ -3,9 +3,8 @@
 #include "isr.h"
 #include "idt.h"
 #include "pic.h"
-#include "util.h"
-#include "../drivers/screen.h"
-#include "../util/string.h"
+#include "drivers/screen.h"
+#include "util/string.h"
 
 const char *err_msg[] ={
 	"Divide-by-Zero-Error",
