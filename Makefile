@@ -1,4 +1,4 @@
-SOURCES = ${wildcard boot.s kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*.s util/*.c util/*.s}
+SOURCES = ${wildcard kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*.s util/*.c util/*.s}
 
 __OBJ = ${SOURCES:.c=.o}
 _OBJ = ${__OBJ:.s=.o}
