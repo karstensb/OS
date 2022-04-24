@@ -22,7 +22,7 @@ static inline size_t get_offset(size_t col, size_t row) {return row * VGA_WIDTH 
 static inline size_t get_offset_row(size_t offset) {return offset / VGA_WIDTH;}
 static inline size_t get_offset_col(size_t offset) {return offset - (get_offset_row(offset) * VGA_WIDTH);}
 
-static void update_cursor(){
+static void update_cursor(void){
 	outb(REG_SCREEN_CTRL, 0x0F);
 	outb(REG_SCREEN_DATA, (uint8_t) (cursor_offset & 0xFF));
 	outb(REG_SCREEN_CTRL, 0x0E);
@@ -73,7 +73,7 @@ void kprintc_at(const char c, size_t row, size_t col){
 
 }
 
-void clear_screen(){
+void clear_screen(void){
 	outb(REG_GRAPH_CTRL, MISC_GRAPH_REG);
 	outb(REG_GRAPH_DATA, MEM_RANGE_B8000);
 	for (int i = 0; i <= VGA_HEIGHT; ++i){
@@ -98,7 +98,7 @@ void enable_cursor(uint8_t cursor_start, uint8_t cursor_end){
 	outb(REG_SCREEN_DATA, cursor_end); 
 }
 
-void disable_cursor(){
+void disable_cursor(void){
 	outb(REG_SCREEN_CTRL, CURSOR_START);
 	outb(REG_SCREEN_DATA, CURSOR_DISABLE);
 }
