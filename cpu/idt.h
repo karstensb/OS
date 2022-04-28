@@ -21,6 +21,6 @@ typedef struct idt_descriptor{
 
 extern idt_entry_t idt[48];
 
-void init_idt(void);
+void idt_init(void);
 
 #endif /* IDT_H */

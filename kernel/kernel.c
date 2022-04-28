@@ -9,9 +9,9 @@
 
 void kmain(void *multiboot_structure){
 	UNUSED(multiboot_structure);
-	init_tss();
-	init_idt();
-	init_pic();
+	tss_init();
+	idt_init();
+	pic_init();
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen();

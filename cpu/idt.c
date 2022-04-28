@@ -105,7 +105,7 @@ idt_entry_t idt[48] = {
 	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = 1 << 7 | TRAP_32, .offset_high = 0x0},
 };
 
-void init_idt(void){
+void idt_init(void){
 	idt[0].offset_low = ((uint32_t) &isr0) & 0xFFFF;
 	idt[0].offset_high = (((uint32_t) &isr0) >> 16) & 0xFFFF;
 	idt[1].offset_low = ((uint32_t) &isr1) & 0xFFFF;

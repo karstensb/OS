@@ -16,7 +16,7 @@
 #define PIC_READ_ISR (0x0b)
 
 
-void init_pic(void){
+void pic_init(void){
 	outb(PIC1_CMD, ICW1_INIT | ICW1_ICW4);
 	outb(PIC2_CMD, ICW1_INIT | ICW1_ICW4);
 

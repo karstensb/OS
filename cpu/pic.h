@@ -16,7 +16,7 @@
 #define PIC_FPU (13)
 #define PIC_HDD (14)
 
-void init_pic(void);
+void pic_init(void);
 void pic_disable(void);
 void pic_eoi(uint8_t irq);
 uint16_t pic_get_isr(void);

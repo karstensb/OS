@@ -35,7 +35,7 @@ tss_entry_t tss = {
 	.iomap_base = sizeof(tss)
 };
 
-void init_tss(void){
+void tss_init(void){
 	tss.esp0 = isr_stack_top;
 	gdt_entry_t *gdt_tss = &gdt[6];
 	gdt_tss->base_low = ((uintptr_t) &tss) & 0xFF;
