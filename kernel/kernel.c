@@ -1,3 +1,4 @@
+#include "multiboot.h"
 #include "cpu/idt.h"
 #include "cpu/pic.h"
 #include "cpu/tss.h"
@@ -7,8 +8,8 @@
 #include "util/string.h"
 #include "util/util.h"
 
-void kmain(void *multiboot_structure){
-	UNUSED(multiboot_structure);
+void kmain(mbi_structure *mbi){
+	UNUSED(mbi);
 	tss_init();
 	idt_init();
 	pic_init();
@@ -19,3 +20,4 @@ void kmain(void *multiboot_structure){
 		hlt();
 	}
 }
+
