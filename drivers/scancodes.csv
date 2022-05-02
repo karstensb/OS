@@ -1,0 +1,106 @@
+scancode,primary key,shift,alt,num lock,type
+01,esc,,,,f
+02,1,!,,,k
+03,2,"""",²,,k
+04,3,§,³,,k
+05,4,$,,,k
+06,5,%,,,k
+07,6,&,,,k
+08,7,/,{,,k
+09,8,(,[,,k
+0A,9,),],,k
+0B,0,=,},,k
+0C,ß,?,\,,k
+0D,´,`,,,k
+0E,backspace,,,,f
+0F,tab,,,,k
+10,q,Q,@,,k
+11,w,W,,,k
+12,e,E,€,,k
+13,r,R,,,k
+14,t,T,,,k
+15,z,Z,,,k
+16,u,U,,,k
+17,i,I,,,k
+18,o,O,,,k
+19,p,P,,,k
+1A,ü,Ü,,,k
+1B,+,*,~,,k
+1C,enter,,,,f
+1D,left ctrl,,,,m
+1E,a,A,,,k
+1F,s,S,,,k
+20,d,D,,,k
+21,f,F,,,k
+22,g,G,,,k
+23,h,H,,,k
+24,j,J,,,k
+25,k,K,,,k
+26,l,L,,,k
+27,ö,Ö,,,k
+28,ä,Ä,,,k
+29,^,°,,,k
+2A,left shift,,,,m
+2B,#,',,,k
+2C,y,Y,,,k
+2D,x,X,,,k
+2E,c,C,,,k
+2F,v,V,,,k
+30,b,B,,,k
+31,n,N,,,k
+32,m,M,,,k
+33,",",;,,,k
+34,.,:,,,k
+35,-,_,,,k
+36,right shift,,,,m
+37,*,,,,k
+38,left alt,,,,m
+39,space,,,,k
+3A,caps lock,,,,m
+3B,F1,,,,f
+3C,F2,,,,f
+3D,F3,,,,f
+3E,F4,,,,f
+3F,F5,,,,f
+40,F6,,,,f
+41,F7,,,,f
+42,F8,,,,f
+43,F9,,,,f
+44,F10,,,,f
+45,num lock,,,,m
+46,scroll lock,,,,m
+47,home,,,num 7,f/k
+48,up,,,num 8,f/k
+49,page up,,,num 9,f/k
+4A,num -,,,,k
+4B,left,,,num 4,f/k
+4C,,,,num 5,f/k
+4D,right,,,num 6,f/k
+4E,num +,,,,k
+4F,end,,,num 1,f/k
+50,down,,,num 2,f/k
+51,page down,,,num 3,f/k
+52,insert,,,num 0,f/k
+53,delete,,,"num ,",f/k
+54,prt scr,,,,f
+55,,,,,k
+56,<,>,|,,k
+57,f11,,,,f
+58,f12,,,,f
+E0 38,right alt,,,,m
+E0 1C,enter,,,,f
+E0 1D,right ctrl,,,,m
+E0 35,/,,,,k
+E0 47,home,,,,f
+E0 48,up,,,,f
+E0 49,page up,,,,f
+E0 4B,left,,,,f
+E0 4D,right,,,,f
+E0 4F,end,,,,f
+E0 50,down,,,,f
+E0 51,page down,,,,f
+E0 52,insert,,,,f
+E0 53,delete,,,,f
+E0 5B,win left,,,,f
+E0 5C,win right,,,,f
+E0 5D,menu,,,,f
