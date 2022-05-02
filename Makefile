@@ -38,6 +38,6 @@ build/%.o: %.s
 	${AS} ${NASM_FLAGS} $< -o $@
 
 clean:
-	rm -rf build/os.iso
+	rm -rf ${ISO}
 	rm -rf ${KERNEL}
 	rm -rf ${OBJ}
