@@ -77,14 +77,14 @@ KERNEL_CS equ 0x8
 KERNEL_DS equ 0x10
 
 EXTERN kmain
-EXTERN gdt_descriptor
+EXTERN gdt_descr
 GLOBAL _start
 
 _start:
 	cli
 	mov ebp, stack_top
 	mov esp, ebp
-	lgdt [gdt_descriptor]
+	lgdt [gdt_descr]
 	jmp KERNEL_CS:load_segs
 load_segs:
 	mov ax, KERNEL_DS

@@ -19,8 +19,8 @@ typedef struct registers{
 	uint32_t user_esp;
 	uint16_t user_ss;
 	uint16_t _padding2;
-}__attribute__((packed)) registers_t;
+}__attribute__((packed)) registers;
 
-void register_irq_handler(int irq, void (*handler)(registers_t *regs));
+void register_irq_handler(int irq, void (*handler)(registers *regs));
 
 #endif /* ISR_H */

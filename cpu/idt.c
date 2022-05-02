@@ -53,7 +53,7 @@ extern void irq13(void);
 extern void irq14(void);
 extern void irq15(void);
 
-idt_entry_t idt[48] = {
+idt_entry idt[48] = {
 	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = 1 << 7 | INTERRUPT_32, .offset_high = 0x0},
 	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = 1 << 7 | INTERRUPT_32, .offset_high = 0x0},
 	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = 1 << 7 | INTERRUPT_32, .offset_high = 0x0},

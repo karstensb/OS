@@ -42,7 +42,7 @@ const char *err_msg[] ={
 	"Reserved"
 };
 
-noreturn void isr_handler(registers_t *regs){
+noreturn void isr_handler(registers *regs){
 	clear_screen();
 	kprint("An Error occured!\nError: ");
 	kprint(err_msg[regs->int_no]);
@@ -55,13 +55,13 @@ halt:
 	goto halt;
 }
 
-static void (*irq_handlers[16]) (registers_t *regs);
+static void (*irq_handlers[16]) (registers *regs);
 
-void register_irq_handler(int irq, void (*handler)(registers_t *regs)){
+void register_irq_handler(int irq, void (*handler)(registers *regs)){
 	irq_handlers[irq] = handler;
 }
 
-void irq_handler(registers_t *regs){
+void irq_handler(registers *regs){
 	int irq = regs->err_code;
 	/* check for spurious interrupts */
 	if (irq == 7){

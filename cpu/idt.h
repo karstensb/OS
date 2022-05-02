@@ -12,14 +12,14 @@ typedef struct idt_entry{
 	uint8_t  zero;
 	uint8_t  flags;
 	uint16_t offset_high;
-}__attribute__((packed)) idt_entry_t;
+}__attribute__((packed)) idt_entry;
 
 typedef struct idt_descriptor{
     uint16_t size;
     uint32_t offset;
-}__attribute__((packed)) idt_descriptor_t;
+}__attribute__((packed)) idt_descriptor;
 
-extern idt_entry_t idt[48];
+extern idt_entry idt[48];
 
 void idt_init(void);
 
