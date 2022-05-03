@@ -11,25 +11,28 @@ QEMU = qemu-system-i386
 GDB = gdb
 
 CFLAGS = -g -masm=intel -ffreestanding -c -I${CURDIR} -Wall -Wextra -Werror
-NASM_FLAGS = -f elf -g -O0
-LDFLAGS = -T linker.ld -nostdlib -lgcc
+NASM_FLAGS = -f elf -g -O0 -Wall -Werror
+LDFLAGS = -nostdlib -lgcc
+QEMU_FLAGS = -boot d -d int -D ${QEMU_LOG}
 
 KERNEL = isodir/boot/kernel.elf
 ISO = os.iso
 ISODIR = ${shell find isodir}
+LINKER_LD = linker.ld
+QEMU_LOG = qemu_log.txt
 
 ${ISO}: ${ISODIR} ${KERNEL}
 	grub-mkrescue -o $@ ISODIR
 
 run: ${ISO}
-	${QEMU} -boot d -cdrom ${ISO}
+	${QEMU} ${QEMU_FLAGS} -cdrom ${ISO}
 
 debug: ${ISO}
-	${QEMU} -s -S -boot d -cdrom ${ISO} \
+	${QEMU} ${QEMU_FLAGS} -s -S -cdrom ${ISO}\
 	& ${GDB} -q -symbols=${KERNEL} -ex "target remote localhost:1234"
 
-${KERNEL}: ${OBJ}
-	${LD} ${LDFLAGS} -o $@ ${OBJ}
+${KERNEL}: ${OBJ} ${LINKER_LD}
+	${LD} ${LDFLAGS} -T ${LINKER_LD} -o $@ ${OBJ}
 
 build/%.o: %.c
 	${CC} ${CFLAGS} $< -o $@
@@ -39,5 +42,6 @@ build/%.o: %.s
 
 clean:
 	rm -rf ${ISO}
+	rm -rf ${QEMU_LOG}
 	rm -rf ${KERNEL}
 	rm -rf ${OBJ}

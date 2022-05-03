@@ -2,5 +2,6 @@
 *.o
 *.elf
 *.iso
+qemu_log.txt
 .vscode/
 os-tutorial-master/
