@@ -1,5 +1,6 @@
 #include "multiboot.h"
 #include "cpu/idt.h"
+#include "cpu/page.h"
 #include "cpu/pic.h"
 #include "cpu/tss.h"
 #include "cpu/x86.h"

@@ -4,7 +4,7 @@
 
 #define VGA_WIDTH (80)
 #define VGA_HEIGHT (25)
-#define VGA_MEM (0xB8000)
+#define VGA_MEM (0xE0000000 + 0xB8000)
 #define REG_GRAPH_CTRL (0x03CE)
 #define REG_GRAPH_DATA (0x03CF)
 #define MISC_GRAPH_REG (0x06)
@@ -112,7 +112,11 @@ void disable_cursor(void){
 }
 
 void scroll_screen(size_t rows){
-	memmove((void *) VGA_MEM, (void *) (rows*VGA_WIDTH*2 + VGA_MEM), (VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH)*2);
+	memmove(
+		(void *) VGA_MEM,
+		(void *) (rows*VGA_WIDTH*2 + VGA_MEM),
+		(VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH)*2
+	);
 	uint16_t *ptr = (uint16_t *) VGA_MEM + (VGA_WIDTH*VGA_HEIGHT - rows*VGA_WIDTH);
 	for (int i = 0; i < (int) rows * VGA_WIDTH; ++i){
 		ptr[i] = (terminal_color << 8) | 0;
