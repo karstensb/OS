@@ -4,7 +4,6 @@
 #include "cpu/tss.h"
 #include "cpu/x86.h"
 #include "drivers/screen.h"
-#include "drivers/keyboard.h"
 #include "util/string.h"
 #include "util/util.h"
 

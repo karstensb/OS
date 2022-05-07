@@ -18,9 +18,17 @@
 static size_t cursor_offset;
 static uint8_t terminal_color = VGA_COLOR_WHITE | VGA_COLOR_BLACK << 4;
 
-static inline size_t get_offset(size_t col, size_t row) {return row * VGA_WIDTH + col;}
-static inline size_t get_offset_row(size_t offset) {return offset / VGA_WIDTH;}
-static inline size_t get_offset_col(size_t offset) {return offset - (get_offset_row(offset) * VGA_WIDTH);}
+static inline size_t get_offset(size_t col, size_t row){
+	return row * VGA_WIDTH + col;
+}
+
+static inline size_t get_offset_row(size_t offset){
+	return offset / VGA_WIDTH;
+}
+
+static inline size_t get_offset_col(size_t offset){
+	return offset - (get_offset_row(offset) * VGA_WIDTH);
+}
 
 static void update_cursor(void){
 	outb(REG_SCREEN_CTRL, 0x0F);

@@ -1,7 +1,5 @@
-*.bin
-*.o
 *.elf
 *.iso
 qemu_log.txt
+build/
 .vscode/
-os-tutorial-master/
