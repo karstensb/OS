@@ -87,4 +87,9 @@ void rdmsr(uint32_t msr, uint32_t low, uint32_t high){
 	asm("rdmsr" : "=a" (low), "=d" (high) : "c" (msr));
 }
 
+static inline
+void invlpg(void *addr){
+	asm("invlpg [%0]" : : "r" ((uint32_t) addr));
+}
+
 #endif /* X86_H */

@@ -9,6 +9,7 @@ AS = nasm
 LD = i686-elf-gcc
 QEMU = qemu-system-i386
 GDB = gdb
+RM = rm -rf
 
 CFLAGS = -g -masm=intel -ffreestanding -c -I$(CURDIR) -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
@@ -49,7 +50,7 @@ $(BUILD)/%.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf $(BUILD)
+	$(RM) $(BUILD)
 	$(RM) $(ISO)
 	$(RM) $(QEMU_LOG)
 	$(RM) $(KERNEL)
