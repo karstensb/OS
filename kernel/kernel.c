@@ -8,10 +8,11 @@
 #include "util/util.h"
 
 void kmain(mbi_structure *mbi){
-	UNUSED(mbi);
-	tss_init();
 	idt_init();
+	mbi_init(mbi);
+	pg_init(mbi);
 	pic_init();
+	tss_init();
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen();

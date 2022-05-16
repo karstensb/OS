@@ -99,7 +99,7 @@ pg_fill:
 	jg pg_enable
 
 	mov edx, esi
-	or edx, 0x3 ; present, writable
+	or edx, 0x1 ; present
 	mov [edi], edx
 
 	add esi, 4096
@@ -108,15 +108,15 @@ pg_fill:
 
 pg_enable:
 	mov [page_dir - 0xE0000000 + 0*4], DWORD (page_tables - 0xE0000000 + 896 * 4096) + 0x3 ; add 0x3 to present and writable
-	mov [page_dir - 0xE0000000 + 1*4], DWORD (page_tables - 0xE0000000 + 897 * 4096) + 0x3 ; can't use or because that's
-	mov [page_dir - 0xE0000000 + 896*4], DWORD (page_tables - 0xE0000000 + 896 * 4096) + 0x3 ; too complex for the linker
+	mov [page_dir - 0xE0000000 + 1*4], DWORD (page_tables - 0xE0000000 + 897 * 4096) + 0x3 ; can't use 'or' because linker
+	mov [page_dir - 0xE0000000 + 896*4], DWORD (page_tables - 0xE0000000 + 896 * 4096) + 0x3 ; can't do 'or' on addresses
 	mov [page_dir - 0xE0000000 + 897*4], DWORD (page_tables - 0xE0000000 + 897 * 4096) + 0x3
 
 	mov ecx, page_dir - 0xE0000000
 	mov cr3, ecx
 
 	mov ecx, cr0
-	or ecx, (1 << 31) | (1 << 16) ; enable paging and write-protect
+	or ecx, (1 << 31) ; enable paging
 f:	mov cr0, ecx
 
 	lea ecx, [pg_finish]

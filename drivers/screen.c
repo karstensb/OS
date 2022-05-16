@@ -1,10 +1,11 @@
 #include "screen.h"
 #include "cpu/x86.h"
+#include "cpu/page.h"
 #include "util/string.h"
 
 #define VGA_WIDTH (80)
 #define VGA_HEIGHT (25)
-#define VGA_MEM (0xE0000000 + 0xB8000)
+#define VGA_MEM (KERNEL_BASE + 0xB8000)
 #define REG_GRAPH_CTRL (0x03CE)
 #define REG_GRAPH_DATA (0x03CF)
 #define MISC_GRAPH_REG (0x06)
