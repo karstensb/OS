@@ -48,6 +48,10 @@ noreturn void isr_handler(registers *regs){
 	kprint(err_msg[regs->int_no]);
 	kprint("\nCode: 0x");
 	kprinti(regs->int_no, 16);
+	if(regs->int_no == 14){
+		kprint("\nPage Fault Address: 0x");
+		kprinti(rcr2(), 16);
+	}
 
 	cli();
 halt:	

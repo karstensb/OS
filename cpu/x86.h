@@ -88,6 +88,13 @@ void rdmsr(uint32_t msr, uint32_t low, uint32_t high){
 }
 
 static inline
+uint32_t rcr2(){
+	uint32_t cr2;
+	asm("mov %0, cr2" : "=r" (cr2));
+	return cr2;
+}
+
+static inline
 void invlpg(void *addr){
 	asm("invlpg [%0]" : : "r" ((uint32_t) addr));
 }
