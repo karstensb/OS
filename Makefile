@@ -2,57 +2,66 @@ SOURCES = $(wildcard kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*
 
 __OBJ = $(SOURCES:.c=.o)
 _OBJ = $(__OBJ:.s=.o)
-OBJ = $(_OBJ:%=$(BUILD)/%)
+OBJ = $(_OBJ:%=build/%)
 
 CC = i686-elf-gcc
 AS = nasm
 LD = i686-elf-gcc
+OBJCOPY = i686-elf-objcopy
 QEMU = qemu-system-i386
+BOCHS = bochs
 GDB = gdb
 RM = rm -rf
 
 CFLAGS = -g -masm=intel -ffreestanding -c -I$(CURDIR) -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
 LDFLAGS = -nostdlib -lgcc
-QEMU_FLAGS = -boot d -d int -D $(QEMU_LOG)
 
-BUILD = build
-KERNEL = kernel.elf
 ISO = os.iso
+KERNEL = kernel.elf
+SYMBOLS = symbols.sym
 ISODIR = $(shell find isodir)
 LINKER_LD = linker.ld
-QEMU_LOG = qemu_log.txt
+QEMU_LOG = qemu.log
+BOCHS_LOG = bochs.log
 
-$(ISO): $(ISODIR) $(KERNEL)
+iso: $(ISODIR) kernel
 	cp $(KERNEL) isodir/boot/kernel.elf
-	grub-mkrescue -o $@ $(ISODIR)
+	grub-mkrescue $(ISODIR) -o $(ISO)
 
-run: $(ISO)
+run: iso
 	$(QEMU) $(QEMU_FLAGS) -cdrom $(ISO)
 
-debug: $(ISO)
-	$(QEMU) $(QEMU_FLAGS) -s -S -cdrom $(ISO)\
+debug: iso
+	$(QEMU) -boot d -d int -D $(QEMU_LOG) -s -S -cdrom $(ISO)\
 	& $(GDB) -q -symbols=$(KERNEL) -ex "target remote localhost:1234"
 
-$(KERNEL): $(BUILD) $(OBJ) $(LINKER_LD)
-	$(LD) $(LDFLAGS) -T $(LINKER_LD) -o $@ $(OBJ)
+bochs: iso symbols
+	$(BOCHS) -f bochsrc -q
 
-$(BUILD):
-	mkdir -p $(BUILD)/cpu
-	mkdir -p $(BUILD)/drivers
-	mkdir -p $(BUILD)/kernel
-	mkdir -p $(BUILD)/util
+kernel: build $(OBJ) $(LINKER_LD)
+	$(LD) $(LDFLAGS) -T $(LINKER_LD) -o $(KERNEL) $(OBJ)
 
-$(BUILD)/%.o: %.c
+symbols: kernel
+	nm -a $(KERNEL) | sed "s/ . / /" > $(SYMBOLS)
+
+build:
+	mkdir -p build/cpu
+	mkdir -p build/drivers
+	mkdir -p build/kernel
+	mkdir -p build/util
+
+build/%.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD)/%.o: %.s
+build/%.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	$(RM) $(BUILD)
+	$(RM) build
 	$(RM) $(ISO)
 	$(RM) $(QEMU_LOG)
+	$(RM) $(BOCHS_LOG)
 	$(RM) $(KERNEL)
+	$(RM) $(SYMBOLS)
 	$(RM) isodir/boot/kernel.elf
-	$(RM) $(OBJ)

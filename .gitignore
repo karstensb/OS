@@ -1,5 +1,7 @@
 *.elf
 *.iso
-qemu_log.txt
+*.log
+*.sym
+*.ini
 build/
 .vscode/

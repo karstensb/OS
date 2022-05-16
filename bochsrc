@@ -1,0 +1,15 @@
+cpu: count=1, reset_on_triple_fault=0
+cpuid: level=6, sep=1
+megs: 128
+vga: extension=none
+keyboard: type=mf
+mouse: enabled=0
+ata0-master: type=cdrom, path=os.iso, status=inserted
+boot: cdrom
+log: bochs.log
+debug: action=ignore
+info: action=report
+error: action=ask
+panic: action=ask
+debug_symbols: file=symbols.sym
+display_library: x, options="no_gui_console, gui_debug"
