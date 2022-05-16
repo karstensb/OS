@@ -7,7 +7,7 @@
 #define CURSOR_MIN (0)
 #define CURSOR_MAX (15)
 
-typedef enum vga_color{
+enum vga_color{
 	VGA_COLOR_BLACK = 0,
 	VGA_COLOR_BLUE = 1,
 	VGA_COLOR_GREEN = 2,
@@ -24,7 +24,7 @@ typedef enum vga_color{
 	VGA_COLOR_LIGHT_MAGENTA = 13,
 	VGA_COLOR_LIGHT_BROWN = 14,
 	VGA_COLOR_WHITE = 15,
-}vga_color_t;
+};
 
 void kprint(const char *msg);
 void kprintc(const char c);
