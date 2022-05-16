@@ -27,7 +27,7 @@ BOCHS_LOG = bochs.log
 
 iso: $(ISODIR) kernel
 	cp $(KERNEL) isodir/boot/kernel.elf
-	grub-mkrescue $(ISODIR) -o $(ISO)
+	grub-mkrescue isodir -o $(ISO)
 
 run: iso
 	$(QEMU) $(QEMU_FLAGS) -cdrom $(ISO)
