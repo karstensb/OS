@@ -8,6 +8,17 @@ size_t strlen(const char *str){
 	return len;
 }
 
+char *strcat(char *dest, const char *src){
+	size_t dest_len = strlen(dest);
+	size_t src_len = strlen(src);
+	size_t i;
+	for (i = 0; i < src_len; ++i){
+		dest[dest_len + i] = src[i];
+	}
+	dest[dest_len + i] = '\0';
+	return dest;
+}
+
 void *memcpy(void *dest, const void * src, size_t n){
 	char *d = dest;
 	const char *s = src;
