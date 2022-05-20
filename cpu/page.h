@@ -39,7 +39,7 @@ void pg_init(mbi_structure *mbi);
 void *pg_alloc(void);
 void pg_free(void *addr);
 
-/* mark a single page as used, i.e. for mmio */
+/* mark a single page as used, e.g. for mmio */
 void pg_used(void *addr);
 
 

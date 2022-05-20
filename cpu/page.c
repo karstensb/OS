@@ -1,9 +1,9 @@
 //TODO: pag_dir[5] doesnt necessarily point to page_tables[5]
 
-
-
+#include <limits.h>
 #include "page.h"
 #include "x86.h"
+#include "util/string.h"
 #include "util/panic.h"
 
 extern uint32_t _kernel_start;
@@ -13,9 +13,11 @@ uint32_t page_dir[1024] __attribute__((aligned(4096)));
 uint32_t page_tables[1024][1024] __attribute__((aligned(4096)));
 
 /* bitmap of physical pages */
-static uint8_t *pg_map_phys;
+static int8_t *pg_map_phys;
 /* ram size in bytes */
 static uint32_t mem_max;
+/* pointer to the first free physical page */
+static uint32_t prev_index = 0;
 
 void *pg_phys_addr(void *addr){
 	uint32_t dir_index = pg_dir_index(addr);
@@ -64,32 +66,32 @@ void pg_init(mbi_structure *mbi){
 	/* find the maximum physical address */
 	for(int i = 0; i < mbi_mmap_count; ++i){
 		uint32_t addr = (uint32_t) mmap_tag->entries[i].base_addr+mmap_tag->entries[i].length;
-		if(addr > mem_max){
+		/* only update mem_max if the area is available, as all 4Gs might be
+		   listed even though less is available */
+		if(addr > mem_max && mmap_tag->entries[i].type == 1){
 			mem_max = addr;
 		}
 	}
 
-	pg_map_phys = (uint8_t *) ((uint32_t) mbi + mbi->total_size);
-	/* get the size of the physical page map (each bit maps to a physical page) */
+	pg_map_phys = (int8_t *) ((uint32_t) mbi + mbi->total_size);
+	/* end of the physical page map (each bit maps to a physical page) */
 	void *pg_map_end = pg_map_phys + mem_max/4096/8;
 	/* map all pages containing pg_map_phys (calculated by first free address after kernel + pg_phys_map_size) to the kernel*/
 	for(void *addr = pg_map_phys; addr <= pg_map_end+4096; addr += 4096){
 		pg_map(addr-KERNEL_BASE, addr, PG_PRESENT);
 	}
 
-	/* mark pg_map_phys as used */
-	for(void *addr = pg_map_phys; addr <= pg_map_end; addr += 4096){
-		pg_used(addr-KERNEL_BASE);
-	}
+	memset(pg_map_phys, 0, mem_max/4096/8);
 
-	/* mark the first mib (256 pages = 32 * 8 bit) as used */
-	for(int i = 0; i < 32; ++i){
-		pg_map_phys[i] = 0xFF;
-	}
+	/* The whole area from 0 to pg_map_end is marked as used as the first 1M is
+	 * almost unusable, the kernel comes at 1M and should be closely followed by
+	 * the mbi, which in turn is directly followed by pg_map_phys, ending at
+	 * pg_map_end*/
+	memset(pg_map_phys, UINT_MAX, ((int) pg_map_end - KERNEL_BASE)/4096/8 + 1);
 
 	/* mark reserved pages as used */
 	for(int i = 0; i < mbi_mmap_count; ++i){
-		if (mmap_tag->entries[i].type != 1){
+		if (mmap_tag->entries[i].type != 1 && mmap_tag->entries[i].base_addr < mem_max){
 			for(void *addr = (void *) (uint32_t) mmap_tag->entries[i].base_addr;
 				addr < (void *) (uint32_t) mmap_tag->entries[i].base_addr + mmap_tag->entries[i].length;
 				addr += 4096){
@@ -98,33 +100,34 @@ void pg_init(mbi_structure *mbi){
 			}
 		}
 	}
-
-	/* mark kernel pages as used */
-	for(void *addr = (void *) &_kernel_start; addr <= (void *) &_kernel_end; addr += 4096){
-		pg_used(addr);
-	}
-
-	/* mark mbi as used */
-	pg_used((void *) mbi-KERNEL_BASE);
-	/* if the mbi crosses a page boundary, mark the next page as used */
-	if(mbi->total_size + pg_offset(mbi) > 4096){
-		pg_used((void *) mbi-KERNEL_BASE + 4096);
-	}
 }
 
-/* void *pg_alloc(void){
-} */
+void *pg_alloc(void){
+	for(uint32_t index = prev_index; index < mem_max/4096/8; ++index){
+		/* if at least one bit isn't set */
+		if(~pg_map_phys[index] & 0xFF){
+			int map_bit = 0;
+			while(!((~pg_map_phys[index] >> map_bit) & 0x1)){
+				++map_bit;
+			}
+			prev_index = index;
+			void * addr = (void *) (index * 4096 * 8 + map_bit * 4096);
+			pg_used(addr);
+			return addr;
+		}
+	}
+	panic("out of memory");
+}
 
 void pg_free(void *addr){
-	addr = (void *) ((int) addr & 0xFFFFF000);
 	uint32_t map_index = (uint32_t) addr / 4096 / 8;
 	uint32_t map_bit = (uint32_t) addr / 4096 % 8;
 
 	pg_map_phys[map_index] &= ~(1 << map_bit);
+	prev_index = map_index < prev_index ? map_index : prev_index;
 }
 
 void pg_used(void *addr){
-	addr = (void *) ((int) addr & 0xFFFFF000);
 	uint32_t map_index = (uint32_t) addr / 4096 / 8;
 	uint32_t map_bit = (uint32_t) addr / 4096 % 8;
 
