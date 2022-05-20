@@ -6,8 +6,9 @@
 #include "x86.h"
 #include "drivers/screen.h"
 #include "util/string.h"
+#include "util/panic.h"
 
-const char *err_msg[] ={
+const char *interrupts[] ={
 	"Divide-by-Zero-Error",
 	"Debug",
 	"Non-Maskable-Interrupt",
@@ -44,19 +45,17 @@ const char *err_msg[] ={
 
 noreturn void isr_handler(registers *regs){
 	clear_screen();
-	kprint("An Error occured!\nError: ");
-	kprint(err_msg[regs->int_no]);
-	kprint("\nCode: 0x");
-	kprinti(regs->int_no, 16);
+	char err_msg[100];
+	char buf[10];
+	strcat(err_msg, "An Error occured!\nError: ");
+	strcat(err_msg, interrupts[regs->int_no]);
+	strcat(err_msg, "\nCode: 0x");
+	strcat(err_msg, itoa(regs->err_code, buf, 16));
 	if(regs->int_no == 14){
-		kprint("\nPage Fault Address: 0x");
-		kprinti(rcr2(), 16);
+		strcat(err_msg, "\nPage Fault Address: 0x");
+		strcat(err_msg, itoa(rcr2(), buf, 16));
 	}
-
-	cli();
-halt:	
-	hlt();
-	goto halt;
+	panic(err_msg);
 }
 
 static void (*irq_handlers[16]) (registers *regs);
@@ -78,8 +77,10 @@ void irq_handler(registers *regs){
 		}
 	}
 	if (!irq_handlers[irq]){
+		kprintc('\n');
 		kprint("Received IRQ ");
 		kprinti(irq, 10);
+		kprintc('\n');
 		pic_eoi(irq);
 		return;
 	}

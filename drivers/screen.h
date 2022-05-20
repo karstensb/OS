@@ -6,6 +6,8 @@
 
 #define CURSOR_MIN (0)
 #define CURSOR_MAX (15)
+#define VGA_WIDTH (80)
+#define VGA_HEIGHT (25)
 
 enum vga_color{
 	VGA_COLOR_BLACK = 0,
