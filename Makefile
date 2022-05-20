@@ -30,10 +30,10 @@ iso: $(ISODIR) kernel
 	grub-mkrescue isodir -o $(ISO)
 
 run: iso
-	$(QEMU) $(QEMU_FLAGS) -cdrom $(ISO)
+	$(QEMU) -boot d -cdrom $(ISO) -m 128M
 
 debug: iso
-	$(QEMU) -boot d -d int -D $(QEMU_LOG) -s -S -cdrom $(ISO)\
+	$(QEMU) -boot d -d int -D $(QEMU_LOG) -s -S -cdrom $(ISO) -m 128M\
 	& $(GDB) -q -symbols=$(KERNEL) -ex "target remote localhost:1234"
 
 bochs: iso symbols
