@@ -3,6 +3,6 @@
 
 #include <stdnoreturn.h>
 
-void panic(const char *message);
+noreturn void panic(const char *message);
 
 #endif /* PANIC_H */
