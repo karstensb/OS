@@ -16,8 +16,5 @@ void kmain(mbi_structure *mbi){
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen();
-	while(1){
-		hlt();
-	}
+	for(;;);
 }
-
