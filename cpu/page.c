@@ -6,9 +6,6 @@
 #include "util/string.h"
 #include "util/panic.h"
 
-extern uint32_t _kernel_start;
-extern uint32_t _kernel_end;
-
 uint32_t page_dir[1024] __attribute__((aligned(4096)));
 uint32_t page_tables[1024][1024] __attribute__((aligned(4096)));
 

@@ -87,15 +87,24 @@ GLOBAL _start
 _start:
 	cli
 
+mbi_setup:
+	mov esi, ebx
+	mov edi, _kernel_end
+	mov ecx, [ebx]
+	rep movsb
+	mov ebx, _kernel_end
+
 pg_setup:
 	; each page_dir entry points to the page table at the same offset
 	; i.e. page_dir[0] points to page_tables[0]
 	; and here pag_dir[896] points to page_tables[896]
 	mov edi, page_tables - 0xE0000000 + 896 * 4096
 	mov esi, 0
+	mov ecx, _kernel_end
+	add ecx, [ebx] ; reserve space for the mbi
 
 pg_fill:
-	cmp esi, _kernel_end
+	cmp esi, ecx
 	jg pg_enable
 
 	mov edx, esi
@@ -117,7 +126,7 @@ pg_enable:
 
 	mov ecx, cr0
 	or ecx, (1 << 31) ; enable paging
-f:	mov cr0, ecx
+	mov cr0, ecx
 
 	lea ecx, [pg_finish]
 	jmp ecx ; jump to higher half kernel
@@ -144,7 +153,7 @@ load_segs:
 	mov ebp, stack_top
 	mov esp, ebp
 
-	add ebx, 0xE0000000 ; mbi structure will be mapped to above 0xE0000000, too
+	add ebx, 0xE0000000 ; mbi structure is mapped to above 0xE0000000, too
 	push ebx
 	call kmain
 	pop ebx

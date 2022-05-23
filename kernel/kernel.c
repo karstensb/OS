@@ -9,7 +9,6 @@
 
 void kmain(mbi_structure *mbi){
 	idt_init();
-	mbi_init(mbi);
 	pg_init(mbi);
 	pic_init();
 	tss_init();

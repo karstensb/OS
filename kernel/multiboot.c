@@ -12,11 +12,3 @@ void *mbi_tag_get(mbi_structure *mbi, uint32_t type){
 	}
 	return NULL;
 }
-
-void mbi_init(mbi_structure *mbi){
-	pg_map((void *) mbi-KERNEL_BASE, mbi, PG_PRESENT);
-	/* if the mbi crosses a page boundary, map the next page */
-	if(mbi->total_size + pg_offset(mbi) > 4096){
-		pg_map((void *) mbi-KERNEL_BASE + 4096, mbi + 4096, PG_WRITE);
-	}
-}
