@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include "multiboot.h"
 #include "cpu/page.h"
 #include "util/util.h"

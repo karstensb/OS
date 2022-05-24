@@ -20,12 +20,11 @@ LDFLAGS = -nostdlib -lgcc
 ISO = os.iso
 KERNEL = kernel.elf
 SYMBOLS = symbols.sym
-ISODIR = $(shell find isodir)
 LINKER_LD = linker.ld
 QEMU_LOG = qemu.log
 BOCHS_LOG = bochs.log
 
-iso: $(ISODIR) kernel
+iso: $(shell find isodir) kernel
 	cp $(KERNEL) isodir/boot/kernel.elf
 	grub-mkrescue isodir -o $(ISO)
 
