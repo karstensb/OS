@@ -75,7 +75,7 @@ void pg_init(mbi_structure *mbi){
 	/* end of the physical page map (each bit maps to a physical page) */
 	void *pg_map_end = pg_map_phys + mem_max/4096/8;
 	/* map all pages containing pg_map_phys (calculated by first free address after kernel + pg_phys_map_size) to the kernel*/
-	for(void *addr = pg_map_phys; addr <= pg_map_end+4096; addr += 4096){
+	for(void *addr = pg_map_phys; addr <= pg_map_end; addr += 4096){
 		pg_map(addr-KERNEL_BASE, addr, PG_PRESENT);
 	}
 
