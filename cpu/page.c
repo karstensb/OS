@@ -1,4 +1,5 @@
-//TODO: pag_dir[5] doesnt necessarily point to page_tables[5]
+/* TODO: page_dir[x] points to page_tables[x]. That is a waste of memory
+ * and should be changed */
 
 #include <limits.h>
 #include "page.h"
