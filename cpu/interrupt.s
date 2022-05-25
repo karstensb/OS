@@ -36,7 +36,7 @@ irq_common:
 	mov fs, ax
 	mov gs, ax
 
-	push esp ; same as above
+	push esp ; see above
 	call irq_handler
 	add esp, 4
 
@@ -101,7 +101,7 @@ GLOBAL irq15
 
 ; some interrupts automatically push an error code, some don't
 ; those that don't, manually push a zero error code
-; after that the vector is pushed
+; before the vector is pushed
 
 isr0:
 	cli
