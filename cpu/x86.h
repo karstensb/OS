@@ -83,12 +83,12 @@ void wrmsr(uint32_t msr, uint32_t low, uint32_t high){
 }
 
 static inline
-void rdmsr(uint32_t msr, uint32_t low, uint32_t high){
-	asm("rdmsr" : "=a" (low), "=d" (high) : "c" (msr));
+void rdmsr(uint32_t msr, uint32_t *low, uint32_t *high){
+	asm("rdmsr" : "=a" (*low), "=d" (*high) : "c" (msr));
 }
 
 static inline
-uint32_t rcr2(){
+uint32_t rcr2(void){
 	uint32_t cr2;
 	asm("mov %0, cr2" : "=r" (cr2));
 	return cr2;
