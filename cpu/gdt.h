@@ -23,6 +23,4 @@ typedef struct gdt_descriptor{
 	uint32_t offset;
 } __attribute__((packed)) gdt_descriptor;
 
-extern gdt_entry gdt[6];
-
 #endif /* GDT_H */
