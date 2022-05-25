@@ -51,25 +51,41 @@ void *memset(void *ptr, int x, size_t n){
 	return ptr;
 }
 
+char *to_hex(unsigned int val, char *buf){
+	char *ptr = buf;
+	char *low = ptr;
+	do{
+		*ptr++ = "0123456789ABCDEF"[val & 0xF];
+		val >>= 4;
+	}while(val);
+	*ptr-- = '\0';
+	while(low < ptr){
+		char tmp = *low;
+		*low++ = *ptr;
+		*ptr-- = tmp;
+	}
+	return buf;
+}
+
 char *itoa(int val, char *buf, int base){
 	char *rc;
 	char *ptr;
 	char *low;
-	if ( base < 2 || base > 36 ){
+	if(base < 2 || base > 36){
 		*buf = '\0';
 		return buf;
 	}
 	rc = ptr = buf;
-	if (val < 0 && base == 10 ){
+	if(val < 0 && base == 10 ){
 		*ptr++ = '-';
 	}
 	low = ptr;
 	do{
-		*ptr++ = "ZYXWVUTSRQPONMLKJIHGFEDCBA9876543210123456789ABCDEFGHIJKLMNOPQRSTUVWXYZZ"[35 + val % base];
+		*ptr++ = "ZYXWVUTSRQPONMLKJIHGFEDCBA9876543210123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[35 + val % base];
 		val /= base;
-	}while (val);
+	}while(val);
 	*ptr-- = '\0';
-	while ( low < ptr ){
+	while(low < ptr){
 		char tmp = *low;
 		*low++ = *ptr;
 		*ptr-- = tmp;

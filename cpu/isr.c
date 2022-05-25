@@ -50,10 +50,10 @@ noreturn void isr_handler(registers *regs){
 	strcat(err_msg, "An Error occured!\nError: ");
 	strcat(err_msg, interrupts[regs->int_no]);
 	strcat(err_msg, "\nCode: 0x");
-	strcat(err_msg, itoa(regs->err_code, buf, 16));
+	strcat(err_msg, to_hex(regs->err_code, buf));
 	if(regs->int_no == 14){
 		strcat(err_msg, "\nPage Fault Address: 0x");
-		strcat(err_msg, itoa(rcr2(), buf, 16));
+		strcat(err_msg, to_hex(rcr2(), buf));
 	}
 	panic(err_msg);
 }
