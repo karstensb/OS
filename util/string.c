@@ -51,7 +51,7 @@ void *memset(void *ptr, int x, size_t n){
 	return ptr;
 }
 
-char *to_hex(unsigned int val, char *buf){
+char *to_hex(unsigned val, char *buf){
 	char *ptr = buf;
 	char *low = ptr;
 	do{
