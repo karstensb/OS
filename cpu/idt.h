@@ -22,5 +22,6 @@ typedef struct idt_descriptor{
 extern idt_entry idt[256];
 
 void idt_init(void);
+void register_isr_handler(uint8_t n, uint8_t type, void (*handler)(void));
 
 #endif /* IDT_H */

@@ -38,173 +38,48 @@ extern void isr29(void);
 extern void isr30(void);
 extern void isr31(void);
 
-extern void irq0(void);
-extern void irq1(void);
-extern void irq2(void);
-extern void irq3(void);
-extern void irq4(void);
-extern void irq5(void);
-extern void irq6(void);
-extern void irq7(void);
-extern void irq8(void);
-extern void irq9(void);
-extern void irq10(void);
-extern void irq11(void);
-extern void irq12(void);
-extern void irq13(void);
-extern void irq14(void);
-extern void irq15(void);
+idt_entry idt[256];
 
-idt_entry idt[256] = {
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | INTERRUPT_32, .offset_high = 0x0},
-
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-	{.offset_low = 0x0, .selector = KERNEL_CS, .zero = 0x0, .flags = IDT_PRESENT | TRAP_32, .offset_high = 0x0},
-};
+void register_isr_handler(uint8_t n, uint8_t type, void (*handler)(void)){
+	idt[n].offset_low = (uint32_t)handler & 0xFFFF;
+	idt[n].selector = KERNEL_CS;
+	idt[n].zero = 0;
+	idt[n].flags = IDT_PRESENT | type;
+	idt[n].offset_high = ((uint32_t)handler >> 16) & 0xFFFF;
+	lidt(sizeof(idt) - 1, (uint32_t) &idt);
+}
 
 void idt_init(void){
-	idt[0].offset_low = ((uint32_t) &isr0) & 0xFFFF;
-	idt[0].offset_high = (((uint32_t) &isr0) >> 16) & 0xFFFF;
-	idt[1].offset_low = ((uint32_t) &isr1) & 0xFFFF;
-	idt[1].offset_high = (((uint32_t) &isr1) >> 16) & 0xFFFF;
-	idt[2].offset_low = ((uint32_t) &isr2) & 0xFFFF;
-	idt[2].offset_high = (((uint32_t) &isr2) >> 16) & 0xFFFF;
-	idt[3].offset_low = ((uint32_t) &isr3) & 0xFFFF;
-	idt[3].offset_high = (((uint32_t) &isr3) >> 16) & 0xFFFF;
-	idt[4].offset_low = ((uint32_t) &isr4) & 0xFFFF;
-	idt[4].offset_high = (((uint32_t) &isr4) >> 16) & 0xFFFF;
-	idt[5].offset_low = ((uint32_t) &isr5) & 0xFFFF;
-	idt[5].offset_high = (((uint32_t) &isr5) >> 16) & 0xFFFF;
-	idt[6].offset_low = ((uint32_t) &isr6) & 0xFFFF;
-	idt[6].offset_high = (((uint32_t) &isr6) >> 16) & 0xFFFF;
-	idt[7].offset_low = ((uint32_t) &isr7) & 0xFFFF;
-	idt[7].offset_high = (((uint32_t) &isr7) >> 16) & 0xFFFF;
-	idt[8].offset_low = ((uint32_t) &isr8) & 0xFFFF;
-	idt[8].offset_high = (((uint32_t) &isr8) >> 16) & 0xFFFF;
-	idt[9].offset_low = ((uint32_t) &isr9) & 0xFFFF;
-	idt[9].offset_high = (((uint32_t) &isr9) >> 16) & 0xFFFF;
-	idt[10].offset_low = ((uint32_t) &isr10) & 0xFFFF;
-	idt[10].offset_high = (((uint32_t) &isr10) >> 16) & 0xFFFF;
-	idt[11].offset_low = ((uint32_t) &isr11) & 0xFFFF;
-	idt[11].offset_high = (((uint32_t) &isr11) >> 16) & 0xFFFF;
-	idt[12].offset_low = ((uint32_t) &isr12) & 0xFFFF;
-	idt[12].offset_high = (((uint32_t) &isr12) >> 16) & 0xFFFF;
-	idt[13].offset_low = ((uint32_t) &isr13) & 0xFFFF;
-	idt[13].offset_high = (((uint32_t) &isr13) >> 16) & 0xFFFF;
-	idt[14].offset_low = ((uint32_t) &isr14) & 0xFFFF;
-	idt[14].offset_high = (((uint32_t) &isr14) >> 16) & 0xFFFF;
-	idt[15].offset_low = ((uint32_t) &isr15) & 0xFFFF;
-	idt[15].offset_high = (((uint32_t) &isr15) >> 16) & 0xFFFF;
-	idt[16].offset_low = ((uint32_t) &isr16) & 0xFFFF;
-	idt[16].offset_high = (((uint32_t) &isr16) >> 16) & 0xFFFF;
-	idt[17].offset_low = ((uint32_t) &isr17) & 0xFFFF;
-	idt[17].offset_high = (((uint32_t) &isr17) >> 16) & 0xFFFF;
-	idt[18].offset_low = ((uint32_t) &isr18) & 0xFFFF;
-	idt[18].offset_high = (((uint32_t) &isr18) >> 16) & 0xFFFF;
-	idt[19].offset_low = ((uint32_t) &isr19) & 0xFFFF;
-	idt[19].offset_high = (((uint32_t) &isr19) >> 16) & 0xFFFF;
-	idt[20].offset_low = ((uint32_t) &isr20) & 0xFFFF;
-	idt[20].offset_high = (((uint32_t) &isr20) >> 16) & 0xFFFF;
-	idt[21].offset_low = ((uint32_t) &isr21) & 0xFFFF;
-	idt[21].offset_high = (((uint32_t) &isr21) >> 16) & 0xFFFF;
-	idt[22].offset_low = ((uint32_t) &isr22) & 0xFFFF;
-	idt[22].offset_high = (((uint32_t) &isr22) >> 16) & 0xFFFF;
-	idt[23].offset_low = ((uint32_t) &isr23) & 0xFFFF;
-	idt[23].offset_high = (((uint32_t) &isr23) >> 16) & 0xFFFF;
-	idt[24].offset_low = ((uint32_t) &isr24) & 0xFFFF;
-	idt[24].offset_high = (((uint32_t) &isr24) >> 16) & 0xFFFF;
-	idt[25].offset_low = ((uint32_t) &isr25) & 0xFFFF;
-	idt[25].offset_high = (((uint32_t) &isr25) >> 16) & 0xFFFF;
-	idt[26].offset_low = ((uint32_t) &isr26) & 0xFFFF;
-	idt[26].offset_high = (((uint32_t) &isr26) >> 16) & 0xFFFF;
-	idt[27].offset_low = ((uint32_t) &isr27) & 0xFFFF;
-	idt[27].offset_high = (((uint32_t) &isr27) >> 16) & 0xFFFF;
-	idt[28].offset_low = ((uint32_t) &isr28) & 0xFFFF;
-	idt[28].offset_high = (((uint32_t) &isr28) >> 16) & 0xFFFF;
-	idt[29].offset_low = ((uint32_t) &isr29) & 0xFFFF;
-	idt[29].offset_high = (((uint32_t) &isr29) >> 16) & 0xFFFF;
-	idt[30].offset_low = ((uint32_t) &isr30) & 0xFFFF;
-	idt[30].offset_high = (((uint32_t) &isr30) >> 16) & 0xFFFF;
-	idt[31].offset_low = ((uint32_t) &isr31) & 0xFFFF;
-	idt[31].offset_high = (((uint32_t) &isr31) >> 16) & 0xFFFF;
-
-	idt[32].offset_low = ((uint32_t) &irq0) & 0xFFFF;
-	idt[32].offset_high = (((uint32_t) &irq0) >> 16) & 0xFFFF;
-	idt[33].offset_low = ((uint32_t) &irq1) & 0xFFFF;
-	idt[33].offset_high = (((uint32_t) &irq1) >> 16) & 0xFFFF;
-	idt[34].offset_low = ((uint32_t) &irq2) & 0xFFFF;
-	idt[34].offset_high = (((uint32_t) &irq2) >> 16) & 0xFFFF;
-	idt[35].offset_low = ((uint32_t) &irq3) & 0xFFFF;
-	idt[35].offset_high = (((uint32_t) &irq3) >> 16) & 0xFFFF;
-	idt[36].offset_low = ((uint32_t) &irq4) & 0xFFFF;
-	idt[36].offset_high = (((uint32_t) &irq4) >> 16) & 0xFFFF;
-	idt[37].offset_low = ((uint32_t) &irq5) & 0xFFFF;
-	idt[37].offset_high = (((uint32_t) &irq5) >> 16) & 0xFFFF;
-	idt[38].offset_low = ((uint32_t) &irq6) & 0xFFFF;
-	idt[38].offset_high = (((uint32_t) &irq6) >> 16) & 0xFFFF;
-	idt[39].offset_low = ((uint32_t) &irq7) & 0xFFFF;
-	idt[39].offset_high = (((uint32_t) &irq7) >> 16) & 0xFFFF;
-	idt[40].offset_low = ((uint32_t) &irq8) & 0xFFFF;
-	idt[40].offset_high = (((uint32_t) &irq8) >> 16) & 0xFFFF;
-	idt[41].offset_low = ((uint32_t) &irq9) & 0xFFFF;
-	idt[41].offset_high = (((uint32_t) &irq9) >> 16) & 0xFFFF;
-	idt[42].offset_low = ((uint32_t) &irq10) & 0xFFFF;
-	idt[42].offset_high = (((uint32_t) &irq10) >> 16) & 0xFFFF;
-	idt[43].offset_low = ((uint32_t) &irq11) & 0xFFFF;
-	idt[43].offset_high = (((uint32_t) &irq11) >> 16) & 0xFFFF;
-	idt[44].offset_low = ((uint32_t) &irq12) & 0xFFFF;
-	idt[44].offset_high = (((uint32_t) &irq12) >> 16) & 0xFFFF;
-	idt[45].offset_low = ((uint32_t) &irq13) & 0xFFFF;
-	idt[45].offset_high = (((uint32_t) &irq13) >> 16) & 0xFFFF;
-	idt[46].offset_low = ((uint32_t) &irq14) & 0xFFFF;
-	idt[46].offset_high = (((uint32_t) &irq14) >> 16) & 0xFFFF;
-	idt[47].offset_low = ((uint32_t) &irq15) & 0xFFFF;
-	idt[47].offset_high = (((uint32_t) &irq15) >> 16) & 0xFFFF;
-
-	lidt(sizeof(idt) - 1, (uint32_t) &idt);
+	register_isr_handler(0, INTERRUPT_32, &isr0);
+	register_isr_handler(1, INTERRUPT_32, &isr1);
+	register_isr_handler(2, INTERRUPT_32, &isr2);
+	register_isr_handler(3, INTERRUPT_32, &isr3);
+	register_isr_handler(4, INTERRUPT_32, &isr4);
+	register_isr_handler(5, INTERRUPT_32, &isr5);
+	register_isr_handler(6, INTERRUPT_32, &isr6);
+	register_isr_handler(7, INTERRUPT_32, &isr7);
+	register_isr_handler(8, INTERRUPT_32, &isr8);
+	register_isr_handler(9, INTERRUPT_32, &isr9);
+	register_isr_handler(10, INTERRUPT_32, &isr10);
+	register_isr_handler(11, INTERRUPT_32, &isr11);
+	register_isr_handler(12, INTERRUPT_32, &isr12);
+	register_isr_handler(13, INTERRUPT_32, &isr13);
+	register_isr_handler(14, INTERRUPT_32, &isr14);
+	register_isr_handler(15, INTERRUPT_32, &isr15);
+	register_isr_handler(16, INTERRUPT_32, &isr16);
+	register_isr_handler(17, INTERRUPT_32, &isr17);
+	register_isr_handler(18, INTERRUPT_32, &isr18);
+	register_isr_handler(19, INTERRUPT_32, &isr19);
+	register_isr_handler(20, INTERRUPT_32, &isr20);
+	register_isr_handler(21, INTERRUPT_32, &isr21);
+	register_isr_handler(22, INTERRUPT_32, &isr22);
+	register_isr_handler(23, INTERRUPT_32, &isr23);
+	register_isr_handler(24, INTERRUPT_32, &isr24);
+	register_isr_handler(25, INTERRUPT_32, &isr25);
+	register_isr_handler(26, INTERRUPT_32, &isr26);
+	register_isr_handler(27, INTERRUPT_32, &isr27);
+	register_isr_handler(28, INTERRUPT_32, &isr28);
+	register_isr_handler(29, INTERRUPT_32, &isr29);
+	register_isr_handler(30, INTERRUPT_32, &isr30);
+	register_isr_handler(31, INTERRUPT_32, &isr31);
 }
