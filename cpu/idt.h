@@ -19,6 +19,8 @@ typedef struct idt_descriptor{
     uint32_t offset;
 }__attribute__((packed)) idt_descriptor;
 
+extern idt_entry idt[256];
+
 void idt_init(void);
 
 #endif /* IDT_H */

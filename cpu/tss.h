@@ -33,6 +33,8 @@ typedef struct tss_entry{
 	uint16_t iomap_base;
 } __attribute__((packed)) tss_entry;
 
+extern tss_entry tss;
+
 void tss_init(void);
 
 #endif /* TSS_H */
