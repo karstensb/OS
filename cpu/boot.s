@@ -58,6 +58,12 @@ header_end:
 ;-------------------------------------------------------------------------------
 SECTION .bss
 
+GLOBAL page_table_0
+
+ALIGN 4096
+page_table_0:
+	resb 4096
+
 GLOBAL isr_stack_top
 
 ALIGN 16
@@ -95,10 +101,7 @@ mbi_setup:
 	mov ebx, _kernel_end
 
 pg_setup:
-	; each page_dir entry points to the page table at the same offset
-	; i.e. page_dir[0] points to page_tables[0]
-	; and here pag_dir[896] points to page_tables[896]
-	mov edi, page_tables - 0xE0000000 + 896 * 4096
+	mov edi, page_table_0 - 0xE0000000
 	mov esi, 0
 	mov ecx, _kernel_end
 	add ecx, [ebx] ; reserve space for the mbi
@@ -116,10 +119,8 @@ pg_fill:
 	jmp pg_fill
 
 pg_enable:
-	mov [page_dir - 0xE0000000 + 0*4], DWORD (page_tables - 0xE0000000 + 896 * 4096) + 0x3 ; add 0x3 to present and writable
-	mov [page_dir - 0xE0000000 + 1*4], DWORD (page_tables - 0xE0000000 + 897 * 4096) + 0x3 ; can't use 'or' because linker
-	mov [page_dir - 0xE0000000 + 896*4], DWORD (page_tables - 0xE0000000 + 896 * 4096) + 0x3 ; can't do 'or' on addresses
-	mov [page_dir - 0xE0000000 + 897*4], DWORD (page_tables - 0xE0000000 + 897 * 4096) + 0x3
+	mov [page_dir - 0xE0000000 + 0*4], DWORD page_table_0 - 0xE0000000 + 0x1
+	mov [page_dir - 0xE0000000 + 896*4], DWORD page_table_0 - 0xE0000000 + 0x1
 
 	mov ecx, page_dir - 0xE0000000
 	mov cr3, ecx

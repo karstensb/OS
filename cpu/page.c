@@ -1,6 +1,3 @@
-/* TODO: page_dir[x] points to page_tables[x]. That is a waste of memory
- * and should be changed */
-
 #include <limits.h>
 #include "page.h"
 #include "x86.h"
@@ -8,7 +5,8 @@
 #include "util/panic.h"
 
 uint32_t page_dir[1024] __attribute__((aligned(4096)));
-uint32_t page_tables[1024][1024] __attribute__((aligned(4096)));
+uint32_t page_table[1024] __attribute__((aligned(4096)));
+extern uint32_t page_table_0[1024] __attribute__((aligned(4096)));
 
 /* bitmap of physical pages */
 static int8_t *pg_map_phys;
@@ -17,32 +15,24 @@ static uint32_t mem_max;
 /* pointer to the first free physical page */
 static uint32_t prev_index = 0;
 
-void *pg_phys_addr(void *addr){
-	uint32_t dir_index = pg_dir_index(addr);
-	uint32_t tb_index = pg_tb_index(addr);
-	uint32_t offset = pg_offset(addr);
-
-	return (void *) ((page_tables[dir_index][tb_index] & 0xFFFFF000) + offset);
-}
-
 void pg_map(void *phys, void *virt, uint32_t flags){
 	uint32_t dir_index = pg_dir_index(virt);
 	uint32_t tb_index = pg_tb_index(virt);
 
 	flags |= PG_PRESENT;
 	if(!page_dir[dir_index]){
-		/* see below */
-		page_dir[dir_index] = (uint32_t) &page_tables[dir_index] | flags;
+		page_dir[dir_index] = (uint32_t) pg_alloc() | flags;
 	}else{
 		page_dir[dir_index] |= flags;
 	}
-	/* each page_dir entry points to the page table at the same offset
-	 * i.e. page_dir[5] points to page_tables[5] 
-	 * this is to be able to use [page_tables[dir_index]
-	 * otherwsie, we would have to use [page_dir[dir_index]]
-	 * and mapping/allocating would be much harder
-	 */
-	page_tables[dir_index][tb_index] = ((uint32_t) phys & 0xFFFFF000) | flags;
+
+	/* map the to-be-edited page table to page_table 
+	 * This way the page tables don't occupy much virtual memory and handling
+	 * is a lot easier. page_table_0 contains page_table and is always mapped 
+	 * so other page tables can be mapped at all */
+	page_table_0[pg_tb_index(page_table)] = ((uint32_t) page_dir[dir_index]) | PG_PRESENT;
+	invlpg(page_table);
+	page_table[tb_index] = ((uint32_t) phys & 0xFFFFF000) | flags;
 	invlpg(virt);
 }
 
@@ -50,11 +40,12 @@ void pg_unmap(void *addr){
 	uint32_t dir_index = pg_dir_index(addr);
 	uint32_t tb_index = pg_tb_index(addr);
 
-	/* see above */
-	page_tables[dir_index][tb_index] = 0;
+	/* see above in pg_map */
+	page_table_0[pg_tb_index(page_table)] = ((uint32_t) page_dir[dir_index]) | PG_PRESENT;
+	invlpg(page_table);
+	page_table[tb_index] = 0;
+	invlpg(addr);
 }
-
-
 
 void pg_init(mbi_structure *mbi){
 	struct mbi_tag_mmap *mmap_tag = mbi_tag_get(mbi, MBI_TAG_MMAP);
@@ -65,7 +56,7 @@ void pg_init(mbi_structure *mbi){
 	for(int i = 0; i < mbi_mmap_count; ++i){
 		uint32_t addr = (uint32_t) mmap_tag->entries[i].base_addr+mmap_tag->entries[i].length;
 		/* only update mem_max if the area is available, as all 4Gs might be
-		   listed even though less is available */
+		   listed even though less is available (thus the map can be smaller) */
 		if(addr > mem_max && mmap_tag->entries[i].type == 1){
 			mem_max = addr;
 		}
@@ -84,7 +75,7 @@ void pg_init(mbi_structure *mbi){
 	/* The whole area from 0 to pg_map_end is marked as used as the first 1M is
 	 * almost unusable, the kernel comes at 1M and should be closely followed by
 	 * the mbi, which in turn is directly followed by pg_map_phys, ending at
-	 * pg_map_end*/
+	 * pg_map_end */
 	memset(pg_map_phys, UINT_MAX, ((int) pg_map_end - KERNEL_BASE)/4096/8 + 1);
 
 	/* mark reserved pages as used */
