@@ -51,22 +51,22 @@ void pic_init(void){
 	outb(PIC1_DATA, 0xFF);
 	outb(PIC2_DATA, 0xFF);
 
-	register_isr_handler(32, TRAP_32, &irq0);
-	register_isr_handler(33, TRAP_32, &irq1);
-	register_isr_handler(34, TRAP_32, &irq2);
-	register_isr_handler(35, TRAP_32, &irq3);
-	register_isr_handler(36, TRAP_32, &irq4);
-	register_isr_handler(37, TRAP_32, &irq5);
-	register_isr_handler(38, TRAP_32, &irq6);
-	register_isr_handler(39, TRAP_32, &irq7);
-	register_isr_handler(40, TRAP_32, &irq8);
-	register_isr_handler(41, TRAP_32, &irq9);
-	register_isr_handler(42, TRAP_32, &irq10);
-	register_isr_handler(43, TRAP_32, &irq11);
-	register_isr_handler(44, TRAP_32, &irq12);
-	register_isr_handler(45, TRAP_32, &irq13);
-	register_isr_handler(46, TRAP_32, &irq14);
-	register_isr_handler(47, TRAP_32, &irq15);
+	idt_register_handler(32, TRAP_32, (uint32_t) &irq0);
+	idt_register_handler(33, TRAP_32, (uint32_t) &irq1);
+	idt_register_handler(34, TRAP_32, (uint32_t) &irq2);
+	idt_register_handler(35, TRAP_32, (uint32_t) &irq3);
+	idt_register_handler(36, TRAP_32, (uint32_t) &irq4);
+	idt_register_handler(37, TRAP_32, (uint32_t) &irq5);
+	idt_register_handler(38, TRAP_32, (uint32_t) &irq6);
+	idt_register_handler(39, TRAP_32, (uint32_t) &irq7);
+	idt_register_handler(40, TRAP_32, (uint32_t) &irq8);
+	idt_register_handler(41, TRAP_32, (uint32_t) &irq9);
+	idt_register_handler(42, TRAP_32, (uint32_t) &irq10);
+	idt_register_handler(43, TRAP_32, (uint32_t) &irq11);
+	idt_register_handler(44, TRAP_32, (uint32_t) &irq12);
+	idt_register_handler(45, TRAP_32, (uint32_t) &irq13);
+	idt_register_handler(46, TRAP_32, (uint32_t) &irq14);
+	idt_register_handler(47, TRAP_32, (uint32_t) &irq15);
 }
 
 void pic_eoi(uint8_t irq){

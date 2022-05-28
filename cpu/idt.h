@@ -19,9 +19,19 @@ typedef struct idt_descriptor{
     uint32_t offset;
 }__attribute__((packed)) idt_descriptor;
 
+struct interrupt_frame{
+	uint32_t eip;
+	uint16_t cs;
+	uint16_t _padding1;
+	uint32_t eflags;
+	/* only on cpl change*/
+	uint32_t user_esp;
+	uint16_t user_ss;
+	uint16_t _padding0;
+}__attribute__((packed));
+
 extern idt_entry idt[256];
 
-void idt_init(void);
-void register_isr_handler(uint8_t n, uint8_t type, void (*handler)(void));
+void idt_register_handler(uint8_t n, uint8_t type, uint32_t handler);
 
 #endif /* IDT_H */
