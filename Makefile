@@ -13,7 +13,8 @@ BOCHS = bochs
 GDB = gdb
 RM = rm -rf
 
-CFLAGS = -g -masm=intel -ffreestanding -c -I$(CURDIR) -Wall -Wextra -Werror -O0
+CFLAGS = -g -masm=intel -ffreestanding -c -I$(CURDIR) -O0 -mgeneral-regs-only
+CFLAGS += -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
 LDFLAGS = -nostdlib -lgcc
 
