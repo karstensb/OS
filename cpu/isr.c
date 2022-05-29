@@ -4,7 +4,6 @@
 #include "isr.h"
 #include "idt.h"
 #include "x86.h"
-#include "pic.h"
 #include "drivers/screen.h"
 #include "util/string.h"
 #include "util/panic.h"
@@ -143,24 +142,4 @@ noreturn void isr_handler(registers *regs){
 		strcat(err_msg, to_hex(rcr2(), buf));
 	}
 	panic(err_msg);
-}
-
-void irq_handler(registers *regs){
-	int irq = regs->err_code;
-	/* check for spurious interrupts */
-	if (irq == 7){
-		if (~(pic_get_isr() & (1 << 7)))
-			return;
-	}else if (irq == 15){
-		if (~(pic_get_isr() & (1 << 15))){
-			pic_eoi(2);
-			return;
-		}
-	}
-	kprintc('\n');
-	kprint("Received IRQ ");
-	kprinti(irq, 10);
-	kprintc('\n');
-	pic_eoi(irq);
-	return;
 }
