@@ -32,6 +32,7 @@ void apic_init(void){
 	 * signal from the legacy PIC to reach the cpu */
 
 	pg_map((void *) APIC_BASE, (void *) APIC_BASE, PG_PRESENT);
+	pg_used((void *) APIC_BASE);
 
 	/* mask all apic interrupts */
 	apic_write(APIC_LVT_TMR, APIC_LVT_MASKED);
