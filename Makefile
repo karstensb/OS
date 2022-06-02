@@ -18,32 +18,34 @@ CFLAGS += -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
 LDFLAGS = -nostdlib -lgcc
 
-ISO = os.iso
-KERNEL = kernel.elf
-SYMBOLS = symbols.sym
-LINKER_LD = linker.ld
-QEMU_LOG = qemu.log
-BOCHS_LOG = bochs.log
+ISO = out/os.iso
+KERNEL = out/kernel.elf
+SYMBOLS = out/symbols.sym
 
-iso: $(shell find isodir) kernel
-	cp $(KERNEL) isodir/boot/kernel.elf
-	grub-mkrescue isodir -o $(ISO)
+all: iso
 
 run: iso
 	$(QEMU) -boot d -cdrom $(ISO) -m 128M
 
 debug: iso
-	$(QEMU) -boot d -d int -D $(QEMU_LOG) -s -S -cdrom $(ISO) -m 128M\
+	$(QEMU) -boot d -d int -D qemu.log -s -S -cdrom $(ISO) -m 128M\
 	& $(GDB) -q -symbols=$(KERNEL) -ex "target remote localhost:1234"
 
 bochs: iso symbols
 	$(BOCHS) -f bochsrc -q
 
-kernel: build $(OBJ) $(LINKER_LD)
-	$(LD) $(LDFLAGS) -T $(LINKER_LD) -o $(KERNEL) $(OBJ)
+
+iso: isodir kernel
+	cp $(KERNEL) isodir/boot/kernel.elf
+	cp grub.cfg isodir/boot/grub/grub.cfg
+	grub-mkrescue isodir -o $(ISO)
+
+kernel: build out linker.ld $(OBJ)
+	$(LD) $(LDFLAGS) -T linker.ld -o $(KERNEL) $(OBJ)
 
 symbols: kernel
 	nm -a $(KERNEL) | sed "s/ . / /" > $(SYMBOLS)
+
 
 build:
 	mkdir -p build/cpu
@@ -51,17 +53,23 @@ build:
 	mkdir -p build/kernel
 	mkdir -p build/util
 
+out:
+	mkdir -p out
+
+isodir:
+	mkdir -p isodir/boot/grub
+
+
 build/%.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
 build/%.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
+
 clean:
 	$(RM) build
-	$(RM) $(ISO)
-	$(RM) $(QEMU_LOG)
-	$(RM) $(BOCHS_LOG)
-	$(RM) $(KERNEL)
-	$(RM) $(SYMBOLS)
-	$(RM) isodir/boot/kernel.elf
+	$(RM) out
+	$(RM) isodir
+	$(RM) bochs.log
+	$(RM) qemu.log
