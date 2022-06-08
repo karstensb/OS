@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define INTERRUPT_32 (0b1110)
+#define INTERRUPT_32 (0b1110) /* Automatically disable/reenable Interrupts */
 #define TRAP_32 (0b1111)
 
 typedef struct idt_entry{
