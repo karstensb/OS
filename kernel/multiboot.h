@@ -1,5 +1,4 @@
-#ifndef MULTIBOOT_H
-#define MULTIBOOT_H
+#pragma once
 
 #include <stdint.h>
 
@@ -44,6 +43,4 @@ struct mbi_tag_mmap{
 	struct mbi_mmap_entry entries[0];
 };
 
-void *mbi_tag_get(mbi_structure *mbi, uint32_t type);
-
-#endif /* MULTIBOOT_H */
+void *mbi_tag_get(mbi_structure *mbi, uint32_t type); /* MULTIBOOT_H */

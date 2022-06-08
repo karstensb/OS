@@ -1,5 +1,4 @@
-#ifndef PAGE_H
-#define PAGE_H
+#pragma once
 
 #include <stdint.h>
 #include <stddef.h>
@@ -39,6 +38,4 @@ void pg_free(void *addr);
 
 /* mark a single page as used, e.g. for mmio */
 void pg_used(void *addr);
-
-
-#endif /* PAGE_H */
+ /* PAGE_H */

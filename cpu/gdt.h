@@ -1,5 +1,4 @@
-#ifndef GDT_H
-#define GDT_H
+#pragma once
 
 #include <stdint.h>
 
@@ -23,6 +22,4 @@ typedef struct gdt_descriptor{
 	uint32_t offset;
 } __attribute__((packed)) gdt_descriptor;
 
-extern gdt_entry gdt[6];
-
-#endif /* GDT_H */
+extern gdt_entry gdt[6]; /* GDT_H */

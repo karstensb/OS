@@ -1,5 +1,4 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 
 #include <stddef.h>
 #include <stdint.h>
@@ -36,6 +35,4 @@ void clear_screen(void);
 void set_terminal_color(const enum vga_color foreground, const enum vga_color background);
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
 void disable_cursor(void);
-void scroll_screen(size_t rows);
-
-#endif /* SCREEN_H */
+void scroll_screen(size_t rows); /* SCREEN_H */

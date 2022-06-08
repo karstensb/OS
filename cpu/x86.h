@@ -1,5 +1,4 @@
-#ifndef X86_H
-#define X86_H
+#pragma once
 
 #include <stdint.h>
 #include "gdt.h"
@@ -97,6 +96,4 @@ uint32_t rcr2(void){
 static inline
 void invlpg(void *addr){
 	asm("invlpg [%0]" : : "r" ((uint32_t) addr));
-}
-
-#endif /* X86_H */
+} /* X86_H */

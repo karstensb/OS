@@ -1,5 +1,4 @@
-#ifndef TSS_H
-#define TSS_H
+#pragma once
 
 #include <stdint.h>
 
@@ -35,6 +34,4 @@ typedef struct tss_entry{
 
 extern tss_entry tss;
 
-void tss_init(void);
-
-#endif /* TSS_H */
+void tss_init(void); /* TSS_H */

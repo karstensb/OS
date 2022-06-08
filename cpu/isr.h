@@ -1,6 +1,3 @@
-#ifndef ISR_H
-#define ISR_H
+#pragma once
 
-void isr_init(void);
-
-#endif /* ISR_H */
+void isr_init(void); /* ISR_H */
