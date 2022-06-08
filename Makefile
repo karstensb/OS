@@ -35,10 +35,10 @@ bochs: iso symbols
 	$(BOCHS) -f bochsrc -q
 
 
-iso: isodir kernel
-	cp $(KERNEL) isodir/boot/kernel.elf
-	cp grub.cfg isodir/boot/grub/grub.cfg
-	grub-mkrescue isodir -o $(ISO)
+iso: kernel isodir
+	cp $(KERNEL) build/isodir/boot/kernel.elf
+	cp grub.cfg build/isodir/boot/grub/grub.cfg
+	grub-mkrescue build/isodir -o $(ISO)
 
 kernel: build out linker.ld $(OBJ)
 	$(LD) $(LDFLAGS) -T linker.ld -o $(KERNEL) $(OBJ)
@@ -56,8 +56,8 @@ build:
 out:
 	mkdir -p out
 
-isodir:
-	mkdir -p isodir/boot/grub
+isodir: build
+	mkdir -p build/isodir/boot/grub
 
 
 build/%.o: %.c
@@ -70,6 +70,5 @@ build/%.o: %.s
 clean:
 	$(RM) build
 	$(RM) out
-	$(RM) isodir
 	$(RM) bochs.log
 	$(RM) qemu.log
