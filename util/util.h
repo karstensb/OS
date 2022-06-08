@@ -1,3 +1,3 @@
 #pragma once
 
-#define UNUSED(x) (void)(x) /* UTIL_H */
+#define UNUSED __attribute__((unused))

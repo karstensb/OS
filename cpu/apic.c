@@ -21,8 +21,7 @@ void apic_eoi(void){
 }
 
 __attribute__((interrupt))
-static void apic_spurious(struct interrupt_frame *frame){
-	UNUSED(frame);
+static void apic_spurious(UNUSED struct interrupt_frame *frame){
 	apic_eoi();
 }
 

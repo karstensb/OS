@@ -61,8 +61,7 @@
 // }
 
 // /* https://kbdlayout.info/kbdgr/scancodes+text?arrangement=ISO105 */
-// void keyboard_handler(registers *regs){
-// 	UNUSED(regs);
+// void keyboard_handler(UNUSED registers *regs){
 // 	uint16_t scancode = inb(KEYBOARD_DATA);
 
 // 	if (!enabled)
