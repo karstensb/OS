@@ -5,10 +5,14 @@
 #include "cpu/page.h"
 #include "cpu/x86.h"
 #include "drivers/screen.h"
+#include "util/string.h"
 
-void kmain(mbi_structure *mbi){
+mbi_structure *mbi;
+
+void kmain(mbi_structure *mbi_ptr){
+	mbi = mbi_ptr;
 	isr_init();
-	pg_init(mbi);
+	pg_init();
 	apic_init();
 	tss_init();
 	sti();

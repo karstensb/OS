@@ -2,7 +2,9 @@
 #include "multiboot.h"
 #include "cpu/page.h"
 
-void *mbi_tag_get(mbi_structure *mbi, uint32_t type){
+extern mbi_structure *mbi;
+
+void *mbi_tag_get(uint32_t type){
 	mbi_tag *tag = (mbi_tag *)mbi->mbi_tags;
 	while(tag->type != MBI_TAG_END){
 		if(tag->type == type){

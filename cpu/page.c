@@ -8,6 +8,8 @@ uint32_t page_dir[1024] __attribute__((aligned(4096)));
 uint32_t page_table[1024] __attribute__((aligned(4096)));
 extern uint32_t page_table_0[1024] __attribute__((aligned(4096)));
 
+extern mbi_structure *mbi;
+
 /* bitmap of physical pages */
 static int8_t *pg_map_phys;
 /* ram size in bytes */
@@ -47,8 +49,8 @@ void pg_unmap(void *addr){
 	invlpg(addr);
 }
 
-void pg_init(mbi_structure *mbi){
-	struct mbi_tag_mmap *mmap_tag = mbi_tag_get(mbi, MBI_TAG_MMAP);
+void pg_init(void){
+	struct mbi_tag_mmap *mmap_tag = mbi_tag_get(MBI_TAG_MMAP);
 	/* mmap_tag->size includes the tag header which has to be subtracted */
 	int mbi_mmap_count = (mmap_tag->size - sizeof(struct mbi_tag_mmap)) / sizeof(struct mbi_mmap_entry);
 
