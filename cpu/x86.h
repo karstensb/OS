@@ -96,4 +96,4 @@ uint32_t rcr2(void){
 static inline
 void invlpg(void *addr){
 	asm("invlpg [%0]" : : "r" ((uint32_t) addr));
-} /* X86_H */
+}

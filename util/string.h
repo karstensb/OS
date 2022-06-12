@@ -8,4 +8,4 @@ void *memset(void *ptr, int x, size_t n);
 char *itoa(int val, char *buf, int base);
 
 /* convert an unsigned value to a hex string */
-char *to_hex(unsigned val, char *buf); /* STRING_H */
+char *to_hex(unsigned val, char *buf);

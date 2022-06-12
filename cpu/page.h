@@ -30,7 +30,7 @@ static inline uint32_t pg_offset(void *addr){
 void pg_map(void *phys, void *virt, uint32_t flags);
 void pg_unmap(void *addr);
 
-void pg_init(mbi_structure *mbi);
+void pg_init(void);
 
 /* allocate/free a single page */
 void *pg_alloc(void);
@@ -38,4 +38,3 @@ void pg_free(void *addr);
 
 /* mark a single page as used, e.g. for mmio */
 void pg_used(void *addr);
- /* PAGE_H */

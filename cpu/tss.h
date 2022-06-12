@@ -34,4 +34,4 @@ typedef struct tss_entry{
 
 extern tss_entry tss;
 
-void tss_init(void); /* TSS_H */
+void tss_init(void);

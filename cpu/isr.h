@@ -1,3 +1,3 @@
 #pragma once
 
-void isr_init(void); /* ISR_H */
+void isr_init(void);

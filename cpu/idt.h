@@ -31,4 +31,4 @@ struct interrupt_frame{
 
 extern idt_entry idt[256];
 
-void idt_register_handler(uint8_t n, uint8_t type, uint32_t handler); /* IDT_H */
+void idt_register_handler(uint8_t n, uint8_t type, uint32_t handler);
