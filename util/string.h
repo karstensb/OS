@@ -2,6 +2,7 @@
 
 size_t strlen(const char *str);
 char *strcat(char *dest, const char *src);
+
 void *memcpy(void *dest, const void * src, size_t n);
 void *memmove(void *dest, const void *src, size_t n);
 void *memset(void *ptr, int x, size_t n);
