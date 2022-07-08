@@ -7,9 +7,7 @@ OBJ = $(_OBJ:%=build/%)
 CC = i686-elf-gcc
 AS = nasm
 LD = i686-elf-gcc
-OBJCOPY = i686-elf-objcopy
 QEMU = qemu-system-i386
-BOCHS = bochs
 GDB = gdb
 RM = rm -rf
 
@@ -20,7 +18,6 @@ LDFLAGS = -nostdlib -lgcc
 
 ISO = out/os.iso
 KERNEL = out/kernel.elf
-SYMBOLS = out/symbols.sym
 
 all: iso
 
@@ -31,10 +28,6 @@ debug: iso
 	$(QEMU) -boot d -d int -D qemu.log -s -S -cdrom $(ISO) -m 128M\
 	& $(GDB) -q -symbols=$(KERNEL) -ex "target remote localhost:1234"
 
-bochs: iso symbols
-	$(BOCHS) -f bochsrc -q
-
-
 iso: kernel isodir
 	cp $(KERNEL) build/isodir/boot/kernel.elf
 	cp grub.cfg build/isodir/boot/grub/grub.cfg
@@ -42,9 +35,6 @@ iso: kernel isodir
 
 kernel: build out linker.ld $(OBJ)
 	$(LD) $(LDFLAGS) -T linker.ld -o $(KERNEL) $(OBJ)
-
-symbols: kernel
-	nm -a $(KERNEL) | sed "s/ . / /" > $(SYMBOLS)
 
 
 build:
@@ -70,5 +60,4 @@ build/%.o: %.s
 clean:
 	$(RM) build
 	$(RM) out
-	$(RM) bochs.log
 	$(RM) qemu.log
