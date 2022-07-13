@@ -7,8 +7,6 @@
 #include "drivers/screen.h"
 #include "util/string.h"
 
-mbi_structure *mbi;
-
 void kmain(mbi_structure *mbi_ptr){
 	mbi = mbi_ptr;
 	isr_init();

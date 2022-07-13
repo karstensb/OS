@@ -8,7 +8,6 @@ uint32_t page_dir[1024] __attribute__((aligned(4096)));
 uint32_t page_table[1024] __attribute__((aligned(4096)));
 extern uint32_t page_table_0[1024] __attribute__((aligned(4096)));
 
-extern mbi_structure *mbi;
 
 /* bitmap of physical pages */
 static int8_t *pg_map_phys;

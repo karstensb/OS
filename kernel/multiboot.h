@@ -43,5 +43,6 @@ struct mbi_tag_mmap{
 	struct mbi_mmap_entry entries[0];
 }__attribute__((packed));
 
+extern mbi_structure *mbi;
 
 void *mbi_tag_get(mbi_structure *mbi, uint32_t type); /* MULTIBOOT_H */
