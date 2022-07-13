@@ -22,10 +22,10 @@ KERNEL = out/kernel.elf
 all: iso
 
 run: iso
-	$(QEMU) -boot d -cdrom $(ISO) -m 128M
+	$(QEMU) -boot d -d int -M smm=off -D qemu.log  -cdrom $(ISO) -m 128M
 
 debug: iso
-	$(QEMU) -boot d -d int -D qemu.log -s -S -cdrom $(ISO) -m 128M\
+	$(QEMU) -boot d -d int -M smm=off -D qemu.log -s -S -cdrom $(ISO) -m 128M\
 	& $(GDB) -q -symbols=$(KERNEL) -ex "target remote localhost:1234"
 
 iso: kernel isodir
