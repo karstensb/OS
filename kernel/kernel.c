@@ -17,6 +17,6 @@ void kmain(mbi_structure *mbi_ptr){
 	tss_init();
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
-	clear_screen();
+	clear_screen(0);
 	for(;;);
 }

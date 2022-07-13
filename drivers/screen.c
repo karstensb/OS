@@ -80,14 +80,14 @@ void kprintc_at(const char c, size_t row, size_t col){
 
 }
 
-void clear_screen(void){
+void clear_screen(char c){
 	outb(REG_GRAPH_CTRL, MISC_GRAPH_REG);
 	outb(REG_GRAPH_DATA, MEM_RANGE_B8000);
 	for (int i = 0; i <= VGA_HEIGHT; ++i){
 		for (int j = 0; j<= VGA_WIDTH; ++j){
 			uint16_t *vid_mem = (uint16_t *) VGA_MEM;
 			size_t offset = get_offset(j, i);
-			vid_mem[offset] = (terminal_color << 8) | 0;
+			vid_mem[offset] = (terminal_color << 8) | c;
 		}
 	}
 	cursor_offset = 0;

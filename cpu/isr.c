@@ -130,7 +130,7 @@ typedef struct registers{
 }__attribute__((packed)) registers;
 
 noreturn void isr_handler(registers *regs){
-	clear_screen();
+	clear_screen(0);
 	char err_msg[100];
 	char buf[10];
 	strcat(err_msg, "An Error occured!\nError: ");

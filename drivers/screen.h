@@ -31,7 +31,7 @@ void kprint(const char *msg);
 void kprintc(const char c);
 void kprinti(int32_t i, int base);
 void kprintc_at(const char c, size_t row, size_t col);
-void clear_screen(void);
+void clear_screen(char c);
 void set_terminal_color(const enum vga_color foreground, const enum vga_color background);
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
 void disable_cursor(void);
