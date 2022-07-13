@@ -23,10 +23,7 @@ static inline uint32_t pg_offset(void *addr){
 	return ((uint32_t) addr) & 0xFFF;
 }
 
-/* maps a single physical page to a virtual page
- * be aware that both are page aligned and thus the lower 12 bits (offset into
- * the page) should be the same or it should be taken into account that
- * addresses will need to be changed accordingly */
+/* maps a single physical page to a virtual page (lower 12 bits are ignored) */
 void pg_map(void *phys, void *virt, uint32_t flags);
 void pg_unmap(void *addr);
 
