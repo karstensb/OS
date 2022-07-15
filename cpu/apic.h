@@ -35,3 +35,4 @@ enum apic_regs{
 void apic_write(uint32_t reg, uint32_t val);
 uint32_t apic_read(uint32_t reg);
 void apic_eoi(void);
+void apic_init(void);

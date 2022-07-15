@@ -5,7 +5,8 @@
 enum mbi_tags{
 	MBI_TAG_END = 0,
 	MBI_TAG_BOOT_DEV = 5,
-	MBI_TAG_MMAP = 6
+	MBI_TAG_MMAP = 6,
+	MBI_TAG_RSDP_OLD = 14
 };
 
 typedef struct mbi_tag{
@@ -45,4 +46,4 @@ struct mbi_tag_mmap{
 
 extern mbi_structure *mbi;
 
-void *mbi_tag_get(mbi_structure *mbi, uint32_t type); /* MULTIBOOT_H */
+void *mbi_get_tag(uint32_t type);
