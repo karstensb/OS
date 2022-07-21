@@ -4,7 +4,7 @@
 
 mbi_structure *mbi;
 
-void *mbi_tag_get(uint32_t type){
+void *mbi_get_tag(uint32_t type){
 	mbi_tag *tag = (mbi_tag *)mbi->mbi_tags;
 	while(tag->type != MBI_TAG_END){
 		if(tag->type == type){
