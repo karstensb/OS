@@ -59,8 +59,9 @@ void kprinti(int32_t i, int base){
 }
 
 void kprintc_at(const char c, size_t row, size_t col){
-	if (row > VGA_HEIGHT || col > VGA_WIDTH)
+	if (row > VGA_HEIGHT || col > VGA_WIDTH){
 		return;
+	}
 	cursor_offset = get_offset(col, row);
 	uint16_t *vidmem = (uint16_t *) VGA_MEM;
 	if (cursor_offset >= VGA_HEIGHT * VGA_WIDTH){
