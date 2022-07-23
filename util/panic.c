@@ -10,7 +10,6 @@ noreturn void panic(const char *message){
 	kprint(message);
 	kprint("\n\nHalting the CPU...");
 	disable_cursor();
-halt:
-	hlt();
-	goto halt;
+	for(;;)
+		hlt();
 }
