@@ -1,7 +1,7 @@
 SOURCES = $(wildcard kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*.s util/*.c util/*.s)
 
-__OBJ = $(SOURCES:.c=.o)
-_OBJ = $(__OBJ:.s=.o)
+__OBJ = $(SOURCES:.c=.c.o)
+_OBJ = $(__OBJ:.s=.s.o)
 OBJ = $(_OBJ:%=build/%)
 
 CC = i686-elf-gcc
@@ -50,10 +50,10 @@ isodir: build
 	mkdir -p build/isodir/boot/grub
 
 
-build/%.o: %.c
+build/%.c.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
-build/%.o: %.s
+build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 
