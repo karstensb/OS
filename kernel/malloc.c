@@ -6,7 +6,7 @@
 struct heap_header{
 	size_t size;
 	struct heap_header *next;
-	char data[0];
+	char data[];
 };
 
 /* start of the heap */
