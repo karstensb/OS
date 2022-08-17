@@ -30,6 +30,7 @@ mbi_tag:
 	dd mbi_tag_end - mbi_tag
 	dd BOOT_DEV_TAG
 	dd MEM_MAP_TAG
+	dd 14
 mbi_tag_end:
 
 ALIGN 8
