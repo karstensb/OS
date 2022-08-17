@@ -113,7 +113,7 @@ const char *interrupts[] ={
 
 struct registers{
 	uint16_t ds;
-	uint16_t _padding0;
+	uint16_t:16 /* padding */;
 	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
 	uint32_t int_no;
 	/* sometimes pushed by hardware, otherwise manually pushed */
@@ -121,13 +121,13 @@ struct registers{
 	/* pushed by hardware */
 	uint32_t eip;
 	uint16_t cs;
-	uint16_t _padding1;
+	uint16_t:16 /* padding */;
 	uint32_t eflags;
 	/* only on cpl change*/
 	uint32_t user_esp;
 	uint16_t user_ss;
-	uint16_t _padding2;
-}__attribute__((packed)) registers;
+	uint16_t:16 /* padding */;
+}__attribute__((packed));
 
 noreturn void isr_handler(struct registers *regs){
 	clear_screen(0);
