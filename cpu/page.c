@@ -10,7 +10,7 @@ uint32_t page_dir[1024] __attribute__((aligned(4096)));
 uint32_t page_table[1024] __attribute__((aligned(4096)));
 extern uint32_t page_table_0[1024] __attribute__((aligned(4096)));
 
-
+//TODO: struct page_table(dir)_entry
 /* bitmap of physical memory (pages) */
 static uint8_t page_map[0x20000];
 /* ram size in bytes */
