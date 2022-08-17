@@ -92,23 +92,23 @@ const char *interrupts[] ={
 	"Stack",
 	"General-Protection",
 	"Page-Fault",
-	"Reserved",
-	"87 Floating-Point Exception-Pending",
+	"Reserved (15)",
+	"x87 Floating-Point Exception-Pending",
 	"Alignment-Check",
 	"Machine-Check",
 	"SIMD Floating-Point",
 	"Reserved",
 	"Control-Protection Exception",
-	"Reserved",
-	"Reserved",
-	"Reserved",
-	"Reserved",
-	"Reserved",
-	"Reserved",
+	"Reserved (18)",
+	"Reserved (19)",
+	"Reserved (20)",
+	"Reserved (21)",
+	"Reserved (22)",
+	"Reserved (23)",
 	"Hypervisor Injection Exception",
 	"VMM Communication Exception",
 	"Security Exception",
-	"Reserved"
+	"Reserved (26)"
 };
 
 struct registers{
