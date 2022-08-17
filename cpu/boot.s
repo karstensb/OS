@@ -82,6 +82,7 @@ KERNEL_CS equ 0x8
 KERNEL_DS equ 0x10
 
 EXTERN kmain
+EXTERN mbi
 EXTERN gdt_descr
 EXTERN page_dir
 EXTERN page_tables
@@ -155,7 +156,7 @@ load_segs:
 	mov esp, ebp
 
 	add ebx, 0xE0000000 ; mbi structure is mapped to above 0xE0000000, too
-	push ebx
+	mov [mbi], ebx
 	call kmain
 	pop ebx
 

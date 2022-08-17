@@ -7,11 +7,9 @@
 #include "cpu/x86.h"
 #include "drivers/screen.h"
 #include "util/string.h"
-
 #define HEAP_SIZE (16384)
 
-void kmain(mbi_structure *mbi_ptr){
-	mbi = mbi_ptr;
+void kmain(void){
 	isr_init();
 	pg_init();
 	apic_init();
