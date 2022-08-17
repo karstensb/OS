@@ -12,7 +12,7 @@ GDB = gdb
 RM = rm -rf
 
 CFLAGS = -g -masm=intel -ffreestanding -c -I$(CURDIR) -O0 -mgeneral-regs-only
-CFLAGS += -Wall -Wextra -Werror
+CFLAGS += -std=gnu17 -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
 LDFLAGS = -nostdlib -lgcc
 
