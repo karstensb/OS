@@ -9,16 +9,16 @@ enum mbi_tags{
 	MBI_TAG_RSDP_OLD = 14
 };
 
-typedef struct mbi_tag{
+struct mbi_tag{
 	uint32_t type;
 	uint32_t size;
-}__attribute__((packed)) mbi_tag;
+}__attribute__((packed));
 
-typedef struct mbi_structure{
+struct mbi_structure{
 	uint32_t total_size;
 	uint32_t reserved;
-	mbi_tag mbi_tags[0];
-}__attribute__((packed)) mbi_structure;
+	struct mbi_tag mbi_tags[];
+}__attribute__((packed));
 
 
 struct mbi_tag_bootdev{
@@ -41,9 +41,9 @@ struct mbi_tag_mmap{
 	uint32_t size;
 	uint32_t entry_size;
 	uint32_t entry_version;
-	struct mbi_mmap_entry entries[0];
+	struct mbi_mmap_entry entries[];
 }__attribute__((packed));
 
-extern mbi_structure *mbi;
+extern struct mbi_structure *mbi;
 
 void *mbi_get_tag(uint32_t type);

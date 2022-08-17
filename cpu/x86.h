@@ -57,7 +57,7 @@ void outl(uint16_t port, uint32_t data){
 
 static inline
 void lgdt(uint16_t size, uint32_t offset){
-	gdt_descriptor gdt_descr;
+	struct gdt_descriptor gdt_descr;
 	gdt_descr.size = size;
 	gdt_descr.offset = offset;
 	asm("lgdt [%0]" : : "r" (&gdt_descr));
@@ -65,7 +65,7 @@ void lgdt(uint16_t size, uint32_t offset){
 
 static inline
 void lidt(uint16_t size, uint32_t offset){
-	idt_descriptor idt_descr;
+	struct idt_descriptor idt_descr;
 	idt_descr.size = size;
 	idt_descr.offset = offset;
 	asm("lidt [%0]" : : "r" (&idt_descr));

@@ -2,15 +2,15 @@
 #include "multiboot.h"
 #include "cpu/page.h"
 
-mbi_structure *mbi;
+struct mbi_structure *mbi; //filled by boot.s
 
 void *mbi_get_tag(uint32_t type){
-	mbi_tag *tag = (mbi_tag *)mbi->mbi_tags;
+	struct mbi_tag *tag = (struct mbi_tag *)mbi->mbi_tags;
 	while(tag->type != MBI_TAG_END){
 		if(tag->type == type){
 			return tag;
 		}
-		tag = (mbi_tag *) ((uint8_t *) tag + (tag->size+8-1) / 8 * 8);
+		tag = (struct mbi_tag *) ((uint8_t *) tag + (tag->size+8-1) / 8 * 8);
 	}
 	return NULL;
 }

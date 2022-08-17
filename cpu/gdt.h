@@ -2,24 +2,24 @@
 
 #include <stdint.h>
 
-#define KERNEL_CS (sizeof(gdt_entry) * 1)
-#define KERNEL_DS (sizeof(gdt_entry) * 2)
-#define USER_CS (sizeof(gdt_entry) * 3)
-#define USER_DS (sizeof(gdt_entry) * 4)
-#define GDT_TSS (sizeof(gdt_entry) * 5)
+#define KERNEL_CS (sizeof(struct gdt_entry) * 1)
+#define KERNEL_DS (sizeof(struct gdt_entry) * 2)
+#define USER_CS (sizeof(struct gdt_entry) * 3)
+#define USER_DS (sizeof(struct gdt_entry) * 4)
+#define GDT_TSS (sizeof(struct gdt_entry) * 5)
 
-typedef struct gdt_entry{
+struct gdt_entry{
 	uint16_t limit_low;
 	uint16_t base_low;
 	uint8_t base_middle;
 	uint8_t access;
 	uint8_t granularity;
 	uint8_t base_high;
-} __attribute__((packed)) gdt_entry;
+} __attribute__((packed));
 
-typedef struct gdt_descriptor{
+struct gdt_descriptor{
 	uint16_t size;
 	uint32_t offset;
-} __attribute__((packed)) gdt_descriptor;
+} __attribute__((packed));
 
-extern gdt_entry gdt[6];
+extern struct gdt_entry gdt[6];

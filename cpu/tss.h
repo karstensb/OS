@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-typedef struct tss_entry{
+struct tss_entry{
 	uint32_t prev_tss;
 	uint32_t esp0;
 	uint32_t ss0;
@@ -30,8 +30,8 @@ typedef struct tss_entry{
 	uint32_t ldt;
 	uint16_t trap;
 	uint16_t iomap_base;
-} __attribute__((packed)) tss_entry;
+} __attribute__((packed));
 
-extern tss_entry tss;
+extern struct tss_entry tss;
 
 void tss_init(void);

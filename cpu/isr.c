@@ -111,7 +111,7 @@ const char *interrupts[] ={
 	"Reserved"
 };
 
-typedef struct registers{
+struct registers{
 	uint16_t ds;
 	uint16_t _padding0;
 	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
@@ -129,7 +129,7 @@ typedef struct registers{
 	uint16_t _padding2;
 }__attribute__((packed)) registers;
 
-noreturn void isr_handler(registers *regs){
+noreturn void isr_handler(struct registers *regs){
 	clear_screen(0);
 	char err_msg[100];
 	char buf[10];

@@ -5,7 +5,7 @@
 
 #define IDT_PRESENT (1 << 7)
 
-idt_entry idt[256];
+struct idt_entry idt[256];
 
 void idt_register_handler(uint8_t n, uint8_t type, uint32_t handler){
 	idt[n].offset_low = handler & 0xFFFF;

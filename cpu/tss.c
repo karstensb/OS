@@ -5,7 +5,7 @@
 
 extern const uint32_t isr_stack_top;
 
-tss_entry tss = {
+struct tss_entry tss = {
 	.prev_tss = 0x0,
 	.esp0 = 0x0,
 	.ss0 = KERNEL_DS,
@@ -37,7 +37,7 @@ tss_entry tss = {
 
 void tss_init(void){
 	tss.esp0 = isr_stack_top;
-	gdt_entry *gdt_tss = &gdt[6];
+	struct gdt_entry *gdt_tss = &gdt[6];
 	gdt_tss->base_low = ((uintptr_t) &tss) & 0xFF;
 	gdt_tss->base_middle = (((uintptr_t) &tss) >> 16) & 0xF;
 	gdt_tss->base_high = (((uintptr_t) &tss) >> 24) & 0xF;
