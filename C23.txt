@@ -1,0 +1,11 @@
+# Useful features from C23:
+- _BitInt
+- string.h in freestanding mode
+- attributes
+- no more stdnoreturn.h
+- bool, true, false become keywords
+- unnamed parameters in function definitions
+- nullptr
+- unreachable()
+- enhanced enumerations
+- constexpr
