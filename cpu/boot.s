@@ -156,6 +156,8 @@ load_segs:
 	mov ebp, stack_top
 	mov esp, ebp
 
+	finit
+
 	add ebx, 0xE0000000 ; mbi structure is mapped to above 0xE0000000, too
 	mov [mbi], ebx
 	call kmain
