@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include "idt.h"
 #include "gdt.h"
 #include "x86.h"

@@ -1,7 +1,6 @@
 #include "panic.h"
 #include "cpu/x86.h"
 #include "drivers/screen.h"
-#include "util/string.h"
 
 noreturn void panic(const char *message){
 	cli();

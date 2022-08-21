@@ -1,5 +1,3 @@
-#include <stdnoreturn.h>
-#include <stdbool.h>
 #include <stdint.h>
 #include "isr.h"
 #include "idt.h"

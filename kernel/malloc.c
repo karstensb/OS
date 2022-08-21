@@ -17,7 +17,7 @@ size_t heap_size;
 struct heap_header *heap_head;
 
 void malloc_init(void *heap_start, size_t size){
-	/* initialize a first block of size on the heap */
+	/* initialize a first block of size 0 on the heap */
 	heap = heap_start;
 	heap_end = heap_start + heap_size;
 	heap_size = size;

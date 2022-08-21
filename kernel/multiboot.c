@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include "multiboot.h"
-#include "cpu/page.h"
 
 struct mbi_structure *mbi; //filled by boot.s
 

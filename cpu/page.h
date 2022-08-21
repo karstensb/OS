@@ -1,8 +1,6 @@
 #pragma once
 
 #include <stdint.h>
-#include <stddef.h>
-#include "kernel/multiboot.h"
 
 #define KERNEL_BASE (0xE0000000)
 

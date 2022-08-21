@@ -1,4 +1,3 @@
-#include <limits.h>
 #include "page.h"
 #include "x86.h"
 #include "kernel/multiboot.h"

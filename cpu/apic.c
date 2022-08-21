@@ -3,7 +3,6 @@
 #include "page.h"
 #include "x86.h"
 #include "util/util.h"
-#include "drivers/screen.h"
 
 #define APIC_MSR (0x1B)
 #define APIC_BASE (0xFEE00000)
