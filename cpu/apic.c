@@ -34,7 +34,7 @@ void apic_init(void){
 	 * because LINT0 on the APIC will be masked anyway, preventing any
 	 * signal from the legacy PIC to reach the cpu */
 
-	pg_map((void *) APIC_BASE, (void *) APIC_BASE, PG_PRESENT);
+	pg_map((void *) APIC_BASE, (void *) APIC_BASE, PG_CACHE_DISABLE);
 	pg_used((void *) APIC_BASE);
 
 	ioapic_init();
