@@ -4,7 +4,8 @@
 
 #define APIC_LVT_MASKED (1 << 16)
 
-enum apic_regs{
+enum apic_regs
+{
 	APIC_ID = 0x20,
 	APIC_VERION = 0x30,
 	APIC_TPR = 0x80,

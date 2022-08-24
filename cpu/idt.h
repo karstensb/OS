@@ -5,29 +5,32 @@
 #define INTERRUPT_32 (0b1110) /* Automatically disable/reenable Interrupts */
 #define TRAP_32 (0b1111)
 
-struct idt_entry{
+struct idt_entry
+{
 	uint16_t offset_low;
 	uint16_t selector;
 	uint8_t zero;
 	uint8_t flags;
 	uint16_t offset_high;
-}__attribute__((packed));
+} __attribute__((packed));
 
-struct idt_descriptor{
-    uint16_t size;
-    uint32_t offset;
-}__attribute__((packed));
+struct idt_descriptor
+{
+	uint16_t size;
+	uint32_t offset;
+} __attribute__((packed));
 
-struct interrupt_frame{
+struct interrupt_frame
+{
 	uint32_t eip;
 	uint16_t cs;
-	uint16_t:16; /* padding */
+	uint16_t : 16; /* padding */
 	uint32_t eflags;
 	/* only on cpl change*/
 	uint32_t user_esp;
 	uint16_t user_ss;
-	uint16_t:16; /* padding */
-}__attribute__((packed));
+	uint16_t : 16; /* padding */
+} __attribute__((packed));
 
 extern struct idt_entry idt[256];
 
