@@ -2,7 +2,8 @@
 
 #include <stdint.h>
 
-struct tss_entry{
+struct tss_entry
+{
 	uint32_t prev_tss;
 	uint32_t esp0;
 	uint32_t ss0;

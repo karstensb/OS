@@ -8,7 +8,8 @@
 #define USER_DS (sizeof(struct gdt_entry) * 4)
 #define GDT_TSS (sizeof(struct gdt_entry) * 5)
 
-struct gdt_entry{
+struct gdt_entry
+{
 	uint16_t limit_low;
 	uint16_t base_low;
 	uint8_t base_middle;
@@ -17,7 +18,8 @@ struct gdt_entry{
 	uint8_t base_high;
 } __attribute__((packed));
 
-struct gdt_descriptor{
+struct gdt_descriptor
+{
 	uint16_t size;
 	uint32_t offset;
 } __attribute__((packed));

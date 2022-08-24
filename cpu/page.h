@@ -9,16 +9,19 @@
 #define PG_USER (1 << 2)
 #define PG_CACHE_DISABLE (1 << 4)
 
-static inline uint32_t pg_dir_index(void *addr){
-	return (((uint32_t) addr) >> 22) & 0x3FF;
+static inline uint32_t pg_dir_index(void *addr)
+{
+	return (((uint32_t)addr) >> 22) & 0x3FF;
 }
 
-static inline uint32_t pg_tb_index(void *addr){
-	return (((uint32_t) addr) >> 12) & 0x3FF;
+static inline uint32_t pg_tb_index(void *addr)
+{
+	return (((uint32_t)addr) >> 12) & 0x3FF;
 }
 
-static inline uint32_t pg_offset(void *addr){
-	return ((uint32_t) addr) & 0xFFF;
+static inline uint32_t pg_offset(void *addr)
+{
+	return ((uint32_t)addr) & 0xFFF;
 }
 
 /* maps a single physical page to a virtual page (lower 12 bits are ignored) */

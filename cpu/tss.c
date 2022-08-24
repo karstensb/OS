@@ -32,14 +32,14 @@ struct tss_entry tss = {
 	.gs = 0x0,
 	.ldt = 0x0,
 	.trap = 0x0,
-	.iomap_base = sizeof(tss)
-};
+	.iomap_base = sizeof(tss)};
 
-void tss_init(void){
+void tss_init(void)
+{
 	tss.esp0 = isr_stack_top;
 	struct gdt_entry *gdt_tss = &gdt[6];
-	gdt_tss->base_low = ((uintptr_t) &tss) & 0xFF;
-	gdt_tss->base_middle = (((uintptr_t) &tss) >> 16) & 0xF;
-	gdt_tss->base_high = (((uintptr_t) &tss) >> 24) & 0xF;
+	gdt_tss->base_low = ((uintptr_t)&tss) & 0xFF;
+	gdt_tss->base_middle = (((uintptr_t)&tss) >> 16) & 0xF;
+	gdt_tss->base_high = (((uintptr_t)&tss) >> 24) & 0xF;
 	ltr(GDT_TSS);
 }

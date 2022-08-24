@@ -1,74 +1,93 @@
 #include <stdint.h>
 #include "string.h"
 
-size_t strlen(const char *str){
+size_t strlen(const char *str)
+{
 	size_t len;
-	for (len = 0; str[len]; ++len);
+	for (len = 0; str[len]; ++len)
+		;
 	return len;
 }
 
-char *strcat(char *dest, const char *src){
+char *strcat(char *dest, const char *src)
+{
 	size_t dest_len = strlen(dest);
 	size_t src_len = strlen(src);
 	size_t i;
-	for (i = 0; i < src_len; ++i){
+	for (i = 0; i < src_len; ++i)
+	{
 		dest[dest_len + i] = src[i];
 	}
 	dest[dest_len + i] = '\0';
 	return dest;
 }
 
-int strcmp(const char *str1, const char *str2){
+int strcmp(const char *str1, const char *str2)
+{
 	size_t i;
-	for (i = 0; str1[i] == str2[i]; ++i){
-		if (str1[i] == '\0'){
+	for (i = 0; str1[i] == str2[i]; ++i)
+	{
+		if (str1[i] == '\0')
+		{
 			return 0;
 		}
 	}
 	return str1[i] - str2[i];
 }
 
-void *memcpy(void *dest, const void * src, size_t n){
+void *memcpy(void *dest, const void *src, size_t n)
+{
 	char *d = dest;
 	const char *s = src;
-	for (int i = 0; i <= (int) n; ++i){
+	for (int i = 0; i <= (int)n; ++i)
+	{
 		d[i] = s[i];
 	}
 	return dest;
 }
 
-void *memmove(void *dest, const void *src, size_t n){
+void *memmove(void *dest, const void *src, size_t n)
+{
 	char *d = dest;
 	const char *s = src;
-	if (src < dest){
-		for (int i = n; i >= 0; --i){
+	if (src < dest)
+	{
+		for (int i = n; i >= 0; --i)
+		{
 			d[i] = s[i];
 		}
 	}
-	else{
-		for (int i = 0; i < (int) n; ++i){
+	else
+	{
+		for (int i = 0; i < (int)n; ++i)
+		{
 			d[i] = s[i];
 		}
 	}
 	return dest;
 }
 
-void *memset(void *ptr, int x, size_t n){
-	for (int i = 0; i < (int) n; ++i){
-		*((uint8_t *) ptr + i) = x;
+void *memset(void *ptr, int x, size_t n)
+{
+	for (int i = 0; i < (int)n; ++i)
+	{
+		*((uint8_t *)ptr + i) = x;
 	}
 	return ptr;
 }
 
-char *to_hex(unsigned val, char *buf){
+char *to_hex(unsigned val, char *buf)
+{
 	char *ptr = buf;
 	char *low = ptr;
-	do{
+	do
+	{
 		*ptr++ = "0123456789ABCDEF"[val & 0xF];
 		val >>= 4;
-	}while(val);
+	} while (val);
 	*ptr-- = '\0';
-	while(low < ptr){
+	while (low < ptr)
+	{
 		char tmp = *low;
 		*low++ = *ptr;
 		*ptr-- = tmp;
@@ -76,25 +95,30 @@ char *to_hex(unsigned val, char *buf){
 	return buf;
 }
 
-char *itoa(int val, char *buf, int base){
+char *itoa(int val, char *buf, int base)
+{
 	char *rc;
 	char *ptr;
 	char *low;
-	if(base < 2 || base > 36){
+	if (base < 2 || base > 36)
+	{
 		*buf = '\0';
 		return buf;
 	}
 	rc = ptr = buf;
-	if(val < 0 && base == 10 ){
+	if (val < 0 && base == 10)
+	{
 		*ptr++ = '-';
 	}
 	low = ptr;
-	do{
+	do
+	{
 		*ptr++ = "ZYXWVUTSRQPONMLKJIHGFEDCBA9876543210123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[35 + val % base];
 		val /= base;
-	}while(val);
+	} while (val);
 	*ptr-- = '\0';
-	while(low < ptr){
+	while (low < ptr)
+	{
 		char tmp = *low;
 		*low++ = *ptr;
 		*ptr-- = tmp;

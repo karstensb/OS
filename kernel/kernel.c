@@ -10,14 +10,15 @@
 
 #define HEAP_SIZE (16384)
 
-void kmain(void){
+void kmain(void)
+{
 	isr_init();
 	pg_init();
 	apic_init();
-	malloc_init((void *) mbi + mbi->total_size, HEAP_SIZE);
+	malloc_init((void *)mbi + mbi->total_size, HEAP_SIZE);
 	tss_init();
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen(0);
-	for(;;);
+	for (;;);
 }
