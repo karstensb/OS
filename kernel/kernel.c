@@ -20,5 +20,6 @@ void kmain(void)
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen(0);
-	for (;;);
+	for (;;)
+		;
 }
