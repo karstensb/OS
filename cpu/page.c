@@ -4,18 +4,29 @@
 #include "util/string.h"
 #include "util/panic.h"
 
-// TODO: self referential page table
 uint32_t page_dir[1024] __attribute__((aligned(4096)));
-uint32_t page_table[1024] __attribute__((aligned(4096)));
-extern uint32_t page_table_0[1024] __attribute__((aligned(4096)));
 
-// TODO: struct page_table(dir)_entry
 /* bitmap of physical memory (pages) */
 static uint8_t page_map[0x20000];
 /* ram size in bytes */
 static uint32_t mem_max;
 /* pointer to the first free physical page */
 static uint32_t prev_index = 0;
+
+static inline uint32_t pg_dir_index(void *addr)
+{
+	return (((uint32_t)addr) >> 22) & 0x3FF;
+}
+
+static inline uint32_t pg_tb_index(void *addr)
+{
+	return (((uint32_t)addr) >> 12) & 0x3FF;
+}
+
+static inline uint32_t pg_offset(void *addr)
+{
+	return ((uint32_t)addr) & 0xFFF;
+}
 
 void pg_map(void *phys, void *virt, uint32_t flags)
 {
@@ -32,26 +43,19 @@ void pg_map(void *phys, void *virt, uint32_t flags)
 		page_dir[dir_index] |= flags;
 	}
 
-	/* map the to-be-edited page table to page_table
-	 * This way the page tables don't occupy much virtual memory and handling
-	 * is a lot easier. page_table_0 contains page_table and is always mapped
-	 * so other page tables can be mapped at all */
-	page_table_0[pg_tb_index(page_table)] = ((uint32_t)page_dir[dir_index]) | PG_PRESENT;
-	invlpg(page_table);
-	page_table[tb_index] = ((uint32_t)phys & 0xFFFFF000) | flags;
+	uint32_t *page_tb = ((uint32_t *)0xFFC00000) + (1024 * dir_index);
+	page_tb[tb_index] = (uint32_t)phys | flags;
 	invlpg(virt);
 }
 
-void pg_unmap(void *addr)
+void pg_unmap(void *virt)
 {
-	uint32_t dir_index = pg_dir_index(addr);
-	uint32_t tb_index = pg_tb_index(addr);
+	uint32_t dir_index = pg_dir_index(virt);
+	uint32_t tb_index = pg_tb_index(virt);
 
-	/* see above in pg_map */
-	page_table_0[pg_tb_index(page_table)] = ((uint32_t)page_dir[dir_index]) | PG_PRESENT;
-	invlpg(page_table);
-	page_table[tb_index] = 0;
-	invlpg(addr);
+	uint32_t *page_tb = ((uint32_t *)0xFFC00000) + (1024 * dir_index);
+	page_tb[tb_index] = 0;
+	invlpg(virt);
 }
 
 void pg_init(void)

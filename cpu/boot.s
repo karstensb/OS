@@ -59,8 +59,6 @@ header_end:
 ;-------------------------------------------------------------------------------
 SECTION .bss
 
-GLOBAL page_table_0
-
 ALIGN 4096
 page_table_0:
 	resb 4096
@@ -86,7 +84,6 @@ EXTERN kmain
 EXTERN mbi
 EXTERN gdt_descr
 EXTERN page_dir
-EXTERN page_tables
 EXTERN _kernel_start ; defined in linker script
 EXTERN _kernel_end	; defined in linker script
 
@@ -123,6 +120,7 @@ pg_fill:
 pg_enable:
 	mov [page_dir - 0xE0000000 + 0*4], DWORD page_table_0 - 0xE0000000 + 0x1
 	mov [page_dir - 0xE0000000 + 896*4], DWORD page_table_0 - 0xE0000000 + 0x1
+	mov [page_dir - 0xE0000000 + 1023*4], DWORD page_dir - 0xE0000000 + 0x1
 
 	mov ecx, page_dir - 0xE0000000
 	mov cr3, ecx
