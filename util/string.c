@@ -35,6 +35,24 @@ int strcmp(const char *str1, const char *str2)
 	return str1[i] - str2[i];
 }
 
+int strncmp(const char *str1, const char *str2, size_t num)
+{
+	while (num && *str1 && (*str1 == *str2))
+	{
+		++str1;
+		++str2;
+		--num;
+	}
+	if (num == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		return (*(unsigned char *)str1 - *(unsigned char *)str2);
+	}
+}
+
 void *memcpy(void *dest, const void *src, size_t n)
 {
 	char *d = dest;
