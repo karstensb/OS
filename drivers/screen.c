@@ -59,7 +59,7 @@ void kprintc(const char c)
 	update_cursor();
 }
 
-void kprinti(int32_t i, int base)
+void kprinti(uint32_t i, int base)
 {
 	char buffer[32];
 	kprint(itoa(i, buffer, base));
