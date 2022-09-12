@@ -2,7 +2,7 @@
 #include "idt.h"
 #include "page.h"
 #include "x86.h"
-#include "util/util.h"
+#include "util/unused.h"
 
 #define APIC_MSR (0x1B)
 #define APIC_BASE (0xFEE00000)
@@ -22,8 +22,7 @@ void apic_eoi(void)
 	apic_write(APIC_EOI, 0);
 }
 
-__attribute__((interrupt))
-static void apic_spurious(UNUSED struct interrupt_frame *frame)
+__attribute__((interrupt)) static void apic_spurious(UNUSED struct interrupt_frame *frame)
 {
 	apic_eoi();
 }

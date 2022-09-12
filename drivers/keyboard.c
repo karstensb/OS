@@ -5,7 +5,7 @@
 // #include "cpu/x86.h"
 // #include "cpu/isr.h"
 // #include "cpu/pic.h"
-// #include "util/util.h"
+// #include "util/unused.h"
 
 // #define EXTENDED_SCANCODE (0xE0)
 // #define KEYBOARD_DATA (0x60)
