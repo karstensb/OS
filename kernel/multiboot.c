@@ -12,7 +12,7 @@ void *mbi_get_tag(uint32_t type)
 		{
 			return tag;
 		}
-		tag = (struct mbi_tag *)((uint8_t *)tag + (tag->size + 8 - 1) / 8 * 8);
+		tag = (struct mbi_tag *)((void *)tag + (tag->size + 8 - 1) / 8 * 8);
 	}
 	return NULL;
 }
