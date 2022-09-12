@@ -11,11 +11,11 @@ struct heap_header
 };
 
 /* start of the heap */
-void *heap;
-void *heap_end;
-size_t heap_size;
+static void *heap;
+static void *heap_end;
+static size_t heap_size;
 /* pointer to the first allocated block */
-struct heap_header *heap_head;
+static struct heap_header *heap_head;
 
 void malloc_init(void *heap_start, size_t size)
 {
