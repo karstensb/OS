@@ -2,19 +2,22 @@
 #include "idt.h"
 #include "page.h"
 #include "x86.h"
+#include "kernel/v_malloc.h"
 #include "util/unused.h"
 
 #define APIC_MSR (0x1B)
 #define APIC_BASE (0xFEE00000)
 
-void apic_write(uint32_t reg, uint32_t val)
+static void *apic_base;
+
+void apic_write(enum apic_regs reg, uint32_t val)
 {
-	*((uint32_t *)(APIC_BASE + reg)) = val;
+	*((uint32_t *)(apic_base + reg)) = val;
 }
 
-uint32_t apic_read(uint32_t reg)
+uint32_t apic_read(enum apic_regs reg)
 {
-	return *((uint32_t *)(APIC_BASE + reg));
+	return *((uint32_t *)(apic_base + reg));
 }
 
 void apic_eoi(void)
@@ -39,8 +42,9 @@ void apic_init(void)
 	 * because LINT0 on the APIC will be masked anyway, preventing any
 	 * signal from the legacy PIC to reach the cpu */
 
-	pg_map((void *)APIC_BASE, (void *)APIC_BASE, PG_CACHE_DISABLE);
-	pg_used((void *)APIC_BASE);
+	apic_base = alloc_pages(4096);
+	pg_map((void *)0xFEE00000, apic_base, PG_CACHE_DISABLE);
+	pg_used((void *)0xFEE00000);
 
 	ioapic_init();
 
