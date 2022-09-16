@@ -13,7 +13,6 @@ struct heap_header
 /* start of the heap */
 static void *heap;
 static void *heap_end;
-static size_t heap_size;
 /* pointer to the first allocated block */
 static struct heap_header *heap_head;
 
@@ -21,8 +20,7 @@ void malloc_init(void *heap_start, size_t size)
 {
 	/* initialize a first block of size 0 on the heap */
 	heap = heap_start;
-	heap_end = heap_start + heap_size;
-	heap_size = size;
+	heap_end = heap_start + size;
 	heap_head = (struct heap_header *)heap_start;
 	heap_head->size = 0;
 	heap_head->next = NULL;
@@ -38,11 +36,6 @@ void malloc_init(void *heap_start, size_t size)
 void *malloc(size_t size)
 {
 	struct heap_header *current = heap_head;
-	/* the heap is not big enough */
-	if (size + sizeof(struct heap_header) > heap_size)
-	{
-		return NULL;
-	}
 	/* first use of malloc, nothing has been allocated yet */
 	if (current->size == 0)
 	{
@@ -87,13 +80,14 @@ void *malloc(size_t size)
 
 void free(void *ptr)
 {
-	/* the pointer points to the data of the block which is preceded by a heap_header */
-	ptr -= sizeof(struct heap_header);
-	struct heap_header *current = heap_head;
 	if (ptr == NULL)
 	{
 		return;
 	}
+	/* the pointer points to the data of the block which is preceded by a heap_header */
+	ptr -= sizeof(struct heap_header);
+	struct heap_header *current = heap_head;
+	
 	/* should we free the first block? */
 	if (heap_head == ptr)
 	{
