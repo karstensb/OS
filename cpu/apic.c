@@ -10,12 +10,12 @@
 
 static void *apic_base;
 
-void apic_write(enum apic_regs reg, uint32_t val)
+static void apic_write(enum apic_regs reg, uint32_t val)
 {
 	*((uint32_t *)(apic_base + reg)) = val;
 }
 
-uint32_t apic_read(enum apic_regs reg)
+static uint32_t apic_read(enum apic_regs reg)
 {
 	return *((uint32_t *)(apic_base + reg));
 }
