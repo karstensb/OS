@@ -14,8 +14,8 @@ void kmain(void)
 {
 	isr_init();
 	pg_init();
-	apic_init();
 	malloc_init((void *)mbi + mbi->total_size, HEAP_SIZE);
+	apic_init();
 	tss_init();
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
