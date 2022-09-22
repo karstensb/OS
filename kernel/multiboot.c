@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include "multiboot.h"
 
-struct mbi_structure *mbi; // filled by boot.s
+struct mbi_structure *mbi; /* filled by boot.s */
 
 void *mbi_get_tag(uint32_t type)
 {
