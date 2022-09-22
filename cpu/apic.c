@@ -37,14 +37,18 @@ enum lapic_regs
 	APIC_TIMER_DIV = 0x3E0
 };
 
-static void apic_write(enum apic_regs reg, uint32_t val)
+static volatile void *apic_base;
+
+static void apic_write(enum lapic_regs reg, uint32_t val)
 {
-	*((uint32_t *)(apic_base + reg)) = val;
+	*((volatile uint32_t *)(apic_base + reg)) = val;
 }
 
-static uint32_t apic_read(enum apic_regs reg)
+#include "util/unused.h"
+UNUSED
+static uint32_t apic_read(enum lapic_regs reg)
 {
-	return *((uint32_t *)(apic_base + reg));
+	return *((volatile uint32_t *)(apic_base + reg));
 }
 
 void apic_eoi(void)
@@ -57,12 +61,6 @@ __attribute__((interrupt)) static void apic_spurious(UNUSED struct interrupt_fra
 	apic_eoi();
 }
 
-// TODO:
-void ioapic_init(void)
-{
-	return;
-}
-
 void apic_init(void)
 {
 	/* Note: the legacy 8259A PIC is not initialized (remmapped and masked)
@@ -70,7 +68,7 @@ void apic_init(void)
 	 * signal from the legacy PIC to reach the cpu */
 
 	apic_base = alloc_pages(4096);
-	pg_map((void *)0xFEE00000, apic_base, PG_CACHE_DISABLE);
+	pg_map((void *)0xFEE00000, (void *)apic_base, PG_CACHE_DISABLE);
 	pg_used((void *)0xFEE00000);
 
 	ioapic_init();
