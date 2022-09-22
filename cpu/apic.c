@@ -1,9 +1,9 @@
 #include "apic.h"
+#include "ioapic.h"
 #include "idt.h"
 #include "page.h"
 #include "x86.h"
 #include "kernel/v_malloc.h"
-#include "util/unused.h"
 
 #define APIC_MSR (0x1B)
 #define APIC_BASE (0xFEE00000)
