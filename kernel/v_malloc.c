@@ -2,7 +2,7 @@
 #include "malloc.h"
 #include "cpu/page.h"
 
-#define V_HEAP_START 0xE8000000
+#define V_HEAP_START 0xF0000000
 
 struct heap_header
 {
@@ -16,7 +16,8 @@ static struct heap_header *heap_head = NULL;
 
 void *alloc_pages(size_t size)
 {
-	size += (size % 4096 != 0) ? (4096 - size % 4096) : 0; /* make size a multiple of 4096 for ease of use */
+	/* make size a multiple of 4096 for ease of use */
+	size += (size % 4096 != 0) ? (4096 - size % 4096) : 0;
 	struct heap_header *current = heap_head;
 
 	/* first call to alloc_pages, initialize */
@@ -39,6 +40,7 @@ void *alloc_pages(size_t size)
 	}
 	else
 	{
+		// TODO: could overrun into page table mappings
 		while (current->next != NULL)
 		{
 			/* is there enough space between the current and the next block */
