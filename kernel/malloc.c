@@ -18,21 +18,28 @@ static struct heap_header *heap_head;
 
 void malloc_init(void *heap_start, size_t size)
 {
-	/* initialize a first block of size 0 on the heap */
 	heap = heap_start;
 	heap_end = heap_start + size;
+	/* initialize a first block of size 0 on the heap */
 	heap_head = (struct heap_header *)heap_start;
 	heap_head->size = 0;
 	heap_head->next = NULL;
-	// TODO: use brk/sbrk equivalent to dynamically allocate the heap
+
+	void *ptr = heap_start;
+	/* ptr needs to be page aligned, else previous mappings might be overridden */
+	uint32_t temp = (uint32_t)ptr;
+	temp += (temp % 4096 != 0) ? (4096 - temp % 4096) : 0;
+	ptr = (void *)temp;
+
 	/* map the heap */
-	for (void *ptr = heap_start; ptr <= heap_start + size; ptr += 4096)
+	for (; ptr <= heap_start + size; ptr += 4096)
 	{
 		pg_map(pg_alloc(), ptr, PG_PRESENT);
 	}
 	memset(heap, 0, size);
 }
 
+// TODO: use brk/sbrk equivalent to dynamically allocate the heap
 void *malloc(size_t size)
 {
 	struct heap_header *current = heap_head;
