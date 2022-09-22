@@ -15,6 +15,8 @@ CFLAGS = -g -masm=intel -ffreestanding -c -I$(CURDIR) -O0 -mgeneral-regs-only
 CFLAGS += -std=gnu17 -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
 LDFLAGS = -nostdlib -lgcc
+QEMU_FLAGS = -d int -M smm=off -D qemu.log -m 128M -machine q35
+QEMU_FLAGS += -cdrom $(ISO) -boot d 
 
 ISO = out/os.iso
 KERNEL = out/kernel.elf
@@ -22,10 +24,10 @@ KERNEL = out/kernel.elf
 all: iso
 
 run: iso
-	$(QEMU) -boot d -d int -M smm=off -D qemu.log  -cdrom $(ISO) -m 128M
+	$(QEMU) $(QEMU_FLAGS) 
 
 debug: iso
-	$(QEMU) -boot d -d int -M smm=off -D qemu.log -s -S -cdrom $(ISO) -m 128M\
+	$(QEMU) $(QEMU_FLAGS) -s -S \
 	& $(GDB) -q -symbols=$(KERNEL) -ex "target remote localhost:1234"
 
 iso: kernel isodir
