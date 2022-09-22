@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "page.h"
 #include "x86.h"
 #include "kernel/multiboot.h"
@@ -30,26 +31,38 @@ static inline uint32_t pg_offset(void *addr)
 
 void pg_map(void *phys, void *virt, uint32_t flags)
 {
+	phys = (void *)((uint32_t)phys & 0xFFFFF000);
+	virt = (void *)((uint32_t)virt & 0xFFFFF000);
 	uint32_t dir_index = pg_dir_index(virt);
 	uint32_t tb_index = pg_tb_index(virt);
+	bool new_table; /* is a new table allocated */
 
 	flags |= PG_PRESENT;
 	if (!page_dir[dir_index])
 	{
 		page_dir[dir_index] = (uint32_t)pg_alloc() | flags;
+		new_table = true;
 	}
 	else
 	{
 		page_dir[dir_index] |= flags;
+		new_table = false;
 	}
 
 	uint32_t *page_tb = ((uint32_t *)0xFFC00000) + (1024 * dir_index);
+	/* clear the page table if it was newly allocated */
+	if (new_table)
+	{
+		invlpg(page_tb);
+		memset(page_tb, 0, 4096);
+	}
 	page_tb[tb_index] = (uint32_t)phys | flags;
 	invlpg(virt);
 }
 
 void pg_unmap(void *virt)
 {
+	virt = (void *)((uint32_t)virt & 0xFFFFF000);	
 	uint32_t dir_index = pg_dir_index(virt);
 	uint32_t tb_index = pg_tb_index(virt);
 
