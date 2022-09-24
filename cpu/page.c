@@ -69,6 +69,18 @@ void pg_unmap(void *virt)
 	uint32_t *page_tb = ((uint32_t *)0xFFC00000) + (1024 * dir_index);
 	page_tb[tb_index] = 0;
 	invlpg(virt);
+
+	uint32_t total = 0;
+	for (int i = 0; i < 1024; ++i)
+	{
+		total += page_tb[i];
+	}
+	if (total != 0)
+	{
+		pg_unmap((void *)(page_dir[dir_index] & 0xFFFFF000));
+		page_dir[dir_index] = 0;
+		invlpg(page_tb);
+	}
 }
 
 void pg_init(void)
