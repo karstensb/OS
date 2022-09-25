@@ -128,8 +128,7 @@ struct registers
 	uint16_t : 16 /* padding */;
 } __attribute__((packed));
 
-noreturn
-void isr_handler(struct registers *regs)
+noreturn void isr_handler(struct registers *regs)
 {
 	clear_screen(0);
 	char err_msg[100];

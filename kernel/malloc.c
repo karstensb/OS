@@ -94,7 +94,7 @@ void free(void *ptr)
 	/* the pointer points to the data of the block which is preceded by a heap_header */
 	ptr -= sizeof(struct heap_header);
 	struct heap_header *current = heap_head;
-	
+
 	/* should we free the first block? */
 	if (heap_head == ptr)
 	{

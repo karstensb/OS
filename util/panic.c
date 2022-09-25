@@ -2,8 +2,7 @@
 #include "cpu/x86.h"
 #include "drivers/screen.h"
 
-noreturn
-void panic(const char *message)
+noreturn void panic(const char *message)
 {
 	cli();
 	set_terminal_color(VGA_COLOR_RED, VGA_COLOR_BLACK);

@@ -10,7 +10,7 @@ enum ioapic_regs
 	IOAPICID = 0x0,
 	IOAPICVER = 0x1,
 	IOAPICARB = 0x2,
-	IOREDTBL = 0x10 /* plus the table entry number */
+	IOREDTBL = 0x10 /* plus the table entry number * 2 */
 };
 
 struct madt_entry
@@ -49,7 +49,7 @@ static uint32_t ioapic_read(enum ioapic_regs reg)
 	*ioapic_regsel = (uint8_t)reg;
 	return *ioapic_win;
 }
-#include "drivers/screen.h"
+
 void ioapic_init(void)
 {
 	void *ioapic_phys;

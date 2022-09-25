@@ -62,7 +62,7 @@ void pg_map(void *phys, void *virt, uint32_t flags)
 
 void pg_unmap(void *virt)
 {
-	virt = (void *)((uint32_t)virt & 0xFFFFF000);	
+	virt = (void *)((uint32_t)virt & 0xFFFFF000);
 	uint32_t dir_index = pg_dir_index(virt);
 	uint32_t tb_index = pg_tb_index(virt);
 
@@ -77,7 +77,7 @@ void pg_unmap(void *virt)
 	}
 	if (total != 0)
 	{
-		pg_unmap((void *)(page_dir[dir_index] & 0xFFFFF000));
+		pg_free((void *)(page_dir[dir_index] & 0xFFFFF000));
 		page_dir[dir_index] = 0;
 		invlpg(page_tb);
 	}

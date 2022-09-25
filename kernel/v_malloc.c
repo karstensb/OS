@@ -44,8 +44,7 @@ void *alloc_pages(size_t size)
 		while (current->next != NULL)
 		{
 			/* is there enough space between the current and the next block */
-			if ((size_t)current->next->addr - ((size_t)current->addr + current->size)
-			    > size)
+			if ((size_t)current->next->addr - ((size_t)current->addr + current->size) > size)
 			{
 				break;
 			}
