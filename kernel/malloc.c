@@ -39,7 +39,6 @@ void malloc_init(void *heap_start, size_t size)
 	memset(heap, 0, size);
 }
 
-// TODO: use brk/sbrk equivalent to dynamically allocate the heap
 void *malloc(size_t size)
 {
 	struct heap_header *current = heap_head;
