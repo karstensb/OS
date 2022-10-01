@@ -9,7 +9,7 @@
 #include "util/string.h"
 
 #define HEAP_SIZE (131072)
-// TODO: get keyboard interrupts to work
+
 void kmain(void)
 {
 	isr_init();
