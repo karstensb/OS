@@ -40,7 +40,6 @@ void *alloc_pages(size_t size)
 	}
 	else
 	{
-		// TODO: could overrun into page table mappings
 		while (current->next != NULL)
 		{
 			/* is there enough space between the current and the next block */
@@ -54,8 +53,9 @@ void *alloc_pages(size_t size)
 		/* the end of the virtual heap has been reached */
 		if (current->next == NULL)
 		{
-			/* there is no more space in virtual memory*/
-			if ((size_t)current->addr + current->size + size > 0xFFFFFFFF)
+			/* there is no more space in virtual memory
+			 * (considering the page tables start ad 0xFFC00000) */
+			if ((size_t)current->addr + current->size + size > 0xFFC00000)
 			{
 				return NULL;
 			}
