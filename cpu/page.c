@@ -1,11 +1,12 @@
 #include <stdbool.h>
+#include <stdalign.h>
 #include "page.h"
 #include "x86.h"
 #include "kernel/multiboot.h"
 #include "util/string.h"
 #include "util/panic.h"
 
-uint32_t page_dir[1024] __attribute__((aligned(4096)));
+volatile alignas(4096) uint32_t page_dir[1024];
 
 /* bitmap of physical memory (pages) */
 static uint8_t page_map[0x20000];
