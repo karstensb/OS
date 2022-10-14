@@ -10,3 +10,5 @@
 - enhanced enumerations
 - constexpr
 - Digit separator '
+- Remove support for function definitions with identifier lists (func() now means func(void))
+- auto keyword
