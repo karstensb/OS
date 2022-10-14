@@ -94,6 +94,15 @@ void *memset(void *ptr, int x, size_t n)
 	return ptr;
 }
 
+volatile void *volatile_memset(volatile void *ptr, int x, size_t n)
+{
+	for (int i = 0; i < (int)n; ++i)
+	{
+		*((volatile char *)ptr + i) = x;
+	}
+	return ptr;
+}
+
 char *itoa(uint32_t val, char *buf, int base)
 {
 	char *rc;

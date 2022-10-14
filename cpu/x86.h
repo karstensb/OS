@@ -116,7 +116,7 @@ static inline uint32_t rcr2(void)
 	return cr2;
 }
 
-static inline void invlpg(void *addr)
+static inline void invlpg(volatile void *addr)
 {
 	asm("invlpg [%0]"
 		:

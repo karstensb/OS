@@ -50,12 +50,12 @@ void pg_map(void *phys, void *virt, uint32_t flags)
 		new_table = false;
 	}
 
-	uint32_t *page_tb = ((uint32_t *)0xFFC00000) + (1024 * dir_index);
+	volatile uint32_t *page_tb = ((volatile uint32_t *)0xFFC00000) + (1024 * dir_index);
 	/* clear the page table if it was newly allocated */
 	if (new_table)
 	{
 		invlpg(page_tb);
-		memset(page_tb, 0, 4096);
+		volatile_memset(page_tb, 0, 4096);
 	}
 	page_tb[tb_index] = (uint32_t)phys | flags;
 	invlpg(virt);
@@ -67,7 +67,7 @@ void pg_unmap(void *virt)
 	uint32_t dir_index = pg_dir_index(virt);
 	uint32_t tb_index = pg_tb_index(virt);
 
-	uint32_t *page_tb = ((uint32_t *)0xFFC00000) + (1024 * dir_index);
+	volatile uint32_t *page_tb = ((volatile uint32_t *)0xFFC00000) + (1024 * dir_index);
 	page_tb[tb_index] = 0;
 	invlpg(virt);
 

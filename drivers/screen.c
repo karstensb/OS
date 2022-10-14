@@ -14,6 +14,7 @@
 #define CURSOR_END (0x0B)
 #define CURSOR_DISABLE (0x20)
 
+static volatile uint16_t *vid_mem = (volatile uint16_t *)VGA_MEM;
 static size_t cursor_offset;
 static uint8_t terminal_color = VGA_COLOR_WHITE | VGA_COLOR_BLACK << 4;
 
@@ -72,7 +73,6 @@ void kprintc_at(const char c, size_t row, size_t col)
 		return;
 	}
 	cursor_offset = get_offset(col, row);
-	uint16_t *vidmem = (uint16_t *)VGA_MEM;
 	if (cursor_offset >= VGA_HEIGHT * VGA_WIDTH)
 	{
 		scroll_screen(1);
@@ -84,13 +84,13 @@ void kprintc_at(const char c, size_t row, size_t col)
 	}
 	else if (c == '\b')
 	{
-		vidmem[cursor_offset] = (terminal_color << 8) | 0;
+		vid_mem[cursor_offset] = (terminal_color << 8) | 0;
 		--cursor_offset;
-		vidmem[cursor_offset] = (terminal_color << 8) | '\b';
+		vid_mem[cursor_offset] = (terminal_color << 8) | '\b';
 	}
 	else
 	{
-		vidmem[cursor_offset] = (terminal_color << 8) | c;
+		vid_mem[cursor_offset] = (terminal_color << 8) | c;
 		++cursor_offset;
 	}
 }
@@ -103,7 +103,6 @@ void clear_screen(char c)
 	{
 		for (int j = 0; j <= VGA_WIDTH; ++j)
 		{
-			uint16_t *vid_mem = (uint16_t *)VGA_MEM;
 			size_t offset = get_offset(j, i);
 			vid_mem[offset] = (terminal_color << 8) | c;
 		}
