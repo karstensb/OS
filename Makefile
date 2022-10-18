@@ -1,8 +1,6 @@
 SOURCES = $(wildcard kernel/*.c kernel/*.s drivers/*.c drivers/*.s cpu/*.c cpu/*.s util/*.c util/*.s)
 
-__OBJ = $(SOURCES:.c=.c.o)
-_OBJ = $(__OBJ:.s=.s.o)
-OBJ = $(_OBJ:%=build/%)
+OBJ = $(SOURCES:%=build/%.o)
 
 CC = i686-elf-gcc
 AS = nasm
@@ -16,7 +14,7 @@ CFLAGS += -std=gnu17 -Wall -Wextra -Werror
 ASFLAGS = -f elf -g -O0 -Wall -Werror
 LDFLAGS = -nostdlib -lgcc
 QEMU_FLAGS = -d int -M smm=off -D qemu.log -m 128M -machine q35
-QEMU_FLAGS += -cdrom $(ISO) -boot d 
+QEMU_FLAGS += -cdrom $(ISO) -boot d
 
 ISO = out/os.iso
 KERNEL = out/kernel.elf
@@ -35,20 +33,17 @@ iso: kernel isodir
 	cp grub.cfg build/isodir/boot/grub/grub.cfg
 	grub-mkrescue build/isodir -o $(ISO)
 
-kernel: build out linker.ld $(OBJ)
+kernel: dirs linker.ld $(OBJ)
 	$(LD) $(LDFLAGS) -T linker.ld -o $(KERNEL) $(OBJ)
 
-
-build:
+dirs:
 	mkdir -p build/cpu
 	mkdir -p build/drivers
 	mkdir -p build/kernel
 	mkdir -p build/util
-
-out:
 	mkdir -p out
 
-isodir: build
+isodir: dirs
 	mkdir -p build/isodir/boot/grub
 
 
