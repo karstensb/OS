@@ -55,7 +55,7 @@ void pg_map(void *phys, void *virt, uint32_t flags)
 	if (new_table)
 	{
 		invlpg(page_tb);
-		volatile_memset(page_tb, 0, 4096);
+		memset_volatile(page_tb, 0, 4096);
 	}
 	page_tb[tb_index] = (uint32_t)phys | flags;
 	invlpg(virt);

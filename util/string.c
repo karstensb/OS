@@ -49,7 +49,7 @@ int strncmp(const char *str1, const char *str2, size_t num)
 	}
 	else
 	{
-		return (*(unsigned char *)str1 - *(unsigned char *)str2);
+		return *(unsigned char *)str1 - *(unsigned char *)str2;
 	}
 }
 
@@ -85,6 +85,27 @@ void *memmove(void *dest, const void *src, size_t n)
 	return dest;
 }
 
+volatile void *memmove_volatile(volatile void *dest, const volatile void *src, size_t n)
+{
+	volatile char *d = dest;
+	const volatile char *s = src;
+	if (src < dest)
+	{
+		for (int i = n; i >= 0; --i)
+		{
+			d[i] = s[i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < (int)n; ++i)
+		{
+			d[i] = s[i];
+		}
+	}
+	return dest;
+}
+
 void *memset(void *ptr, int x, size_t n)
 {
 	for (int i = 0; i < (int)n; ++i)
@@ -94,7 +115,7 @@ void *memset(void *ptr, int x, size_t n)
 	return ptr;
 }
 
-volatile void *volatile_memset(volatile void *ptr, int x, size_t n)
+volatile void *memset_volatile(volatile void *ptr, int x, size_t n)
 {
 	for (int i = 0; i < (int)n; ++i)
 	{

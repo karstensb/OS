@@ -132,11 +132,11 @@ void disable_cursor(void)
 
 void scroll_screen(size_t rows)
 {
-	memmove(
-		(void *)VGA_MEM,
-		(void *)(rows * VGA_WIDTH * 2 + VGA_MEM),
+	memmove_volatile(
+		vid_mem,
+		vid_mem + rows * VGA_WIDTH,
 		(VGA_WIDTH * VGA_HEIGHT - rows * VGA_WIDTH) * 2);
-	uint16_t *ptr = (uint16_t *)VGA_MEM + (VGA_WIDTH * VGA_HEIGHT - rows * VGA_WIDTH);
+	volatile uint16_t *ptr = vid_mem + (VGA_WIDTH * VGA_HEIGHT - rows * VGA_WIDTH);
 	for (int i = 0; i < (int)rows * VGA_WIDTH; ++i)
 	{
 		ptr[i] = (terminal_color << 8) | 0;
