@@ -32,14 +32,14 @@ enum madt_types
 
 static volatile void *ioapic_base;
 static volatile uint8_t *ioapic_regsel;
-static volatile uint32_t *ioapic_win;
+static volatile uint32_t *ioapic_reg;
 
 #include "util/unused.h"
 UNUSED
 static void ioapic_write(enum ioapic_regs reg, uint32_t val)
 {
 	*ioapic_regsel = (uint8_t)reg;
-	*ioapic_win = val;
+	*ioapic_reg = val;
 }
 
 #include "util/unused.h"
@@ -47,9 +47,10 @@ UNUSED
 static uint32_t ioapic_read(enum ioapic_regs reg)
 {
 	*ioapic_regsel = (uint8_t)reg;
-	return *ioapic_win;
+	return *ioapic_reg;
 }
 
+// TODO: use defualt address (0xFEC00000) from https://wiki.osdev.org/APIC
 void ioapic_init(void)
 {
 	void *ioapic_phys;
@@ -72,7 +73,7 @@ void ioapic_init(void)
 	/* map the registers into memory, considering the page offset (%4096) */
 	ioapic_base = alloc_pages(4) + (size_t)ioapic_phys % 4096;
 	ioapic_regsel = ioapic_base;
-	ioapic_win = ioapic_base + 0x10;
+	ioapic_reg = ioapic_base + 0x10;
 	pg_map(ioapic_phys, (void *)ioapic_base, PG_CACHE_DISABLE);
 
 	return;
