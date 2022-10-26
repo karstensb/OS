@@ -3,7 +3,7 @@
 #include "gdt.h"
 #include "x86.h"
 
-extern const uint32_t isr_stack_top;
+extern const uint8_t *isr_stack;
 
 struct tss_entry tss = {
 	.prev_tss = 0x0,
@@ -36,7 +36,7 @@ struct tss_entry tss = {
 
 void tss_init(void)
 {
-	tss.esp0 = isr_stack_top;
+	tss.esp0 = ((uint32_t)isr_stack + 16384);
 	struct gdt_entry *gdt_tss = &gdt[5];
 	gdt_tss->base_low = ((uintptr_t)&tss) & 0xFF;
 	gdt_tss->base_middle = (((uintptr_t)&tss) >> 16) & 0xF;
