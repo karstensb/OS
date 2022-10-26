@@ -37,7 +37,7 @@ struct tss_entry tss = {
 void tss_init(void)
 {
 	tss.esp0 = isr_stack_top;
-	struct gdt_entry *gdt_tss = &gdt[6];
+	struct gdt_entry *gdt_tss = &gdt[5];
 	gdt_tss->base_low = ((uintptr_t)&tss) & 0xFF;
 	gdt_tss->base_middle = (((uintptr_t)&tss) >> 16) & 0xF;
 	gdt_tss->base_high = (((uintptr_t)&tss) >> 24) & 0xF;
