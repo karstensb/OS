@@ -3,6 +3,8 @@
 #include "cpu/page.h"
 
 #define V_HEAP_START 0xF0000000
+#define V_HEAP_END 0xFFC00000 /* beginning of page tables */
+#define V_HEAP_SIZE (V_HEAP_END - V_HEAP_START)
 
 struct heap_header
 {
@@ -19,6 +21,11 @@ void *alloc_pages(size_t size)
 	/* make size a multiple of 4096 for ease of use */
 	size += (size % 4096 != 0) ? (4096 - size % 4096) : 0;
 	struct heap_header *current = heap_head;
+
+	if (size > V_HEAP_SIZE)
+	{
+		return NULL;
+	}
 
 	/* first call to alloc_pages, initialize */
 	if (current == NULL)
@@ -53,9 +60,8 @@ void *alloc_pages(size_t size)
 		/* the end of the virtual heap has been reached */
 		if (current->next == NULL)
 		{
-			/* there is no more space in virtual memory
-			 * (considering the page tables start ad 0xFFC00000) */
-			if ((size_t)current->addr + current->size + size > 0xFFC00000)
+			/* there is no more space in virtual memory */
+			if ((size_t)current->addr + current->size + size > V_HEAP_END)
 			{
 				return NULL;
 			}

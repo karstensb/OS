@@ -41,6 +41,10 @@ void malloc_init(void *heap_start, size_t size)
 
 void *malloc(size_t size)
 {
+	if (size > (size_t)(heap_end-heap))
+	{
+		return NULL;
+	}
 	struct heap_header *current = heap_head;
 	/* first use of malloc, nothing has been allocated yet */
 	if (current->size == 0)
