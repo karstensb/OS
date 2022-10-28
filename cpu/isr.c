@@ -111,21 +111,30 @@ const char *interrupts[] = {
 
 struct registers
 {
+	uint16_t gs;
+	uint16_t fs;
+	uint16_t es;
 	uint16_t ds;
-	uint16_t : 16 /* padding */;
-	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+	uint32_t edi;
+	uint32_t esi;
+	uint32_t ebp;
+	uint32_t _esp; /* esp from inside the interrupt handler, basically useless*/
+	uint32_t ebx;
+	uint32_t edx;
+	uint32_t ecx;
+	uint32_t eax;
+
 	uint32_t int_no;
-	/* sometimes pushed by hardware, otherwise manually pushed */
+	/* pushed by hardware (error code might be a dummy from isr stub)*/
 	uint32_t err_code;
-	/* pushed by hardware */
 	uint32_t eip;
 	uint16_t cs;
-	uint16_t : 16 /* padding */;
+	uint16_t : 16;
 	uint32_t eflags;
 	/* only on cpl change*/
-	uint32_t user_esp;
-	uint16_t user_ss;
-	uint16_t : 16 /* padding */;
+	uint32_t esp;
+	uint16_t ss;
+	uint16_t : 16;
 } __attribute__((packed));
 
 noreturn void isr_handler(struct registers *regs)

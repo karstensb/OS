@@ -11,9 +11,11 @@
 	.endif
 		pushl $\vector
 		pushal
-		// TODO: also save other segment registers
-		movw %ds, %ax
-		pushl %eax
+		pushw %ds
+		pushw %es
+		pushw %fs
+		pushw %gs
+
 		movw $0x10, %ax
 		movw %ds, %ax
 		movw %es, %ax
@@ -24,11 +26,10 @@
 		call isr_handler
 		add $4, %esp
 
-		popl %eax
-		movw %ax, %ds
-		movw %ax, %es
-		movw %ax, %fs
-		movw %ax, %gs
+		popw %gs
+		popw %fs
+		popw %es
+		popw %ds
 		popal
 	.if \dummy_error_code
 		add $8, %esp
