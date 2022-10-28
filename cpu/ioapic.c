@@ -34,16 +34,12 @@ static volatile void *ioapic_base;
 static volatile uint8_t *ioapic_regsel;
 static volatile uint32_t *ioapic_reg;
 
-#include "util/unused.h"
-UNUSED
 static void ioapic_write(enum ioapic_regs reg, uint32_t val)
 {
 	*ioapic_regsel = (uint8_t)reg;
 	*ioapic_reg = val;
 }
 
-#include "util/unused.h"
-UNUSED
 static uint32_t ioapic_read(enum ioapic_regs reg)
 {
 	*ioapic_regsel = (uint8_t)reg;

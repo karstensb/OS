@@ -44,8 +44,6 @@ static void apic_write(enum lapic_regs reg, uint32_t val)
 	*((volatile uint32_t *)(apic_base + reg)) = val;
 }
 
-#include "util/unused.h"
-UNUSED
 static uint32_t apic_read(enum lapic_regs reg)
 {
 	return *((volatile uint32_t *)(apic_base + reg));
@@ -56,6 +54,7 @@ void apic_eoi(void)
 	apic_write(APIC_EOI, 0);
 }
 
+#include "util/unused.h"
 __attribute__((interrupt)) static void apic_spurious(UNUSED struct interrupt_frame *frame)
 {
 	apic_eoi();
