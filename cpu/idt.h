@@ -33,12 +33,12 @@ struct interrupt_frame
 {
 	uint32_t eip;
 	uint16_t cs;
-	uint16_t : 16; /* padding */
+	uint16_t : 16;
 	uint32_t eflags;
 	/* only on cpl change*/
 	uint32_t user_esp;
 	uint16_t user_ss;
-	uint16_t : 16; /* padding */
+	uint16_t : 16;
 } __attribute__((packed));
 
 extern struct idt_entry idt[256];
