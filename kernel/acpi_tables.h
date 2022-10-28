@@ -34,7 +34,7 @@ struct madt
 {
 	struct sdt_header header;
 	uint32_t lapic;
-	uint32_t dual_pic : 1;
+	uint32_t dual_8259A_pic : 1;
 	uint32_t : 31;
 	uint16_t devices[];
 } __attribute__((packed));
