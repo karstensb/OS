@@ -9,8 +9,8 @@ RM = rm -rf
 CFLAGS += -g -ffreestanding -I$(CURDIR) -Og -mgeneral-regs-only
 CFLAGS += -std=gnu17 -Wall -Wextra -Werror -Wno-unused-function
 CFLAGS += -nostdlib -lgcc
-QEMU_FLAGS += -m 128M -machine q35 -cdrom $(ISO) -boot d -no-reboot
-QEMU_FLAGS += -d int -D qemu.log -M smm=off
+QEMU_FLAGS += -m 128M -machine q35 -cdrom $(ISO) -boot d -no-reboot -display gtk,full-screen=off
+QEMU_FLAGS += -d int -M smm=off -trace events=trace_events.cfg -D qemu.log
 
 ISO = out/os.iso
 KERNEL = out/kernel.elf
