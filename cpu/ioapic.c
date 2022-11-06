@@ -46,10 +46,9 @@ static uint32_t ioapic_read(enum ioapic_regs reg)
 	return *ioapic_reg;
 }
 
-// TODO: use defualt address (0xFEC00000) from https://wiki.osdev.org/APIC
 void ioapic_init(void)
 {
-	void *ioapic_phys;
+	void *ioapic_phys = NULL;
 	struct madt *madt = (struct madt *)acpi_get_table("APIC");
 	struct madt_entry *cur = (struct madt_entry *)madt->devices;
 
@@ -64,6 +63,13 @@ void ioapic_init(void)
 			uint32_t *field = (uint32_t *)((char *)cur + 4);
 			ioapic_phys = (void *)*field;
 		}
+	}
+
+	/* placeholder until a sophisticated system is implemented */
+	#include "util/panic.h"
+	if (!ioapic_phys)
+	{
+		panic("Couldn't find an IOAPIC");
 	}
 
 	/* map the registers into memory, considering the page offset (%4096) */

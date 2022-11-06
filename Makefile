@@ -9,7 +9,7 @@ RM = rm -rf
 CFLAGS += -g -ffreestanding -I$(CURDIR) -Og -mgeneral-regs-only
 CFLAGS += -std=gnu17 -Wall -Wextra -Werror -Wno-unused-function
 CFLAGS += -nostdlib -lgcc
-QEMU_FLAGS += -m 128M -machine q35 -cdrom $(ISO) -boot d -no-reboot -display gtk,full-screen=off
+QEMU_FLAGS += -m 128M -machine q35 -cdrom $(ISO) -boot d -no-reboot
 QEMU_FLAGS += -d int -M smm=off -trace events=trace_events.cfg -D qemu.log
 
 ISO = out/os.iso
@@ -45,17 +45,6 @@ isodir: dirs
 
 build/%.o: %
 	$(CC) $(CFLAGS) -c $< -o $@
-
-#AS = nasm
-#ASFLAGS = -f elf -g -O0  -Wall -Werror
-# build/%.c.o: %.c
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# build/%.S.o: %.S
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# build/%.n.o: %.n
-# 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
 	$(RM) build
