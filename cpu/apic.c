@@ -49,7 +49,7 @@ static uint32_t apic_read(enum lapic_regs reg)
 	return *((volatile uint32_t *)(apic_base + reg));
 }
 
-void apic_eoi(void)
+__attribute__((no_caller_saved_registers)) void apic_eoi(void)
 {
 	apic_write(APIC_EOI, 0);
 }
@@ -57,7 +57,7 @@ void apic_eoi(void)
 #include "util/unused.h"
 __attribute__((interrupt)) static void apic_spurious(UNUSED struct interrupt_frame *frame)
 {
-	apic_eoi();
+	return;
 }
 
 void apic_init(void)

@@ -4,5 +4,5 @@
 
 #define APIC_LVT_MASKED (1 << 16)
 
-void apic_eoi(void);
+__attribute__((no_caller_saved_registers))
 void apic_init(void);
