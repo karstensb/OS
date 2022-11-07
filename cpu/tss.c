@@ -2,6 +2,9 @@
 #include "tss.h"
 #include "gdt.h"
 #include "x86.h"
+#include "kernel/malloc.h"
+
+#define ISR_STACK_SIZE 16384
 
 extern const uint8_t *isr_stack;
 
@@ -36,7 +39,7 @@ struct tss_entry tss = {
 
 void tss_init(void)
 {
-	tss.esp0 = ((uint32_t)isr_stack + 16384);
+	tss.esp0 = ((uint32_t)malloc(ISR_STACK_SIZE) +ISR_STACK_SIZE);
 	struct gdt_entry *gdt_tss = &gdt[5];
 	gdt_tss->base_low = ((uintptr_t)&tss) & 0xFF;
 	gdt_tss->base_middle = (((uintptr_t)&tss) >> 16) & 0xF;

@@ -65,11 +65,8 @@ header_end:
 .lcomm page_table_0, 4096
 
 .align 16
-.lcomm stack, 16384
-
-.global isr_stack
-.align 16
-.lcomm isr_stack, 16384
+.lcomm stack_top, 16384
+stack:
 
 /******************************************************************************/
 

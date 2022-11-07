@@ -16,7 +16,6 @@ void kmain(void)
 	pg_init();
 	malloc_init((void *)mbi + mbi->total_size, HEAP_SIZE);
 	apic_init();
-	tss_init();
 	sti();
 	enable_cursor(CURSOR_MIN, CURSOR_MAX);
 	clear_screen(0);
