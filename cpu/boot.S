@@ -65,7 +65,7 @@ header_end:
 .lcomm page_table_0, 4096
 
 .align 16
-.lcomm stack_top, 16384
+.lcomm stack_top, 0x100000
 stack:
 
 /******************************************************************************/
@@ -146,7 +146,7 @@ load_segs:
 	movw %ax, %fs
 	movw %ax, %gs
 
-	movl $(stack - 16384), %ebp
+	movl $(stack), %ebp
 	movl %ebp, %esp
 
 	finit
