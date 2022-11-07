@@ -108,18 +108,18 @@ volatile void *memmove_volatile(volatile void *dest, const volatile void *src, s
 
 void *memset(void *ptr, int x, size_t n)
 {
-	for (int i = 0; i < (int)n; ++i)
+	for (size_t i = 0; i < n; ++i)
 	{
-		*((char *)ptr + i) = x;
+		((char *)ptr)[i] = x;
 	}
 	return ptr;
 }
 
 volatile void *memset_volatile(volatile void *ptr, int x, size_t n)
 {
-	for (int i = 0; i < (int)n; ++i)
+	for (size_t i = 0; i < n; ++i)
 	{
-		*((volatile char *)ptr + i) = x;
+		((volatile char *)ptr)[i] = x;
 	}
 	return ptr;
 }
