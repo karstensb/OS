@@ -16,6 +16,7 @@ struct heap_header
 /* pointer to the first allocated block of pages */
 static struct heap_header *heap_head = NULL;
 
+/* TODO: broken, reallocates used pages */
 void *alloc_pages(size_t size)
 {
 	/* make size a multiple of 4096 for ease of use */

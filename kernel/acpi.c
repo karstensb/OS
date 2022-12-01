@@ -23,6 +23,7 @@ static bool calc_checksum(struct sdt_header *sdt)
 	return sum == 0;
 }
 
+/* TODO: breaks page table mappings */
 static void init(void)
 {
 	/* discard mbi tag information (8 bytes) and get the actual rsdp */
@@ -39,7 +40,7 @@ static void init(void)
 	struct rsdt *rsdt_phys = (struct rsdt *)rsdp.rsdt;
 	/* map the table into memory, considering that it isn't page aligned */
 	temp = alloc_pages(sizeof(struct rsdt)) + (size_t)rsdt_phys % 4096;
-	pg_map((void *)rsdt_phys, temp, PG_PRESENT);
+	pg_map((void *)rsdt_phys, temp, PG_PRESENT); /* TODO: issue is here, alloc_pages returns a used address  */
 	/* allocate memory for the rsdt and copy it there */
 	rsdt = malloc(((struct rsdt *)temp)->header.length);
 	memcpy(rsdt, temp, ((struct rsdt *)temp)->header.length);

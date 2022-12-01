@@ -70,7 +70,7 @@ void apic_init(void)
 	pg_map((void *)0xFEE00000, (void *)apic_base, PG_CACHE_DISABLE);
 	pg_used((void *)0xFEE00000);
 
-	ioapic_init();
+	ioapic_init(); /* TODO: call to acpi_get_table/init/pg_map breaks page mappings */
 
 	/* mask all apic interrupts */
 	apic_write(APIC_LVT_TMR, APIC_LVT_MASKED);
