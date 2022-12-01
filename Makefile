@@ -2,13 +2,20 @@ SOURCES = $(wildcard */*.c */*.S)
 OBJ = $(SOURCES:%=build/%.o)
 
 CC = i686-elf-gcc
+#uncomment to use clang-16
+#CC = clang-16
 QEMU = qemu-system-i386
 GDB = gdb
 RM = rm -rf
 
 CFLAGS += -g -ffreestanding -I$(CURDIR) -Og -mgeneral-regs-only
 CFLAGS += -std=gnu17 -Wall -Wextra -Werror -Wno-unused-function
-CFLAGS += -nostdlib -lgcc
+CFLAGS += -nostdlib
+ifeq ($(CC), i686-elf-gcc)
+CFLAGS += -lgcc
+else
+CFLAGS += -target i686-none-elf -static
+endif
 QEMU_FLAGS += -m 128M -machine q35 -cdrom $(ISO) -boot d -no-reboot
 QEMU_FLAGS += -d int -M smm=off -trace events=trace_events.cfg -D qemu.log
 
