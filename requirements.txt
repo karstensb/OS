@@ -1,0 +1,7 @@
+required programs for building
+
+i686-elf-gcc / clang-16
+grub-mkrescue (from apt grub-pc)
+xorriso
+qemu-system-i386 (from apt qemu-system-i386)
+gdb
