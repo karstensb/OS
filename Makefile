@@ -3,7 +3,7 @@ OBJ = $(SOURCES:%=build/%.o)
 
 CC = i686-elf-gcc
 #uncomment to use clang-16
-#CC = clang-16
+CC = clang-16
 QEMU = qemu-system-i386
 GDB = gdb
 RM = rm -rf
@@ -25,7 +25,7 @@ KERNEL = out/kernel.elf
 all: iso
 
 run: iso
-	$(QEMU) $(QEMU_FLAGS) 
+	$(QEMU) $(QEMU_FLAGS)
 
 debug: iso
 	$(QEMU) $(QEMU_FLAGS) -s -S \
