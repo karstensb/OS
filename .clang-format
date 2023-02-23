@@ -1,41 +1,41 @@
 # clang-format v16.0.0, https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 
 AccessModifierOffset: 4
-AlignAfterOpenBracket: DontAlign
-AlignArrayOfStructures: Left
-AlignConsecutiveAssignments: None
-AlignConsecutiveBitFields: Consecutive
-AlignConsecutiveDeclarations: None
-AlignConsecutiveMacros: Consecutive
-AlignEscapedNewlines: Left
-AlignOperands: AlignAfterOperator
+AlignAfterOpenBracket: 'DontAlign'
+AlignArrayOfStructures: 'Left'
+AlignConsecutiveAssignments: 'None'
+AlignConsecutiveBitFields: 'Consecutive'
+AlignConsecutiveDeclarations: 'None'
+AlignConsecutiveMacros: 'Consecutive'
+AlignEscapedNewlines: 'Left'
+AlignOperands: 'AlignAfterOperator'
 AlignTrailingComments: false
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: 'Empty'
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
-AllowShortIfStatementsOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: 'None'
+AllowShortIfStatementsOnASingleLine: 'Never'
 AllowShortLambdasOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
-AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterReturnType: 'None'
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
 AttributeMacros: []
 BinPackArguments: true
 BinPackParameters: true
-BitFieldColonSpacing: Both
+BitFieldColonSpacing: 'Both'
 #"BreakBeforeBraces: custom": BraceWrapping
 BreakAfterJavaFieldAnnotations: true
 BreakArrays: true
-BreakBeforeBinaryOperators: All
-BreakBeforeBraces: Attach
-BreakBeforeConceptDeclarations: Always
-BreakBeforeInlineASMColon: Always
+BreakBeforeBinaryOperators: 'All'
+BreakBeforeBraces: 'Attach'
+BreakBeforeConceptDeclarations: 'Always'
+BreakBeforeInlineASMColon: 'Always'
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializers: AfterColon
-BreakInheritanceList: AfterComma
+BreakConstructorInitializers: 'AfterColon'
+BreakInheritanceList: 'AfterComma'
 BreakStringLiterals: true
 ColumnLimit: 80
 CommentPragmas: ''
@@ -46,15 +46,15 @@ Cpp11BracedListStyle: true
 DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
-EmptyLineAfterAccessModifier: Never
-EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: 'Never'
+EmptyLineBeforeAccessModifier: 'Always'
 #experimental: ExperimentalAutoDetectBinPacking
 FixNamespaceComments: true
 ForEachMacros: []
 IfMacros: []
-IncludeBlocks: Regroup
+IncludeBlocks: 'Regroup'
 IncludeCategories:
-  - Regex: '[^\/]*\.h'
+  - Regex: '\"[^\/]*\.h\"'
     Priority: 1
   - Regex: '<[^>]*>'
     Priority: 3
@@ -65,32 +65,32 @@ IncludeIsMainSourceRegex: ''
 IndentAccessModifiers: false
 IndentCaseBlocks: false
 IndentCaseLabels: false
-IndentExternBlock: NoIndent
+IndentExternBlock: 'NoIndent'
 IndentGotoLabels: true
-IndentPPDirectives: BeforeHash
+IndentPPDirectives: 'BeforeHash'
 IndentRequiresClause: true
 IndentWidth: 4
 IndentWrappedFunctionNames: false
 InsertBraces: false
-InsertTrailingCommas: None
+InsertTrailingCommas: 'None'
 JavaImportGroups: []
-JavaScriptQuotes: Double
+JavaScriptQuotes: 'Double'
 JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
-LambdaBodyIndentation: Signature
+LambdaBodyIndentation: 'Signature'
 # Language
 MacroBlockBegin: ''
 MacroBlockEnd: ''
 MaxEmptyLinesToKeep: 2
-NamespaceIndentation: None
+NamespaceIndentation: 'None'
 NamespaceMacros: []
-ObjCBinPackProtocolList: Auto
+ObjCBinPackProtocolList: 'Auto'
 ObjCBlockIndentWidth: 4
 ObjCBreakBeforeNestedBlockParam: false
-ObjCSpaceAfterProperty: false 
+ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false
 PPIndentWidth: 4
-PackConstructorInitializers: Never
+PackConstructorInitializers: 'Never'
 PenaltyBreakAssignment: 0 #?
 PenaltyBreakBeforeFirstCallParameter: 10 #?
 PenaltyBreakComment: 50 #?
@@ -101,20 +101,20 @@ PenaltyBreakTemplateDeclaration: 10 #?
 PenaltyExcessCharacter: 100 #?
 PenaltyIndentedWhitespace: 10 #?
 PenaltyReturnTypeOnItsOwnLine: 1000 #?
-PointerAlignment: Right
-QualifierAlignment: Leave  
+PointerAlignment: 'Right'
+QualifierAlignment: 'Leave'
 #"QualifierAlignment: Custom": QualifierOrder
 RawStringFormats: []
-ReferenceAlignment: Right
+ReferenceAlignment: 'Right'
 ReflowComments: true
 RemoveBracesLLVM: false
 RemoveSemicolon: false
-RequiresClausePosition: OwnLine
-RequiresExpressionIndentation: OuterScope
-SeparateDefinitionBlocks: Always
+RequiresClausePosition: 'OwnLine'
+RequiresExpressionIndentation: 'OuterScope'
+SeparateDefinitionBlocks: 'Always'
 ShortNamespaceLines: 1
-SortIncludes: CaseInsensitive
-SortJavaStaticImport: After
+SortIncludes: 'CaseInsensitive'
+SortJavaStaticImport: 'After'
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
@@ -125,7 +125,7 @@ SpaceBeforeCaseColon: false
 SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
-SpaceBeforeParens: ControlStatements
+SpaceBeforeParens: 'ControlStatements'
 #"SpaceBeforeParens: Custom": SpaceBeforeParensOptions
 SpaceBeforeRangeBasedForLoopColon: false
 SpaceBeforeSquareBrackets: false
@@ -141,11 +141,11 @@ SpacesInLineCommentPrefix:
   Minimum: 1
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Latest
+Standard: 'Latest'
 StatementAttributeLikeMacros: []
 StatementMacros: []
 TabWidth: 4
 TypenameMacros: []
 UseCRLF: false
-UseTab: AlignWithSpaces
+UseTab: 'AlignWithSpaces'
 WhitespaceSensitiveMacros: []
